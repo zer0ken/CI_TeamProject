@@ -1,5 +1,6 @@
 package org.example.components;
 
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class _Constants {
