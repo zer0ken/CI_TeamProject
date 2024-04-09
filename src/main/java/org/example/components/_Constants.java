@@ -1,6 +1,5 @@
 package org.example.components;
 
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class _Constants {
@@ -18,6 +17,8 @@ public class _Constants {
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
     public static final String STYLE_TEXT_COLOR_TITLE = "텍스트 색상을 선택하세요.";
     public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
+    public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
+
 
     // size
     public static final int APP_WIDTH = 1400;
@@ -35,9 +36,7 @@ public class _Constants {
     public static final Dimension TOOLBAR_SIZE = new Dimension(APP_CENTER_WIDTH, TOOLBAR_HEIGHT);
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
-    public static final Dimension SHAPES_WINDOW_SIZE =new Dimension(
-                    APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
-
+    public static final Dimension SHAPES_WINDOW_SIZE =new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
 
     public static final int V_SPACE = 4;
     public static final int H_SPACE = 8;
@@ -47,4 +46,5 @@ public class _Constants {
     public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
     public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
     public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT*2);
+
 }
