@@ -13,10 +13,11 @@ public class _Constants {
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String[] STYLE_LABELS = {
             "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용" };
-    public static final String STYLE_WINDOW_TITLE = "도형 속성";
+    public static final String STYLE_WINDOW_TITLE = "스타일 지정";
     public static final String STYLE_LINE_COLOR_TITLE = "획 색상을 선택하세요.";
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
     public static final String STYLE_TEXT_COLOR_TITLE = "텍스트 색상을 선택하세요.";
+    public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
 
     // size
     public static final int APP_WIDTH = 1400;
@@ -51,4 +52,6 @@ public class _Constants {
     public static final int STYLE_SLOT_WIDTH = 64;
     public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
     public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
+    public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT*2);
+
 }
