@@ -2,6 +2,8 @@ package org.example.components;
 
 import javax.swing.*;
 
+import java.awt.*;
+
 import static org.example.components._Constants.*;
 
 public class App extends JFrame {
