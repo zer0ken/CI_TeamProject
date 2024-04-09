@@ -1,9 +1,12 @@
 package org.example.components;
 
+import org.example.components.labeledslot.ColorInput;
+import org.example.components.labeledslot.NumberInput;
+import org.example.components.labeledslot.TextInput;
+
 import javax.swing.*;
 
 import java.awt.*;
-import java.util.Objects;
 
 import static org.example.components._Constants.*;
 
@@ -38,71 +41,5 @@ public class StyleWindow extends _ComponentJPanel {
         add(textSize);
         add(textColor);
         add(textContent);
-    }
-}
-
-class LabeledSlot extends JPanel {
-    LabeledSlot(String label) {
-        setLayout(new BorderLayout());
-        setMaximumSize(STYLE_ITEM_SIZE);
-        setBorder(STYLE_ITEM_BORDER);
-
-        add(BorderLayout.WEST, new JLabel(label));
-    }
-
-    protected void addSlot(Component slot, String direction) {
-        slot.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
-        add(direction, slot);
-
-        if (!Objects.equals(direction, BorderLayout.EAST)) {
-            setMaximumSize(STYLE_LARGE_ITEM_SIZE);
-        }
-    }
-
-    protected void addSlot(Component slot) {
-        addSlot(slot, BorderLayout.EAST);
-    }
-}
-
-class NumberInput extends LabeledSlot {
-    JSpinner numberSpinner;
-
-    NumberInput(String label, SpinnerNumberModel model) {
-        super(label);
-        numberSpinner = new JSpinner(model);
-        addSlot(numberSpinner);
-    }
-}
-
-class TextInput extends LabeledSlot {
-    JTextField textField;
-
-    TextInput(String label) {
-        super(label);
-        textField = new JTextField(STYLE_DEFAULT_TEXT_CONTENT);
-        addSlot(textField, BorderLayout.SOUTH);
-    }
-}
-
-class ColorInput extends LabeledSlot {
-    Color color = Color.BLACK;
-
-    ColorInput(String label, String chooserTitle) {
-        super(label);
-        JButton lineColorButton = new JButton();
-        lineColorButton.setBackground(color);
-
-        lineColorButton.addActionListener(e -> {
-            changeColor(
-                    JColorChooser.showDialog(null, chooserTitle, color)
-            );
-            lineColorButton.setBackground(color);
-        });
-
-        addSlot(lineColorButton);
-    }
-
-    protected void changeColor(Color color) {
-        this.color = color;
     }
 }
