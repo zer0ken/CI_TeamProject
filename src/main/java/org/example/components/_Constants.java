@@ -10,12 +10,13 @@ public class _Constants {
     public static final String APP_TITLE = "앱 이름이 여기에 들어가야 한단다~";
     public static final String LOGIN_TITLE = "로그인";
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
+    public static final String[] STYLE_LABELS = {"획 두께", "획 색상", "채우기 색상", "텍스트 크기", "텍스트 색상"};
 
     // size
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 300;
+    public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;
