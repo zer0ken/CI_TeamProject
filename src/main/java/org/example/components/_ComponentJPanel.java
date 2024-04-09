@@ -4,10 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 abstract class _ComponentJPanel extends JPanel {
-    _ComponentJPanel(Rectangle bounds) {
+    _ComponentJPanel(Dimension size) {
         super();
-        setBounds(bounds);
+        setPreferredSize(size);
         setBorder(BorderFactory.createLineBorder(Color.black));
-
     }
 }

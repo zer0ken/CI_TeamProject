@@ -23,25 +23,19 @@ public class _Constants {
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 200;
+    public static final int APP_RIGHT_WIDTH = 300;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;
     public static final int TOOLBAR_HEIGHT = 30;
     public static final int CLIENTS_WINDOW_HEIGHT = 300;
 
-    public static final Rectangle STYLE_WINDOW_BOUNDS =
-            new Rectangle(0, 0, APP_LEFT_WIDTH, STYLE_WINDOW_HEIGHT);
-    public static final Rectangle EDIT_WINDOW_BOUNDS =
-            new Rectangle(0, STYLE_WINDOW_HEIGHT, APP_LEFT_WIDTH, APP_HEIGHT - STYLE_WINDOW_HEIGHT);
-    public static final Rectangle TOOLBAR_BOUNDS =
-            new Rectangle(APP_LEFT_WIDTH, 0, APP_CENTER_WIDTH, TOOLBAR_HEIGHT);
-    public static final Rectangle CANVAS_BOUNDS =
-            new Rectangle(APP_LEFT_WIDTH, TOOLBAR_HEIGHT, APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
-    public static final Rectangle CLIENTS_WINDOW_BOUNDS =
-            new Rectangle(APP_LEFT_WIDTH + APP_CENTER_WIDTH, 0, APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
-    public static final Rectangle SHAPES_WINDOW_BOUNDS =
-            new Rectangle(APP_LEFT_WIDTH + APP_CENTER_WIDTH, CLIENTS_WINDOW_HEIGHT,
+    public static final Dimension STYLE_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_WINDOW_HEIGHT);
+    public static final Dimension EDIT_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - STYLE_WINDOW_HEIGHT);
+    public static final Dimension TOOLBAR_SIZE = new Dimension(APP_CENTER_WIDTH, TOOLBAR_HEIGHT);
+    public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
+    public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
+    public static final Dimension SHAPES_WINDOW_SIZE =new Dimension(
                     APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
 
 
@@ -53,5 +47,4 @@ public class _Constants {
     public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
     public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
     public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT*2);
-
 }

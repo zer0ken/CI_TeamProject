@@ -19,7 +19,7 @@ public class StyleWindow extends _ComponentJPanel {
     private final TextInput textContent;
 
     StyleWindow() {
-        super(STYLE_WINDOW_BOUNDS);
+        super(STYLE_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(STYLE_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
