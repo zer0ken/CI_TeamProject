@@ -25,7 +25,7 @@ public class _Constants {
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 200;
+    public static final int APP_RIGHT_WIDTH = 300;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;
@@ -38,7 +38,6 @@ public class _Constants {
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
     public static final Dimension SHAPES_WINDOW_SIZE =new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
-
 
     public static final int V_SPACE = 4;
     public static final int H_SPACE = 8;
