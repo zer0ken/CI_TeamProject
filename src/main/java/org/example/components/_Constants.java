@@ -11,6 +11,10 @@ public class _Constants {
     public static final String LOGIN_TITLE = "로그인";
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
 
+    public static final String[] TOOLBAR_BUTTONS = {"직선", "사각형", "원", "텍스트"};
+    public static final String TOOLBAR_TITLE = "Toolbar";
+    public static final String TOOLBAR_DEFAULT_BUTTON = "직선";
+
     // size
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
