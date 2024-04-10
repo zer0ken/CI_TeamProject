@@ -1,10 +1,11 @@
 package org.example.components;
 
 import javax.swing.*;
-
 import java.awt.*;
+import java.util.List;
 
-import static org.example.components._Constants.*;
+import static org.example.components._Constants.CLIENTS_WINDOW_SIZE;
+import static org.example.components._Constants.CLIENTS_WINDOW_TITLE;
 
 public class ClientsWindow extends _ComponentJPanel {
     DefaultListModel<String> clientListModel;
@@ -32,5 +33,10 @@ public class ClientsWindow extends _ComponentJPanel {
         scrollPane.setPreferredSize(new Dimension(200, 300));
 
         add(BorderLayout.CENTER, scrollPane);
+    }
+
+    public void setClients(List<String> clients) {
+        clientListModel.removeAllElements();
+        clientListModel.addAll(clients);
     }
 }
