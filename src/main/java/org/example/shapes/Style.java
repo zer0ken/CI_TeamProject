@@ -1,12 +1,17 @@
 package org.example.shapes;
 
+import com.google.gson.annotations.JsonAdapter;
+
 import java.awt.*;
 
 public class Style {
     private int lineWidth;
+    @JsonAdapter(ColorAdapter.class)
     private Color lineColor;    // TODO: Change type as need.
+    @JsonAdapter(ColorAdapter.class)
     private Color fillColor;
     private int textSize;
+    @JsonAdapter(ColorAdapter.class)
     private Color textColor;
     private String textContent;
 
