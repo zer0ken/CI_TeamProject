@@ -13,4 +13,8 @@ public class TextInput extends LabeledSlot {
         textField = new JTextField(STYLE_DEFAULT_TEXT_CONTENT);
         addSlot(textField, BorderLayout.SOUTH);
     }
+
+    public String getValue() {
+        return textField.getText().trim();
+    }
 }
