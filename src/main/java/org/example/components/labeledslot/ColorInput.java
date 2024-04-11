@@ -24,4 +24,8 @@ public class ColorInput extends LabeledSlot {
     protected void changeColor(Color color) {
         this.color = color;
     }
+
+    public Color getValue() {
+        return color;
+    }
 }

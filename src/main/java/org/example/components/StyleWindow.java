@@ -3,6 +3,7 @@ package org.example.components;
 import org.example.components.labeledslot.ColorInput;
 import org.example.components.labeledslot.NumberInput;
 import org.example.components.labeledslot.TextInput;
+import org.example.shapes.Style;
 
 import javax.swing.*;
 
@@ -41,5 +42,16 @@ public class StyleWindow extends _ComponentJPanel {
         add(textSize);
         add(textColor);
         add(textContent);
+    }
+
+    public Style getStyle() {
+        return new Style(
+                lineWidth.getValue(),
+                lineColor.getValue(),
+                fillColor.getValue(),
+                textSize.getValue(),
+                textColor.getValue(),
+                textContent.getValue()
+        );
     }
 }
