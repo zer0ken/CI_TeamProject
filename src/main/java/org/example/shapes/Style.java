@@ -22,7 +22,6 @@ public class Style {
         this.textSize = textSize;
         this.textColor = textColor;
         this.textContent = textContent;
-
     }
 
     public int getLineWidth() {
