@@ -1,3 +1,5 @@
+package org.server;
+
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerApp {
