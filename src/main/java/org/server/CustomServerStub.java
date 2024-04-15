@@ -3,9 +3,11 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class CustomServerStub extends CMServerStub {
     private final ArrayList<String> clients = new ArrayList<>();
+    private final TreeMap<Integer, Object> shapes = new TreeMap<>();
 
     public ArrayList<String> getClients() {
         return clients;
@@ -24,5 +26,17 @@ public class CustomServerStub extends CMServerStub {
 
     public void removeClient(String name) {
         clients.remove(name);
+    }
+
+    public TreeMap<Integer, Object> getShapes() {
+        return shapes;
+    }
+
+    public void putShape(int id, Object shape) {
+        shapes.put(id, shape);
+    }
+
+    public void removeShape(int id) {
+        shapes.remove(id);
     }
 }
