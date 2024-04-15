@@ -1,18 +1,15 @@
 package org.server;
 
-import kr.ac.konkuk.ccslab.cm.entity.CMUser;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
-import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerEventHandler implements CMAppEventHandler {
-    private CMServerStub serverStub;
+    private final CustomServerStub serverStub;
 
-    public CMServerEventHandler(CMServerStub serverStub) {
+    public CMServerEventHandler(CustomServerStub serverStub) {
         this.serverStub = serverStub;
     }
 
@@ -45,10 +42,15 @@ public class CMServerEventHandler implements CMAppEventHandler {
         System.out.println("<cast> " + e.getDummyInfo());
     }
 
-    private void processSessionEvent(CMEvent cme) {
-        CMSessionEvent se = (CMSessionEvent) cme;
-        if (se.getID() == CMSessionEvent.LOGIN) {
-            System.out.println("[" + se.getUserName() + "] requests login.");
-        }
+    private void processAddEvent(CMEvent cme) {
+
+    }
+
+    private void processEditEvent(CMEvent cme) {
+
+    }
+
+    private void processRemoveEvent(CMEvent cme){
+
     }
 }

@@ -3,11 +3,11 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerApp {
-    private CMServerStub serverStub;
+    private CustomServerStub serverStub;
     private CMServerEventHandler eventHandler;
 
     public CMServerApp() {
-        serverStub = new CMServerStub();
+        serverStub = new CustomServerStub();
         eventHandler = new CMServerEventHandler(serverStub);
     }
 
