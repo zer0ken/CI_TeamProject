@@ -3,12 +3,12 @@ package org.example.shapes;
 import java.awt.*;
 import java.util.Date;
 
-public class Shape {
+public class _Shape {
   private long id;
   private Point startPoint;
   private Style style;
 
-  public Shape(Point startPoint, Style style) {
+  public _Shape(Point startPoint, Style style) {
     this.id = new Date().getTime();
     this.startPoint = startPoint;
     this.style = style;
