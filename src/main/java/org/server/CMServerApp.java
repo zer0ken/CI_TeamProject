@@ -3,8 +3,8 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerApp {
-    private CustomServerStub serverStub;
-    private CMServerEventHandler eventHandler;
+    private final CustomServerStub serverStub;
+    private final CMServerEventHandler eventHandler;
 
     public CMServerApp() {
         serverStub = new CustomServerStub();

@@ -6,6 +6,8 @@ import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
 
+import java.util.StringTokenizer;
+
 public class CMServerEventHandler implements CMAppEventHandler {
     private final CustomServerStub serverStub;
 
@@ -36,21 +38,44 @@ public class CMServerEventHandler implements CMAppEventHandler {
 
     private void processDummyEvent(CMEvent cme) {
         CMDummyEvent e = (CMDummyEvent) cme;
-
         System.out.println("[" + e.getSender() + "] " + e.getDummyInfo());
-        serverStub.cast(e, e.getHandlerSession(), e.getHandlerGroup());
-        System.out.println("<cast> " + e.getDummyInfo());
+
+        StringTokenizer tokenizer = new StringTokenizer(e.getDummyInfo(), "$");
+        String action = tokenizer.nextToken();
+        System.out.println("action: " + action);
+        switch (action) {
+            case "add" -> processAddEvent(e, tokenizer);
+            case "edit" -> processEditEvent(e, tokenizer);
+            case "remove" -> processRemoveEvent(e, tokenizer);
+        }
     }
 
-    private void processAddEvent(CMEvent cme) {
-
+    private void processAddEvent(CMDummyEvent de, StringTokenizer tokenizer) {
+        try {
+            long id = System.currentTimeMillis();
+            String shape = tokenizer.nextToken();
+            System.out.println("@ added new shape with id " + id + ": " + shape);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void processEditEvent(CMEvent cme) {
-
+    private void processEditEvent(CMDummyEvent de, StringTokenizer tokenizer) {
+        try {
+            long id = Long.parseLong(tokenizer.nextToken());
+            String shape = tokenizer.nextToken();
+            System.out.println("@ edited shape with id " + id +": " + shape);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void processRemoveEvent(CMEvent cme){
-
+    private void processRemoveEvent(CMDummyEvent de, StringTokenizer tokenizer){
+        try {
+            long id = Long.parseLong(tokenizer.nextToken());
+            System.out.println("@ removed shape with id " + id);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 }
