@@ -1,8 +1,5 @@
 package org.client;
 
-import kr.ac.konkuk.ccslab.cm.entity.CMUser;
-import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
-import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 
 public class CMClientApp {
@@ -26,22 +23,11 @@ public class CMClientApp {
         CMClientApp client = new CMClientApp();
         CMClientStub cmStub = client.getClientStub();
         cmStub.setAppEventHandler(client.getClientEventHandler());
-        cmStub.loginCM("testUserName", "test");
-        cmStub.joinSession("session1");
-        cmStub.changeGroup("g1");
+
         cmStub.startCM();
 
-        CMInteractionInfo interactionInfo = cmStub.getCMInfo().getInteractionInfo();
-        CMUser myself = interactionInfo.getMyself();
-
-        CMDummyEvent testEvent = new CMDummyEvent();
-
-        testEvent.setHandlerSession(myself.getCurrentSession());
-        testEvent.setHandlerGroup(myself.getCurrentGroup());
-        testEvent.setDummyInfo("dummy text to test event casting functionality");
-
-        cmStub.cast(testEvent, myself.getCurrentSession(), myself.getCurrentGroup());
-
-        System.out.println("<cast> " + testEvent.getDummyInfo());
+        cmStub.syncLoginCM("testUserName", "test");
+        cmStub.changeGroup("g1");
+        System.out.println("### login done");
     }
 }
