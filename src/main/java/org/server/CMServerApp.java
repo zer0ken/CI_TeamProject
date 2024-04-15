@@ -3,20 +3,20 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerApp {
-    private CMServerStub m_serverStub;
-    private CMServerEventHandler m_eventHandler;
+    private CMServerStub serverStub;
+    private CMServerEventHandler eventHandler;
 
     public CMServerApp() {
-        m_serverStub = new CMServerStub();
-        m_eventHandler = new CMServerEventHandler(m_serverStub);
+        serverStub = new CMServerStub();
+        eventHandler = new CMServerEventHandler(serverStub);
     }
 
     public CMServerStub getServerStub() {
-        return m_serverStub;
+        return serverStub;
     }
 
     public CMServerEventHandler getServerEventHandler() {
-        return m_eventHandler;
+        return eventHandler;
     }
 
     public static void main(String[] args) {

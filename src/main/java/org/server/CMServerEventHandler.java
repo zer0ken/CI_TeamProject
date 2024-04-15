@@ -1,23 +1,35 @@
 package org.server;
 
+import kr.ac.konkuk.ccslab.cm.entity.CMUser;
+import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
+import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
 public class CMServerEventHandler implements CMAppEventHandler {
-    private CMServerStub m_serverStub;
+    private CMServerStub serverStub;
 
     public CMServerEventHandler(CMServerStub serverStub) {
-        m_serverStub = serverStub;
+        this.serverStub = serverStub;
     }
 
     @Override
     public void processEvent(CMEvent cme) {
-        if (cme.getType() == CMInfo.CM_SESSION_EVENT) {
-            processSessionEvent(cme);
+        switch (cme.getType()) {
+            case CMInfo.CM_SESSION_EVENT -> processSessionEvent(cme);
+            case CMInfo.CM_DUMMY_EVENT -> processDummyEvent(cme);
         }
+    }
+
+    private void processDummyEvent(CMEvent cme) {
+        CMDummyEvent e = (CMDummyEvent) cme;
+
+        System.out.println("[" + e.getSender() + "] " + e.getDummyInfo());
+        serverStub.cast(e, e.getHandlerSession(), e.getHandlerGroup());
+        System.out.println("<cast> " + e.getDummyInfo());
     }
 
     private void processSessionEvent(CMEvent cme) {
