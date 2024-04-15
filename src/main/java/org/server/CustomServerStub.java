@@ -21,4 +21,8 @@ public class CustomServerStub extends CMServerStub {
 
         return nameToAdd;
     }
+
+    public void removeClient(String name) {
+        clients.remove(name);
+    }
 }
