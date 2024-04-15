@@ -26,7 +26,7 @@ public class CMClientApp {
         CMClientApp client = new CMClientApp();
         CMClientStub cmStub = client.getClientStub();
         cmStub.setAppEventHandler(client.getClientEventHandler());
-        cmStub.loginCM("test", "test");
+        cmStub.loginCM("testUserName", "test");
         cmStub.joinSession("session1");
         cmStub.changeGroup("g1");
         cmStub.startCM();
