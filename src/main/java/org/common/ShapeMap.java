@@ -1,12 +1,14 @@
 package org.common;
 
-import kr.ac.konkuk.ccslab.cm.stub.CMStub;
-
 import java.util.TreeMap;
 
 public class ShapeMap {
 
-    private final TreeMap<Long, String> shapes = new TreeMap<>();
+    private TreeMap<Long, String> shapes = new TreeMap<>();
+
+    public void setShapes(TreeMap<Long, String> newShapes) {
+        shapes = newShapes;
+    }
 
     public TreeMap<Long, String> getShapes() {
         return shapes;
