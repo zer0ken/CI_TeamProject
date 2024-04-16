@@ -5,10 +5,10 @@ import javax.swing.*;
 import static org.example.components._Constants.*;
 
 public class Login {
-    public static String login(String invalidName) {
+    public static String login(boolean invalid) {
         String userName = "";
         while (userName != null && userName.isBlank()) {
-            userName = inputUserName(invalidName);
+            userName = inputUserName(invalid);
         }
         if (userName == null) {
             System.exit(0);
@@ -16,12 +16,12 @@ public class Login {
         return userName;
     }
 
-    private static String inputUserName(String invalidName) {
+    private static String inputUserName(boolean invalid) {
         String message;
-        if(invalidName ==null)
-            message = LOGIN_MESSAGE;
+        if (invalid)
+            message = LOGIN_MESSAGE_WITH_INVALID_NAME;
         else
-            message = LOGIN_MESSAGE_WITH_INVALID_NAME.formatted(invalidName);
+            message = LOGIN_MESSAGE;
         return JOptionPane.showInputDialog(
                 null,
                 message,

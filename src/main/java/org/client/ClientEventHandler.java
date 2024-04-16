@@ -8,13 +8,13 @@ import org.protocol.ServersideProtocol;
 import java.util.function.Function;
 
 public class ClientEventHandler extends BaseEventHandler {
-    private Function<Void, Void> onClientUpdated;
-    private Function<String, Void> onLoginFailed;
+    private final Function<Void, Void> onClientUpdated;
+    private final Function<Void, Void> onLoginFailed;
 
     public ClientEventHandler(
             ClientStub clientStub,
             Function<Void, Void> onClientUpdated,
-            Function<String, Void> onLoginFailed
+            Function<Void, Void> onLoginFailed
     ) {
         super(ServersideProtocol::parse, clientStub);
         this.onClientUpdated = onClientUpdated;
@@ -25,7 +25,7 @@ public class ClientEventHandler extends BaseEventHandler {
     protected void processLoginAckEvent(CMSessionEvent se) {
         if (se.isValidUser() == -1) {
             System.out.println("@ 로그인 실패!");
-            onLoginFailed.apply(se.getUserName());
+            onLoginFailed.apply(null);
         }
     }
 

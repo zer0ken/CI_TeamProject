@@ -29,8 +29,8 @@ public class Client {
         return eventHandler;
     }
 
-    public Void requestLogin(String invalidName) {
-        clientStub.loginCM(Login.login(invalidName), "");
+    public Void requestLogin(Void unused) {
+        clientStub.loginCM(Login.login(true), "");
         return null;
     }
 
@@ -76,6 +76,6 @@ public class Client {
         cmStub.setAppEventHandler(client.getClientEventHandler());
 
         cmStub.startCM();
-        client.requestLogin(null);
+        cmStub.loginCM(Login.login(false), "");
     }
 }
