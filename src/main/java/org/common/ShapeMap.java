@@ -4,7 +4,7 @@ import kr.ac.konkuk.ccslab.cm.stub.CMStub;
 
 import java.util.TreeMap;
 
-public class CMStubWithShape extends CMStub {
+public class ShapeMap {
 
     private final TreeMap<Long, String> shapes = new TreeMap<>();
 

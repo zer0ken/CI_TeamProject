@@ -2,11 +2,11 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
-import org.common.CMStubWithShape;
+import org.common.ShapeMap;
 
-import java.util.TreeMap;
+public class ServerStub extends CMServerStub {
+    ShapeMap shapes;
 
-public class ServerStub extends CMStubWithShape {
     public void castDummy(String message, String session, String group) {
         CMDummyEvent fromServer = new CMDummyEvent();
         fromServer.setHandlerSession(session);
