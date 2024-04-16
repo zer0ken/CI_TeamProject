@@ -3,12 +3,28 @@ package org.example.components;
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static org.example.components._Constants.*;
 
 public class App extends JFrame {
+    private Function<String, Void> onAdd;
+    private BiFunction<Long, String, Void> onEdit;
+    private Function<Long, Void> onRemove;
 
-    public App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
+    public App(
+            Function<String, Void> onAdd,
+            BiFunction<Long, String, Void> onEdit,
+            Function<Long, Void> onRemove
+    ) {
+        this();
+        this.onAdd = onAdd;
+        this.onEdit = onEdit;
+        this.onRemove = onRemove;
+    }
+
+    private App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
         super(APP_TITLE);
 
         // init itself
