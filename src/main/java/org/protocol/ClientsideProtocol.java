@@ -2,9 +2,7 @@ package org.protocol;
 
 import java.util.StringTokenizer;
 
-public class ClientsideProtocol {
-    public static final String DELIM = "$";
-
+public class ClientsideProtocol extends Protocol {
     public static String build(Actions action, long id) {
         return action.value + "$" + id;
     }

@@ -2,7 +2,7 @@ package org.protocol;
 
 import java.util.StringTokenizer;
 
-public class ServersideProtocol {
+public class ServersideProtocol extends Protocol {
     public static final String DELIM = "$";
 
     public static String build(Actions action, long id) {
