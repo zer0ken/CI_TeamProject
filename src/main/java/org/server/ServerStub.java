@@ -2,10 +2,9 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class CustomServerStub extends CMServerStub {
+public class ServerStub extends CMServerStub {
     private final TreeMap<Long, String> shapes = new TreeMap<>();
 
     public TreeMap<Long, String> getShapes() {

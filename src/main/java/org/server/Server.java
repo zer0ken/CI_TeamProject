@@ -2,25 +2,25 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
-public class CMServerApp {
-    private final CustomServerStub serverStub;
-    private final CMServerEventHandler eventHandler;
+public class Server {
+    private final ServerStub serverStub;
+    private final ServerEventHandler eventHandler;
 
-    public CMServerApp() {
-        serverStub = new CustomServerStub();
-        eventHandler = new CMServerEventHandler(serverStub);
+    public Server() {
+        serverStub = new ServerStub();
+        eventHandler = new ServerEventHandler(serverStub);
     }
 
     public CMServerStub getServerStub() {
         return serverStub;
     }
 
-    public CMServerEventHandler getServerEventHandler() {
+    public ServerEventHandler getServerEventHandler() {
         return eventHandler;
     }
 
     public static void main(String[] args) {
-        CMServerApp server = new CMServerApp();
+        Server server = new Server();
         CMServerStub cmStub = server.getServerStub();
         cmStub.setAppEventHandler(server.getServerEventHandler());
         cmStub.startCM();

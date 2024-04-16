@@ -5,7 +5,6 @@ import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
-import org.apache.commons.math3.util.Pair;
 import org.protocol.Actions;
 import org.protocol.ClientsideProtocol;
 import org.protocol.Command;
@@ -13,10 +12,10 @@ import org.protocol.ServersideProtocol;
 
 import java.util.Map;
 
-public class CMServerEventHandler implements CMAppEventHandler {
-    private final CustomServerStub serverStub;
+public class ServerEventHandler implements CMAppEventHandler {
+    private final ServerStub serverStub;
 
-    public CMServerEventHandler(CustomServerStub serverStub) {
+    public ServerEventHandler(ServerStub serverStub) {
         this.serverStub = serverStub;
     }
 
