@@ -16,7 +16,12 @@ public class App extends JFrame {
     private Function<Long, Void> onRemove;
     private Function<Void, Void> onClose;
 
+    private final StyleWindow styleWindow;
+    private final EditWindow editWindow;
+    private final Toolbar toolbar;
+    private final Canvas canvas;
     private final ClientsWindow clientsWindow;
+    private final ShapesWindow shapesWindow;
 
     public App(
             Function<String, Void> onAdd,
@@ -49,17 +54,18 @@ public class App extends JFrame {
         });
 
         // init inner components
+        // TODO: 각 컴포넌트에 적절한 리스너(콜백)를 부착해야 함
         JPanel leftPanel = new VerticalJPanel();
-        leftPanel.add(new StyleWindow());
-        leftPanel.add(new EditWindow());
+        leftPanel.add(styleWindow = new StyleWindow());
+        leftPanel.add(editWindow = new EditWindow());
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar());
-        centerPanel.add(new Canvas());
+        centerPanel.add(toolbar = new Toolbar());
+        centerPanel.add(canvas = new Canvas());
 
         JPanel rightPanel = new VerticalJPanel();
         rightPanel.add(clientsWindow = new ClientsWindow());
-        rightPanel.add(new ShapesWindow());
+        rightPanel.add(shapesWindow = new ShapesWindow());
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
