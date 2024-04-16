@@ -8,16 +8,18 @@ import org.common.ShapeMap;
 import java.util.TreeMap;
 
 public class ServerStub extends CMServerStub implements HasShapeMap {
+    public static final String DEFAULT_SESSION = "session1";
+    public static final String DEFAULT_GROUP = "g1";
     ShapeMap shapes;
 
-    public void castDummy(String message, String session, String group) {
+    public void castDummy(String message) {
         CMDummyEvent fromServer = new CMDummyEvent();
-        fromServer.setHandlerSession(session);
-        fromServer.setHandlerGroup(group);
+        fromServer.setHandlerSession(DEFAULT_SESSION);
+        fromServer.setHandlerGroup(DEFAULT_GROUP);
         fromServer.setDummyInfo(message);
 
-        cast(fromServer, session, group);
-        System.out.println("# server casted\n\t" + message);
+        cast(fromServer, DEFAULT_SESSION, DEFAULT_GROUP);
+        System.out.println("@ server casted\n\t" + message);
     }
 
     @Override
