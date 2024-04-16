@@ -1,5 +1,6 @@
 package org.server;
 
+import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
@@ -20,38 +21,43 @@ public class ServerEventHandler extends BaseEventHandler {
     }
 
     @Override
-
     protected void processJoinEvent(CMSessionEvent se) {
+        System.out.println("@ user joining");
+        System.out.println("\tsession: " + se.getSessionName());
+        System.out.println("\tgroup: " + se.getCurrentGroupName());
+        System.out.println("\tuser: " + se.getUserName());
     }
 
     @Override
-
-    protected void processLeaveEvent(CMSessionEvent se) {
+    protected void processLogoutEvent(CMSessionEvent se) {
+        System.out.println("@ user logout");
+        System.out.println("\tsession: " + se.getSessionName());
+        System.out.println("\tgroup: " + se.getCurrentGroupName());
+        System.out.println("\tuser: " + se.getUserName());
     }
 
     @Override
-
-    protected void processAddEvent(CMDummyEvent de, Command cmd) {
+    protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
         long id = System.currentTimeMillis();
         ((HasShapeMap) stub).putShape(id, cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.ADD, id, cmd.getShape());
-        ((ServerStub) stub).castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
+        ((ServerStub) stub).castDummy(message);
     }
 
     @Override
-    protected void processEditEvent(CMDummyEvent de, Command cmd) {
+    protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
         ((HasShapeMap) stub).putShape(cmd.getId(), cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.EDIT, cmd.getId(), cmd.getShape());
-        ((ServerStub) stub).castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
+        ((ServerStub) stub).castDummy(message);
     }
 
     @Override
-    protected void processRemoveEvent(CMDummyEvent de, Command cmd){
+    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd){
         ((HasShapeMap) stub).removeShape(cmd.getId());
 
         String message = ServersideProtocol.build(Actions.REMOVE, cmd.getId());
-        ((ServerStub) stub).castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
+        ((ServerStub) stub).castDummy(message);
     }
 }
