@@ -6,37 +6,17 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class CustomServerStub extends CMServerStub {
-    private final ArrayList<String> clients = new ArrayList<>();
-    private final TreeMap<Integer, Object> shapes = new TreeMap<>();
+    private final TreeMap<Long, String> shapes = new TreeMap<>();
 
-    public ArrayList<String> getClients() {
-        return clients;
-    }
-
-    public String addClient(String name) {
-        String nameToAdd = name;
-        int duplacatedCount = 0;
-        while (clients.contains(nameToAdd)) {
-            nameToAdd = name + " " + (++duplacatedCount);
-        }
-        clients.add(nameToAdd);
-
-        return nameToAdd;
-    }
-
-    public void removeClient(String name) {
-        clients.remove(name);
-    }
-
-    public TreeMap<Integer, Object> getShapes() {
+    public TreeMap<Long, String> getShapes() {
         return shapes;
     }
 
-    public void putShape(int id, Object shape) {
+    public void putShape(long id, String shape) {
         shapes.put(id, shape);
     }
 
-    public void removeShape(int id) {
+    public void removeShape(long id) {
         shapes.remove(id);
     }
 }
