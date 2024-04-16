@@ -1,6 +1,5 @@
 package org.client;
 
-import kr.ac.konkuk.ccslab.cm.entity.CMUser;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.common.HasShapeMap;

@@ -39,7 +39,6 @@ public class ClientEventHandler extends BaseEventHandler {
         System.out.println("\tuser: " + de.getUserName());
 
         ((ClientStub) stub).addClient(de.getUserName());
-        onClientUpdated.apply(null);
     }
 
     @Override

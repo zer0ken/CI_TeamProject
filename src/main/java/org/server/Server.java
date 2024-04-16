@@ -1,7 +1,5 @@
 package org.server;
 
-import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
-
 public class Server {
     private final ServerStub serverStub;
     private final ServerEventHandler eventHandler;
