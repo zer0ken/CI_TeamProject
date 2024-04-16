@@ -14,7 +14,7 @@ public class App extends JFrame {
     private Function<String, Void> onAdd;
     private BiFunction<Long, String, Void> onEdit;
     private Function<Long, Void> onRemove;
-    private Function<Void, Void> onLeave;
+    private Function<Void, Void> onClose;
 
     private final ClientsWindow clientsWindow;
 
@@ -22,13 +22,13 @@ public class App extends JFrame {
             Function<String, Void> onAdd,
             BiFunction<Long, String, Void> onEdit,
             Function<Long, Void> onRemove,
-            Function<Void, Void> onLeave
+            Function<Void, Void> onClose
     ) {
         this();
         this.onAdd = onAdd;
         this.onEdit = onEdit;
         this.onRemove = onRemove;
-        this.onLeave = onLeave;
+        this.onClose = onClose;
     }
 
     private App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
@@ -43,7 +43,7 @@ public class App extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                onLeave.apply(null);
+                onClose.apply(null);
                 super.windowClosed(e);
             }
         });
