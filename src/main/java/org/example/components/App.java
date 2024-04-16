@@ -40,10 +40,3 @@ public class App extends JFrame {
     }
 }
 
-class VerticalJPanel extends JPanel {
-    VerticalJPanel() {
-        super();
-        LayoutManager layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(layout);
-    }
-}
