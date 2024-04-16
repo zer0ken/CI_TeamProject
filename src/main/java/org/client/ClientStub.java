@@ -16,8 +16,8 @@ public class ClientStub extends CMClientStub implements HasShapeMap {
         fromClient.setHandlerGroup(getMyself().getCurrentGroup());
         fromClient.setDummyInfo(message);
 
-        send(fromClient, "SERVER");
-        System.out.println("# server casted\n\t" + message);
+        send(fromClient, getDefaultServerName());
+        System.out.println("@ sent\n\t" + message);
     }
 
     @Override
