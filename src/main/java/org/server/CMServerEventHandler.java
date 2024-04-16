@@ -5,8 +5,13 @@ import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
+import org.apache.commons.math3.util.Pair;
+import org.protocol.Actions;
+import org.protocol.ClientsideProtocol;
+import org.protocol.Command;
+import org.protocol.ServersideProtocol;
 
-import java.util.StringTokenizer;
+import java.util.Map;
 
 public class CMServerEventHandler implements CMAppEventHandler {
     private final CustomServerStub serverStub;
@@ -18,64 +23,72 @@ public class CMServerEventHandler implements CMAppEventHandler {
     @Override
     public void processEvent(CMEvent cme) {
         switch (cme.getType()) {
-            case CMInfo.CM_SESSION_EVENT -> processSessionEvent(cme);
-            case CMInfo.CM_DUMMY_EVENT -> processDummyEvent(cme);
-        }
-    }
+            case CMInfo.CM_SESSION_EVENT -> {
+                CMSessionEvent se = (CMSessionEvent) cme;
 
-    private void processSessionEvent(CMEvent cme) {
-        CMSessionEvent se = (CMSessionEvent) cme;
-
-        switch (se.getID()) {
-            case CMSessionEvent.JOIN_SESSION -> {
-                System.out.println("[" + se.getUserName() + "] joined to session.");
+                switch (se.getID()) {
+                    case CMSessionEvent.JOIN_SESSION -> processJoinEvent(se);
+                    case CMSessionEvent.LEAVE_SESSION -> processLeaveEvent(se);
+                }
             }
-            case CMSessionEvent.LEAVE_SESSION -> {
-                System.out.println("[" + se.getUserName() + "] leaved session.");
+            case CMInfo.CM_DUMMY_EVENT -> {
+                CMDummyEvent de = (CMDummyEvent) cme;
+                Command cmd = ClientsideProtocol.parse(de.getDummyInfo());
+
+                System.out.println("# client requested\n\t" + cmd);
+
+                switch (cmd.getAction()) {
+                    case ADD -> processAddEvent(de, cmd);
+                    case EDIT -> processEditEvent(de, cmd);
+                    case REMOVE -> processRemoveEvent(de, cmd);
+                }
+
+                System.out.println("# current shapes");
+                for (Map.Entry<Long, String> pair: serverStub.getShapes().entrySet()) {
+                    System.out.println("\t" + pair.getKey() + ": " + pair.getValue());
+                }
             }
         }
     }
 
-    private void processDummyEvent(CMEvent cme) {
-        CMDummyEvent e = (CMDummyEvent) cme;
-        System.out.println("[" + e.getSender() + "] " + e.getDummyInfo());
-
-        StringTokenizer tokenizer = new StringTokenizer(e.getDummyInfo(), "$");
-        String action = tokenizer.nextToken();
-        System.out.println("action: " + action);
-        switch (action) {
-            case "add" -> processAddEvent(e, tokenizer);
-            case "edit" -> processEditEvent(e, tokenizer);
-            case "remove" -> processRemoveEvent(e, tokenizer);
-        }
+    private void processJoinEvent(CMSessionEvent se) {
     }
 
-    private void processAddEvent(CMDummyEvent de, StringTokenizer tokenizer) {
-        try {
-            long id = System.currentTimeMillis();
-            String shape = tokenizer.nextToken();
-            System.out.println("@ added new shape with id " + id + ": " + shape);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+    private void processLeaveEvent(CMSessionEvent se) {
     }
 
-    private void processEditEvent(CMDummyEvent de, StringTokenizer tokenizer) {
-        try {
-            long id = Long.parseLong(tokenizer.nextToken());
-            String shape = tokenizer.nextToken();
-            System.out.println("@ edited shape with id " + id +": " + shape);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+    private void processAddEvent(CMDummyEvent de, Command cmd) {
+        long id = System.currentTimeMillis();
+        serverStub.putShape(id, cmd.getShape());
+
+        String message = ServersideProtocol.build(Actions.ADD, id, cmd.getShape());
+        cast(de, message);
     }
 
-    private void processRemoveEvent(CMDummyEvent de, StringTokenizer tokenizer){
-        try {
-            long id = Long.parseLong(tokenizer.nextToken());
-            System.out.println("@ removed shape with id " + id);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+    private void processEditEvent(CMDummyEvent de, Command cmd) {
+        serverStub.putShape(cmd.getId(), cmd.getShape());
+
+        String message = ServersideProtocol.build(Actions.EDIT, cmd.getId(), cmd.getShape());
+        cast(de, message);
+    }
+
+    private void processRemoveEvent(CMDummyEvent de, Command cmd){
+        serverStub.removeShape(cmd.getId());
+
+        String message = ServersideProtocol.build(Actions.REMOVE, cmd.getId());
+        cast(de, message);
+    }
+
+    private void cast(CMDummyEvent triggerEvent, String message) {
+        String session = triggerEvent.getHandlerSession();
+        String group = triggerEvent.getHandlerGroup();
+
+        CMDummyEvent fromServer = new CMDummyEvent();
+        fromServer.setHandlerSession(session);
+        fromServer.setHandlerGroup(group);
+        fromServer.setDummyInfo(message);
+
+        serverStub.cast(fromServer, session, group);
+        System.out.println("# server casted\n\t" + message);
     }
 }
