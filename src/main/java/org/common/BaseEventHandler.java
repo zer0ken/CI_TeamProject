@@ -1,8 +1,6 @@
 package org.common;
 
-import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
+import kr.ac.konkuk.ccslab.cm.event.*;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
@@ -22,20 +20,33 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
 
     @Override
     public void processEvent(CMEvent cme) {
+        System.out.println("# incoming event");
+        System.out.println("\ttype: " + cme.getType());
+        System.out.println("\tid: " + cme.getID());
+        System.out.println("\tsession: " + cme.getHandlerSession());
+        System.out.println("\tgroup: " + cme.getHandlerGroup());
         switch (cme.getType()) {
             case CMInfo.CM_SESSION_EVENT -> {
                 CMSessionEvent se = (CMSessionEvent) cme;
 
                 switch (se.getID()) {
                     case CMSessionEvent.JOIN_SESSION -> processJoinEvent(se);
-                    case CMSessionEvent.LEAVE_SESSION -> processLeaveEvent(se);
+                    case CMSessionEvent.LOGOUT -> processLogoutEvent(se);
+                }
+            }
+            case CMInfo.CM_DATA_EVENT -> {
+                CMDataEvent de = (CMDataEvent) cme;
+
+                switch (de.getID()) {
+                    case CMDataEvent.INHABITANT -> processInhabitantEvent(de);
+                    case CMDataEvent.NEW_USER -> processNewUserEvent(de);
                 }
             }
             case CMInfo.CM_DUMMY_EVENT -> {
                 CMDummyEvent de = (CMDummyEvent) cme;
                 Command cmd = parse.apply(de.getDummyInfo());
 
-                System.out.println("# incoming request\n\t" + cmd);
+                System.out.println("@ incoming request\n\t" + cmd);
 
                 switch (cmd.getAction()) {
                     case ADD -> processAddEvent(de, cmd);
@@ -43,7 +54,7 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
                     case REMOVE -> processRemoveEvent(de, cmd);
                 }
 
-                System.out.println("# current shapes");
+                System.out.println("@ current shapes");
                 for (Map.Entry<Long, String> pair: ((HasShapeMap) stub).getShapes().entrySet()) {
                     System.out.println("\t" + pair.getKey() + ": " + pair.getValue());
                 }
@@ -51,13 +62,18 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
         }
     }
 
-    protected abstract void processJoinEvent(CMSessionEvent se);
+    protected void processJoinEvent(CMSessionEvent se) {}
 
-    protected abstract void processLeaveEvent(CMSessionEvent se);
 
-    protected abstract void processAddEvent(CMDummyEvent de, Command cmd);
+    protected void processLogoutEvent(CMSessionEvent se) {}
 
-    protected abstract void processEditEvent(CMDummyEvent de, Command cmd);
+    protected void processInhabitantEvent(CMDataEvent de) {}
 
-    protected abstract void processRemoveEvent(CMDummyEvent de, Command cmd);
+    protected void processNewUserEvent(CMDataEvent de) {}
+
+    protected void processAddEvent(CMDummyEvent de, Command cmd) {}
+
+    protected void processEditEvent(CMDummyEvent de, Command cmd) {}
+
+    protected void processRemoveEvent(CMDummyEvent de, Command cmd) {}
 }
