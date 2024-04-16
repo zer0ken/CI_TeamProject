@@ -16,6 +16,8 @@ public class App extends JFrame {
     private Function<Long, Void> onRemove;
     private Function<Void, Void> onLeave;
 
+    private final ClientsWindow clientsWindow;
+
     public App(
             Function<String, Void> onAdd,
             BiFunction<Long, String, Void> onEdit,
@@ -56,7 +58,7 @@ public class App extends JFrame {
         centerPanel.add(new Canvas());
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(new ClientsWindow());
+        rightPanel.add(clientsWindow = new ClientsWindow());
         rightPanel.add(new ShapesWindow());
 
         add(leftPanel, BorderLayout.WEST);
@@ -65,6 +67,10 @@ public class App extends JFrame {
 
         // show it
         setVisible(true);
+    }
+
+    public ClientsWindow getClientsWindow() {
+        return clientsWindow;
     }
 }
 

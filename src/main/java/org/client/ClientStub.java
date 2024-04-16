@@ -1,14 +1,18 @@
 package org.client;
 
+import kr.ac.konkuk.ccslab.cm.entity.CMUser;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.common.HasShapeMap;
 import org.common.ShapeMap;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class ClientStub extends CMClientStub implements HasShapeMap {
     private ShapeMap shapes;
+
+    private final ArrayList<String> clients = new ArrayList<>();
 
     public void sendDummy(String message) {
         CMDummyEvent fromClient = new CMDummyEvent();
@@ -18,6 +22,18 @@ public class ClientStub extends CMClientStub implements HasShapeMap {
 
         send(fromClient, getDefaultServerName());
         System.out.println("@ sent\n\t" + message);
+    }
+
+    public ArrayList<String> getClients() {
+        return clients;
+    }
+
+    public void addClient(String client) {
+        clients.add(client);
+    }
+
+    public void removeClient(String client) {
+        clients.remove(client);
     }
 
     @Override

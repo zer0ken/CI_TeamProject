@@ -2,14 +2,13 @@ package org.example.components;
 
 import javax.swing.*;
 
-import static org.example.components._Constants.LOGIN_MESSAGE;
-import static org.example.components._Constants.LOGIN_TITLE;
+import static org.example.components._Constants.*;
 
 public class Login {
-    public static String login() {
+    public static String login(String invalidName) {
         String userName = "";
         while (userName != null && userName.isBlank()) {
-            userName = inputUserName();
+            userName = inputUserName(invalidName);
         }
         if (userName == null) {
             System.exit(0);
@@ -17,10 +16,15 @@ public class Login {
         return userName;
     }
 
-    private static String inputUserName() {
+    private static String inputUserName(String invalidName) {
+        String message;
+        if(invalidName ==null)
+            message = LOGIN_MESSAGE;
+        else
+            message = LOGIN_MESSAGE_WITH_INVALID_NAME.formatted(invalidName);
         return JOptionPane.showInputDialog(
                 null,
-                LOGIN_MESSAGE,
+                message,
                 LOGIN_TITLE,
                 JOptionPane.QUESTION_MESSAGE);
     }

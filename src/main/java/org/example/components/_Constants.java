@@ -11,6 +11,7 @@ public class _Constants {
     public static final String APP_TITLE = "앱 이름이 여기에 들어가야 한단다~";
     public static final String LOGIN_TITLE = "로그인";
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
+    public static final String LOGIN_MESSAGE_WITH_INVALID_NAME = "입력하신 이름(%s)은 이미 사용되고 있습니다.\n다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String[] STYLE_LABELS = {
             "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용" };
     public static final String STYLE_WINDOW_TITLE = "스타일 지정";

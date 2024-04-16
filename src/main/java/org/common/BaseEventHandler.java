@@ -32,6 +32,7 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
                 switch (se.getID()) {
                     case CMSessionEvent.JOIN_SESSION -> processJoinEvent(se);
                     case CMSessionEvent.LOGOUT -> processLogoutEvent(se);
+                    case CMSessionEvent.LOGIN_ACK -> processLoginAckEvent(se);
                 }
             }
             case CMInfo.CM_DATA_EVENT -> {
@@ -40,6 +41,7 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
                 switch (de.getID()) {
                     case CMDataEvent.INHABITANT -> processInhabitantEvent(de);
                     case CMDataEvent.NEW_USER -> processNewUserEvent(de);
+                    case CMDataEvent.REMOVE_USER -> processRemoveUserEvent(de);
                 }
             }
             case CMInfo.CM_DUMMY_EVENT -> {
@@ -49,9 +51,9 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
                 System.out.println("@ incoming request\n\t" + cmd);
 
                 switch (cmd.getAction()) {
-                    case ADD -> processAddEvent(de, cmd);
-                    case EDIT -> processEditEvent(de, cmd);
-                    case REMOVE -> processRemoveEvent(de, cmd);
+                    case ADD -> processAddShapeEvent(de, cmd);
+                    case EDIT -> processEditShapeEvent(de, cmd);
+                    case REMOVE -> processRemoveShapeEvent(de, cmd);
                 }
 
                 System.out.println("@ current shapes");
@@ -62,6 +64,8 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
         }
     }
 
+    protected void processLoginAckEvent(CMSessionEvent se) {}
+
     protected void processJoinEvent(CMSessionEvent se) {}
 
 
@@ -71,9 +75,11 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
 
     protected void processNewUserEvent(CMDataEvent de) {}
 
-    protected void processAddEvent(CMDummyEvent de, Command cmd) {}
+    protected void processRemoveUserEvent(CMDataEvent de) {}
 
-    protected void processEditEvent(CMDummyEvent de, Command cmd) {}
+    protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {}
 
-    protected void processRemoveEvent(CMDummyEvent de, Command cmd) {}
+    protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {}
+
+    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {}
 }
