@@ -8,7 +8,7 @@ import static org.example.components._Constants.*;
 
 public class App extends JFrame {
 
-    public App() {
+    public App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
         super(APP_TITLE);
 
         // init itself
