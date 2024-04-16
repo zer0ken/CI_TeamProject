@@ -61,33 +61,20 @@ public class ServerEventHandler implements CMAppEventHandler {
         serverStub.putShape(id, cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.ADD, id, cmd.getShape());
-        cast(de, message);
+        serverStub.castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
     }
 
     private void processEditEvent(CMDummyEvent de, Command cmd) {
         serverStub.putShape(cmd.getId(), cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.EDIT, cmd.getId(), cmd.getShape());
-        cast(de, message);
+        serverStub.castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
     }
 
     private void processRemoveEvent(CMDummyEvent de, Command cmd){
         serverStub.removeShape(cmd.getId());
 
         String message = ServersideProtocol.build(Actions.REMOVE, cmd.getId());
-        cast(de, message);
-    }
-
-    private void cast(CMDummyEvent triggerEvent, String message) {
-        String session = triggerEvent.getHandlerSession();
-        String group = triggerEvent.getHandlerGroup();
-
-        CMDummyEvent fromServer = new CMDummyEvent();
-        fromServer.setHandlerSession(session);
-        fromServer.setHandlerGroup(group);
-        fromServer.setDummyInfo(message);
-
-        serverStub.cast(fromServer, session, group);
-        System.out.println("# server casted\n\t" + message);
+        serverStub.castDummy(message, de.getHandlerSession(), de.getHandlerGroup());
     }
 }
