@@ -11,7 +11,7 @@ public class Server {
         eventHandler = new ServerEventHandler(serverStub);
     }
 
-    public CMServerStub getServerStub() {
+    public ServerStub getServerStub() {
         return serverStub;
     }
 
@@ -21,7 +21,7 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        CMServerStub cmStub = server.getServerStub();
+        ServerStub cmStub = server.getServerStub();
         cmStub.setAppEventHandler(server.getServerEventHandler());
         cmStub.startCM();
     }
