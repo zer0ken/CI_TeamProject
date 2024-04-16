@@ -3,6 +3,8 @@ package org.example.components;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -12,16 +14,19 @@ public class App extends JFrame {
     private Function<String, Void> onAdd;
     private BiFunction<Long, String, Void> onEdit;
     private Function<Long, Void> onRemove;
+    private Function<Void, Void> onLeave;
 
     public App(
             Function<String, Void> onAdd,
             BiFunction<Long, String, Void> onEdit,
-            Function<Long, Void> onRemove
+            Function<Long, Void> onRemove,
+            Function<Void, Void> onLeave
     ) {
         this();
         this.onAdd = onAdd;
         this.onEdit = onEdit;
         this.onRemove = onRemove;
+        this.onLeave = onLeave;
     }
 
     private App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
@@ -33,6 +38,13 @@ public class App extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                onLeave.apply(null);
+                super.windowClosed(e);
+            }
+        });
 
         // init inner components
         JPanel leftPanel = new VerticalJPanel();

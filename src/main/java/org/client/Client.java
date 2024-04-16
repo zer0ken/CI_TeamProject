@@ -42,6 +42,11 @@ public class Client {
         return null;
     }
 
+    public Void requestLeave(Void unused) {
+        clientStub.terminateCM();
+        return null;
+    }
+
     public static void main(String[] args) {
         Client client = new Client();
         CMClientStub cmStub = client.getClientStub();
@@ -54,7 +59,8 @@ public class Client {
         client.app = new App(
                 client::requestAdd,
                 client::requestEdit,
-                client::requestRemove
+                client::requestRemove,
+                client::requestLeave
         );
     }
 }
