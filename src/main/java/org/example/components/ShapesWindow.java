@@ -20,7 +20,7 @@ public class ShapesWindow extends _ComponentJPanel {
 
         // 1) Canvas상에서 도형을 클릭했을 경우
 
-        ShapeEditList.addElement(); // 해당 도형의 ID 추가
+        ShapeEditList.addElement(); // 서버에서 해당 도형의 ID를 받아온 후 리스트에 추가
 
         // 2) 도형을 편집할 경우
         // -> Style
