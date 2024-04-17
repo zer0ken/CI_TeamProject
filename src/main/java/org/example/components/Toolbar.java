@@ -5,10 +5,21 @@ import java.awt.*;
 import java.awt.event.*;
 import static org.example.components._Constants.*;
 
+import org.example.shapes.Shape;
+import org.example.shapes.Line;
+import org.example.shapes.Rectangle;
+import org.example.shapes.Oval;
+import org.example.shapes.Text;
+
 public class Toolbar extends _ComponentJPanel {
-    private String selectedTool = TOOLBAR_DEFAULT_BUTTON;
-    private JButton[] toolButtons;
     private JLabel titleLabel;
+    private Canvas canvas;
+
+    Toolbar(Canvas canvas) {
+        this();
+        this.canvas = canvas;
+    }
+
     Toolbar() {
         super(TOOLBAR_SIZE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -18,34 +29,43 @@ public class Toolbar extends _ComponentJPanel {
         add(titleLabel); // Add the title label before adding buttons
 
         // Toolbar button setting
-        toolButtons = new JButton[TOOLBAR_BUTTONS.length];
         for (int i = 0; i < TOOLBAR_BUTTONS.length; i++){
             JButton button = new JButton(TOOLBAR_BUTTONS[i]);
-            button.addActionListener(new ToolButtonListener());
             button.setFocusPainted(false);
+            button.addMouseListener(new DoubleClickListener());
             add(button);
-            toolButtons[i] = button;
         }
 
     }
 
-    // selectedButton setting method
-    private void selectTool(String toolName) {
-        selectedTool = toolName;
-        for (JButton button : toolButtons) {
-            if (button.getText().equals(toolName)) {
-                button.setBackground(new Color(173, 216, 230));
-            } else {
-                button.setBackground(null);
+    private class DoubleClickListener extends MouseAdapter {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                JButton source = (JButton) e.getSource();
+                Shape currentTShape;
+                switch (source.getText()) {
+                    case TOOLBAR_LINE :
+                        currentTShape = new Line();
+                        currentTShape.setLocation(300, 300, 400, 400);
+                        break;
+                    case TOOLBAR_RECT:
+                        currentTShape = new Rectangle();
+                        currentTShape.setLocation(300, 300, 400, 400);
+                        break;
+                    case TOOLBAR_OVAL:
+                        currentTShape = new Oval();
+                        currentTShape.setLocation(300, 300, 400, 400);
+                        break;
+                    case TOOLBAR_TEXT:
+                        currentTShape = new Text();
+                        currentTShape.setLocation(300, 300, 400, 400);
+                        break;
+                    default:
+                        return;
+                }
+                canvas.addShape(currentTShape);
+                canvas.repaint();
             }
-        }
-    }
-
-    // Toolbar button ActionListener
-    class ToolButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            selectTool(e.getActionCommand());
         }
     }
 }

@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Text implements Shape {
   private int x1, y1, x2, y2;
-  private TextHandle northHandle, southHandle, eastHandle, westHandle;
-  private TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
+  public TextHandle northHandle, southHandle, eastHandle, westHandle;
+  public TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
   private int textWidth, textHeight;
 
 
@@ -175,7 +175,7 @@ public class Text implements Shape {
   }
 
   //TextHandle 클래스 정의
-  private class TextHandle {
+  public class TextHandle {
     private int x, y;
     private boolean isDiagonalHandle;
     private String direction;

@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Oval implements Shape {
   private int x1, y1, x2, y2;
-  private OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
+  public OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Oval() {
     northEastHandle = new OvalHandle(x2, y1, "northEast");
@@ -100,7 +100,7 @@ public class Oval implements Shape {
     southWestHandle.setLocation(x1, y2);
   }
 
-  private class OvalHandle {
+  public class OvalHandle {
     private int x, y;
     private String direction;
     private boolean isDragging;

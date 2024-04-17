@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Rectangle implements Shape {
   private int x1, y1, x2, y2;
-  private RectHandle northHandle, southHandle, eastHandle, westHandle;
-  private RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
+  public RectHandle northHandle, southHandle, eastHandle, westHandle;
+  public RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Rectangle() {
     northHandle = new RectHandle((x1 + x2) / 2, y1, false, "north");
@@ -169,7 +169,7 @@ public class Rectangle implements Shape {
     southWestHandle.setLocation(x1, y2);
   }
 
-  private class RectHandle {
+  public class RectHandle {
     private int x, y;
     private boolean isDiagonalHandle;
     private String direction;

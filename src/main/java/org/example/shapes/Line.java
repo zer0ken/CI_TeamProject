@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Line implements Shape {
   private int x1, y1, x2, y2;
-  private LineHandle startHandle, endHandle;
+  public LineHandle startHandle, endHandle;
 
   public Line() {
     startHandle = new LineHandle(x1, y1, true);
@@ -59,7 +59,7 @@ public class Line implements Shape {
     endHandle.setLocation(x2, y2);
   }
 
-  private class LineHandle {
+  public class LineHandle {
     private int x, y;
     private boolean isStartHandle;
     private boolean isDragging;
