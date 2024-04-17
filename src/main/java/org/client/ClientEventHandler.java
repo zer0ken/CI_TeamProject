@@ -1,12 +1,12 @@
 package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.BaseEventHandler;
 import org.example.components.App;
-import org.protocol.Command;
 import org.protocol.ServersideProtocol;
+
+import java.util.function.Function;
 
 public class ClientEventHandler extends BaseEventHandler {
     private App app;
@@ -50,20 +50,5 @@ public class ClientEventHandler extends BaseEventHandler {
         System.out.println("@ 잘가라...");
         ((ClientStub) stub).removeClient(de.getUserName());
         app.updateClientsWindow();
-    }
-
-    @Override
-    protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
-        app.addShape(cmd.getId(), cmd.getShape());
-    }
-
-    @Override
-    protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
-        app.editShape(cmd.getId(), cmd.getShape());
-    }
-
-    @Override
-    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
-        app.removeShape(cmd.getId());
     }
 }

@@ -68,17 +68,5 @@ public class App extends JFrame {
     public void updateClientsWindow() {
         clientsWindow.setClients(clientStub.getClients());
     }
-
-    public void addShape(long id, String rawShape) {
-        // TODO 기능 추가
-    }
-
-    public void editShape(long id, String rawShape) {
-        // TODO 기능 추가
-    }
-
-    public void removeShape(long id) {
-        // TODO 기능 추가
-    }
 }
 
