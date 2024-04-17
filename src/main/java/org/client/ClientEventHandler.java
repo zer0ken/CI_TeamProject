@@ -6,8 +6,6 @@ import org.common.BaseEventHandler;
 import org.example.components.App;
 import org.protocol.ServersideProtocol;
 
-import java.util.function.Function;
-
 public class ClientEventHandler extends BaseEventHandler {
     private App app;
 

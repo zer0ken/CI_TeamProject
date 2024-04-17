@@ -2,12 +2,11 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
-import org.common.HasShapeMap;
 import org.common.ShapeMap;
 
 import java.util.TreeMap;
 
-public class ServerStub extends CMServerStub implements HasShapeMap {
+public class ServerStub extends CMServerStub {
     public static final String DEFAULT_SESSION = "session1";
     public static final String DEFAULT_GROUP = "g1";
     ShapeMap shapes;
@@ -22,22 +21,18 @@ public class ServerStub extends CMServerStub implements HasShapeMap {
         System.out.println("@ server casted\n\t" + message);
     }
 
-    @Override
     public void setShapes(TreeMap<Long, String> newShapes) {
         shapes.setShapes(newShapes);
     }
 
-    @Override
     public TreeMap<Long, String> getShapes() {
         return shapes.getShapes();
     }
 
-    @Override
     public void putShape(long id, String shape) {
         shapes.putShape(id, shape);
     }
 
-    @Override
     public void removeShape(long id) {
         shapes.removeShape(id);
     }

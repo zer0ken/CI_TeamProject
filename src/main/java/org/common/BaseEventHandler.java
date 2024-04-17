@@ -6,7 +6,6 @@ import kr.ac.konkuk.ccslab.cm.info.CMInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
 import org.protocol.Command;
 
-import java.util.Map;
 import java.util.function.Function;
 
 public abstract class BaseEventHandler implements CMAppEventHandler {
@@ -55,11 +54,6 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
                     case EDIT -> processEditShapeEvent(de, cmd);
                     case REMOVE -> processRemoveShapeEvent(de, cmd);
                 }
-
-                System.out.println("@ current shapes");
-                for (Map.Entry<Long, String> pair: ((HasShapeMap) stub).getShapes().entrySet()) {
-                    System.out.println("\t" + pair.getKey() + ": " + pair.getValue());
-                }
             }
         }
     }
@@ -67,7 +61,6 @@ public abstract class BaseEventHandler implements CMAppEventHandler {
     protected void processLoginAckEvent(CMSessionEvent se) {}
 
     protected void processJoinEvent(CMSessionEvent se) {}
-
 
     protected void processLogoutEvent(CMSessionEvent se) {}
 
