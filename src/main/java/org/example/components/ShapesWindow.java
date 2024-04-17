@@ -12,6 +12,8 @@ public class ShapesWindow extends _ComponentJPanel {
     ShapesWindow() {
         super(SHAPES_WINDOW_SIZE);
 
+        ShapeEditList.removeAllElements();
+
         JPanel ShapeEditPanel = new JPanel(new BorderLayout());
         ShapeEditPanel.setLayout(new BoxLayout(ShapeEditPanel, BoxLayout.Y_AXIS));
         ShapeEditPanel.add(new JScrollPane(ShapeEditList), BorderLayout.CENTER);
