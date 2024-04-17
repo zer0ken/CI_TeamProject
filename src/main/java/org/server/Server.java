@@ -7,20 +7,11 @@ public class Server {
     public Server() {
         serverStub = new ServerStub();
         eventHandler = new ServerEventHandler(serverStub);
-    }
-
-    public ServerStub getServerStub() {
-        return serverStub;
-    }
-
-    public ServerEventHandler getServerEventHandler() {
-        return eventHandler;
+        serverStub.setAppEventHandler(eventHandler);
+        serverStub.startCM();
     }
 
     public static void main(String[] args) {
-        Server server = new Server();
-        ServerStub cmStub = server.getServerStub();
-        cmStub.setAppEventHandler(server.getServerEventHandler());
-        cmStub.startCM();
+        new Server();
     }
 }

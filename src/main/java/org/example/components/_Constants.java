@@ -26,7 +26,7 @@ public class _Constants {
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 300;
+    public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;

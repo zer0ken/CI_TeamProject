@@ -4,6 +4,9 @@ import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.common.HasShapeMap;
 import org.common.ShapeMap;
+import org.example.components.Login;
+import org.protocol.Actions;
+import org.protocol.ClientsideProtocol;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -53,5 +56,28 @@ public class ClientStub extends CMClientStub implements HasShapeMap {
     @Override
     public void removeShape(long id) {
         shapes.removeShape(id);
+    }
+
+    public void requestLogin(boolean invalid) {
+        loginCM(Login.login(invalid), "");
+    }
+
+    public void requestAdd(String shape) {
+        String message = ClientsideProtocol.build(Actions.ADD, shape);
+        sendDummy(message);
+    }
+
+    public void requestEdit(long id, String shape) {
+        String message = ClientsideProtocol.build(Actions.EDIT, id, shape);
+        sendDummy(message);
+    }
+
+    public void requestRemove(long id) {
+        String message = ClientsideProtocol.build(Actions.REMOVE, id);
+        sendDummy(message);
+    }
+
+    public void requestLeave() {
+        terminateCM();
     }
 }

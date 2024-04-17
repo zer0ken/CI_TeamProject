@@ -1,5 +1,7 @@
 package org.example.components;
 
+import org.client.ClientStub;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -11,10 +13,7 @@ import java.util.function.Function;
 import static org.example.components._Constants.*;
 
 public class App extends JFrame {
-    private Function<String, Void> onAdd;
-    private BiFunction<Long, String, Void> onEdit;
-    private Function<Long, Void> onRemove;
-    private Function<Void, Void> onClose;
+    private ClientStub clientStub;
 
     private final StyleWindow styleWindow;
     private final EditWindow editWindow;
@@ -23,17 +22,9 @@ public class App extends JFrame {
     private final ClientsWindow clientsWindow;
     private final ShapesWindow shapesWindow;
 
-    public App(
-            Function<String, Void> onAdd,
-            BiFunction<Long, String, Void> onEdit,
-            Function<Long, Void> onRemove,
-            Function<Void, Void> onClose
-    ) {
+    public App(ClientStub clientStub) {
         this();
-        this.onAdd = onAdd;
-        this.onEdit = onEdit;
-        this.onRemove = onRemove;
-        this.onClose = onClose;
+        this.clientStub = clientStub;
     }
 
     private App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
@@ -48,7 +39,7 @@ public class App extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                onClose.apply(null);
+                clientStub.requestLeave();
                 super.windowClosed(e);
             }
         });
@@ -75,8 +66,8 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    public ClientsWindow getClientsWindow() {
-        return clientsWindow;
+    public void updateClientsWindow() {
+        clientsWindow.setClients(clientStub.getClients());
     }
 }
 
