@@ -21,6 +21,14 @@ public class _Constants {
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
 
+    public static final String TOOLBAR_TITLE = "Toolbar";
+    public static final String TOOLBAR_LINE = "직선";
+    public static final String TOOLBAR_RECT = "사각형";
+    public static final String TOOLBAR_OVAL = "원";
+    public static final String TOOLBAR_TEXT = "텍스트";
+    public static final String[] TOOLBAR_BUTTONS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
+
+
     // size
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;

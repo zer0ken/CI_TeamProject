@@ -6,7 +6,15 @@ import java.awt.*;
 
 import static org.example.components._Constants.*;
 
+import org.example.shapes.Shape;
+import org.example.shapes.Line;
+import org.example.shapes.Rectangle;
+import org.example.shapes.Oval;
+import org.example.shapes.Text;
+
 public class App extends JFrame {
+
+    public static Shape currentShape;
 
     public App() {
         super(APP_TITLE);
@@ -24,8 +32,9 @@ public class App extends JFrame {
         leftPanel.add(new EditWindow());
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar());
-        centerPanel.add(new Canvas());
+        Canvas canvas = new Canvas();
+        centerPanel.add(new Toolbar(canvas));
+        centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
         rightPanel.add(new ClientsWindow());
