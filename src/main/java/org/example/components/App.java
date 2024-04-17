@@ -40,7 +40,6 @@ public class App extends JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 clientStub.requestLeave();
-                super.windowClosed(e);
             }
         });
 
