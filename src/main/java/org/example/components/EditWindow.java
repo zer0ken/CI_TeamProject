@@ -13,6 +13,7 @@ import static org.example.components._Constants.CANVAS_SIZE;
 
 import static org.example.components._Constants.*;
 
+// 편집 화면
 public class EditWindow extends _ComponentJPanel {
 
     public java.util.List<Shape> shapes;
@@ -48,10 +49,11 @@ public class EditWindow extends _ComponentJPanel {
         // 기존 도형이 제거되고 수정된 도형이 Canvas에 나타남
 
         public void editShape(Shape shape) {
-            System.out.println("도형 수정");
             shapes.remove(shape);
         }
-
+        // 기존 도형을 제거하는 함수
+        // ->
+        // Component 수정
         public void editComponent(Graphics g) {
             super.paintComponent(g);
             for (Shape shape : shapes) {
@@ -63,7 +65,7 @@ public class EditWindow extends _ComponentJPanel {
                 editCurrentShape.drawSelection(g);
             }
         }
-        
+        // 새로운 Style이 적용된 도형이 새로 Canvas에 그려짐        
     }
 
     public Style getStyle() {
