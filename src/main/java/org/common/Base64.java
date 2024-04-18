@@ -3,7 +3,7 @@ package org.common;
 import java.io.*;
 
 public class Base64 {
-    public static String encodeBase64(Object object) {
+    public static String encode(Object object) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             ObjectOutput out = new ObjectOutputStream(bos);
@@ -15,7 +15,7 @@ public class Base64 {
         }
     }
 
-    public static Object decodeBase64(String base64) {
+    public static Object decode(String base64) {
         ByteArrayInputStream bis = new ByteArrayInputStream(java.util.Base64.getDecoder().decode(base64));
         try {
             ObjectInput in = new ObjectInputStream(bis);
