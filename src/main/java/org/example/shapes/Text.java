@@ -6,6 +6,7 @@ public class Text extends Shape {
   public TextHandle northHandle, southHandle, eastHandle, westHandle;
   public TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
   private int textWidth, textHeight;
+  private int centerX, centerY;
 
   public Text() {
     northHandle = new TextHandle((x1 + x2) / 2, y1, false, "north");
@@ -36,31 +37,43 @@ public class Text extends Shape {
 
   @Override
   public void draw(Graphics g) {
-    if (x1 < x2 && y1 < y2) {
-      g.drawString("Text", x1, y2);
-    } else if (x2 < x1 && y1 < y2) {
-      g.drawString("Text", x2, y2);
-    } else if (x1 < x2 && y2 < y1) {
-      g.drawString("Text", x1, y1);
-    } else if (x2 < x1 && y2 < y1) {
-      g.drawString("Text", x2, y1);
-    }
     FontMetrics metrics = g.getFontMetrics();
     textWidth = metrics.stringWidth("Text");
     textHeight = metrics.getHeight();
+
+    if (x1 < x2 && y1 < y2) {
+      centerX = x1 + (x2 - x1) / 2;
+      centerY = y1 + (y2 - y1) / 2;
+    } else if (x2 < x1 && y1 < y2) {
+      centerX = x2 + (x1 - x2) / 2;
+      centerY = y1 + (y2 - y1) / 2;
+    } else if (x1 < x2 && y2 < y1) {
+      centerX = x1 + (x2 - x1) / 2;
+      centerY = y2 + (y1 - y2) / 2;
+    } else if (x2 < x1 && y2 < y1) {
+      centerX = x2 + (x1 - x2) / 2;
+      centerY = y2 + (y1 - y2) / 2;
+    }
+    g.drawString("Text", centerX - textWidth/2, centerY + textHeight/2);
   }
 
   @Override
   public void drawSelection(Graphics g) {
     if (x1 < x2 && y1 < y2) {
-      g.drawString("Text", x1, y2);
+      centerX = x1 + (x2 - x1) / 2;
+      centerY = y1 + (y2 - y1) / 2;
     } else if (x2 < x1 && y1 < y2) {
-      g.drawString("Text", x2, y2);
+      centerX = x2 + (x1 - x2) / 2;
+      centerY = y1 + (y2 - y1) / 2;
     } else if (x1 < x2 && y2 < y1) {
-      g.drawString("Text", x1, y1);
+      centerX = x1 + (x2 - x1) / 2;
+      centerY = y2 + (y1 - y2) / 2;
     } else if (x2 < x1 && y2 < y1) {
-      g.drawString("Text", x2, y1);
+      centerX = x2 + (x1 - x2) / 2;
+      centerY = y2 + (y1 - y2) / 2;
     }
+    g.drawString("Text", centerX - textWidth/2, centerY + textHeight/2);
+
     northHandle.drawHandle(g);
     southHandle.drawHandle(g);
     eastHandle.drawHandle(g);
