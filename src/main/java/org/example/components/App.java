@@ -3,12 +3,9 @@ package org.example.components;
 import org.client.ClientStub;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static org.example.components._Constants.*;
 
