@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ColorInput extends LabeledSlot {
-    Color color = Color.BLACK;
+    Color color;
 
-    public ColorInput(String label, String chooserTitle) {
+    public ColorInput(String label, String chooserTitle, Color color) {
         super(label);
+        this.color = color;
         JButton lineColorButton = new JButton();
         lineColorButton.setBackground(color);
 

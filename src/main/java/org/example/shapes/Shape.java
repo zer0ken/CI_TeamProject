@@ -4,7 +4,16 @@ import java.awt.*;
 
 public abstract class Shape {
   protected int x1, y1, x2, y2;
+  protected int lineWidth;
+  protected Color lineColor;
+  protected Color fillColor;
+  protected int textSize;
+  protected Color textColor;
+  protected String textContent;
+
   public abstract void setLocation(int x1, int y1, int x2, int y2);
+
+  public abstract void setStyle(Style style);
 
   public abstract void draw(Graphics g);
 

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import static org.example.components._Constants.*;
 
+import org.example.shapes.Style;
 import org.example.shapes.Shape;
 import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
@@ -14,10 +15,12 @@ import org.example.shapes.Text;
 public class Toolbar extends _ComponentJPanel {
     private JLabel titleLabel;
     private Canvas canvas;
+    private StyleWindow styleWindow;
 
-    Toolbar(Canvas canvas) {
+    Toolbar(Canvas canvas, StyleWindow styleWindow) {
         this();
         this.canvas = canvas;
+        this.styleWindow = styleWindow;
     }
 
     Toolbar() {
@@ -43,26 +46,26 @@ public class Toolbar extends _ComponentJPanel {
             if (e.getClickCount() == 2) {
                 JButton source = (JButton) e.getSource();
                 Shape currentTShape;
+                Style style;
                 switch (source.getText()) {
                     case TOOLBAR_LINE :
                         currentTShape = new Line();
-                        currentTShape.setLocation(300, 300, 400, 400);
                         break;
                     case TOOLBAR_RECT:
                         currentTShape = new Rectangle();
-                        currentTShape.setLocation(300, 300, 400, 400);
                         break;
                     case TOOLBAR_OVAL:
                         currentTShape = new Oval();
-                        currentTShape.setLocation(300, 300, 400, 400);
                         break;
                     case TOOLBAR_TEXT:
                         currentTShape = new Text();
-                        currentTShape.setLocation(300, 300, 400, 400);
                         break;
                     default:
                         return;
                 }
+                currentTShape.setLocation(300, 300, 400, 400);
+                style = styleWindow.getStyle();
+                currentTShape.setStyle(style);
                 canvas.addShape(currentTShape);
                 canvas.repaint();
             }

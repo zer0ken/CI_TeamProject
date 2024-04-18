@@ -21,16 +21,27 @@ public class Line extends Shape {
   }
 
   @Override
+  public void setStyle(Style style) {
+    this.lineWidth = style.getLineWidth();
+    this.lineColor = style.getLineColor();
+  }
+
+  @Override
   public void draw(Graphics g) {
-    g.setColor(Color.BLACK);
-    g.drawLine(x1, y1, x2, y2);
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setStroke(new BasicStroke(lineWidth));
+    g2d.setColor(lineColor);
+    g2d.drawLine(x1, y1, x2, y2);
   }
 
   @Override
   public void drawSelection(Graphics g) {
-    g.drawLine(x1, y1, x2, y2);
     startHandle.drawHandle(g);
     endHandle.drawHandle(g);
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setStroke(new BasicStroke(lineWidth));
+    g2d.setColor(lineColor);
+    g2d.drawLine(x1, y1, x2, y2);
   }
 
   @Override

@@ -8,8 +8,6 @@ import static org.example.components._Constants.*;
 
 public class App extends JFrame {
 
-    public static Shape currentShape;
-
     public App() {
         super(APP_TITLE);
 
@@ -22,12 +20,13 @@ public class App extends JFrame {
 
         // init inner components
         JPanel leftPanel = new VerticalJPanel();
-        leftPanel.add(new StyleWindow());
+        StyleWindow styleWindow = new StyleWindow();
+        leftPanel.add(styleWindow);
         leftPanel.add(new EditWindow());
 
         JPanel centerPanel = new VerticalJPanel();
         Canvas canvas = new Canvas();
-        centerPanel.add(new Toolbar(canvas));
+        centerPanel.add(new Toolbar(canvas, styleWindow));
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();

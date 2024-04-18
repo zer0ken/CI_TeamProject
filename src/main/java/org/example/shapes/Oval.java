@@ -25,29 +25,31 @@ public class Oval extends Shape {
   }
 
   @Override
+  public void setStyle(Style style) {
+    this.lineWidth = style.getLineWidth();
+    this.lineColor = style.getLineColor();
+    this.fillColor = style.getFillColor();
+  }
+
+  @Override
   public void draw(Graphics g) {
-    if (x1 < x2 && y1 < y2) {
-      g.drawOval(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y1 < y2) {
-      g.drawOval(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x1 < x2 && y2 < y1) {
-      g.drawOval(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y2 < y1) {
-      g.drawOval(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    }
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setStroke(new BasicStroke(lineWidth));
+    g2d.setPaint(fillColor);
+    g2d.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+    g2d.setColor(lineColor);
+    g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
   }
 
   @Override
   public void drawSelection(Graphics g) {
-    if (x1 < x2 && y1 < y2) {
-      g.drawOval(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y1 < y2) {
-      g.drawOval(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x1 < x2 && y2 < y1) {
-      g.drawOval(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y2 < y1) {
-      g.drawOval(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    }
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setStroke(new BasicStroke(lineWidth));
+    g2d.setPaint(fillColor);
+    g2d.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+    g2d.setColor(lineColor);
+    g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+
     northEastHandle.drawHandle(g);
     northWestHandle.drawHandle(g);
     southEastHandle.drawHandle(g);

@@ -36,9 +36,20 @@ public class Text extends Shape {
   }
 
   @Override
+  public void setStyle(Style style) {
+    this.textSize = style.getTextSize();
+    this.textColor = style.getTextColor();
+    this.textContent = style.getTextContent();
+  }
+
+  @Override
   public void draw(Graphics g) {
-    FontMetrics metrics = g.getFontMetrics();
-    textWidth = metrics.stringWidth("Text");
+    Font font = new Font(null, Font.PLAIN, textSize);
+    g.setColor(textColor);
+    g.setFont(font);
+
+    FontMetrics metrics = g.getFontMetrics(font);
+    textWidth = metrics.stringWidth(textContent);
     textHeight = metrics.getHeight();
 
     if (x1 < x2 && y1 < y2) {
@@ -54,11 +65,18 @@ public class Text extends Shape {
       centerX = x2 + (x1 - x2) / 2;
       centerY = y2 + (y1 - y2) / 2;
     }
-    g.drawString("Text", centerX - textWidth/2, centerY + textHeight/2);
+    g.drawString(textContent, centerX - textWidth/2, centerY + textHeight/2);
   }
 
   @Override
   public void drawSelection(Graphics g) {
+    Font font = new Font(Font.SANS_SERIF, Font.PLAIN, textSize);
+    g.setFont(font);
+    g.setColor(textColor);
+    FontMetrics metrics = g.getFontMetrics(font);
+    textWidth = metrics.stringWidth(textContent);
+    textHeight = metrics.getHeight();
+
     if (x1 < x2 && y1 < y2) {
       centerX = x1 + (x2 - x1) / 2;
       centerY = y1 + (y2 - y1) / 2;
@@ -72,7 +90,7 @@ public class Text extends Shape {
       centerX = x2 + (x1 - x2) / 2;
       centerY = y2 + (y1 - y2) / 2;
     }
-    g.drawString("Text", centerX - textWidth/2, centerY + textHeight/2);
+    g.drawString(textContent, centerX - textWidth/2, centerY + textHeight/2);
 
     northHandle.drawHandle(g);
     southHandle.drawHandle(g);

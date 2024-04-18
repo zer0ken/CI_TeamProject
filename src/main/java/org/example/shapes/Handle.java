@@ -11,7 +11,7 @@ public abstract class Handle {
   protected static final int HANDLE_SIZE = 6;
 
   public void drawHandle(Graphics g) {
-    g.setColor(Color.BLACK);
+    g.setColor(Color.BLUE);
     g.fillRect(x - HANDLE_SIZE / 2, y - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
   }
   public boolean contains(Point p) {

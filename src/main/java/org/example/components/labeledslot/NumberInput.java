@@ -5,10 +5,11 @@ import javax.swing.*;
 public class NumberInput extends LabeledSlot {
     private JSpinner numberSpinner;
 
-    private int value = 0;
+    private int value;
 
-    public NumberInput(String label, SpinnerNumberModel model) {
+    public NumberInput(String label, int num, SpinnerNumberModel model) {
         super(label);
+        this.value = num;
         numberSpinner = new JSpinner(model);
 
         numberSpinner.addChangeListener(e -> {
