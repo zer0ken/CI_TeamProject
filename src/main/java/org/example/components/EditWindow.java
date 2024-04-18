@@ -3,17 +3,77 @@ package org.example.components;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
+import org.example.shapes.Shape;
+import org.example.shapes.Line;
+import org.example.shapes.Rectangle;
+import org.example.shapes.Oval;
+import org.example.shapes.Text;
+import org.example.components.StyleWindow.*;
+import static org.example.components._Constants.CANVAS_SIZE;
+
 import static org.example.components._Constants.*;
 
 public class EditWindow extends _ComponentJPanel {
-    
+
+    public java.util.List<Shape> shapes;
+    private Shape editCurrentShape;
+
     EditWindow() {
-        super(SHAPES_WINDOW_SIZE);
+        super(EDIT_WINDOW_SIZE);
+
+        setBorder(BorderFactory.createTitledBorder(EDIT_WINDOW_SIZE);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        lineWidth = new NumberInput(STYLE_LABELS[0],
+                new SpinnerNumberModel(10, 0, null, 1));
+        lineColor = new ColorInput(STYLE_LABELS[1], STYLE_LINE_COLOR_TITLE);
+        fillColor = new ColorInput(STYLE_LABELS[2], STYLE_FILL_COLOR_TITLE);
+
+        textSize = new NumberInput(STYLE_LABELS[3],
+                new SpinnerNumberModel(10, 0, null, 1));
+        textColor = new ColorInput(STYLE_LABELS[4], STYLE_TEXT_COLOR_TITLE);
+        textContent = new TextInput(STYLE_LABELS[5]);
+
+        add(Box.createRigidArea(new Dimension(0, H_SPACE)));
+
+        add(lineWidth);
+        add(lineColor);
+        add(fillColor);
+        add(textSize);
+        add(textColor);
+        add(textContent);
 
         // 도형을 편집할 경우
         // 해당 도형의 Style을 선택
         // 기존 도형이 제거되고 수정된 도형이 Canvas에 나타남
+
+        public void editShape(Shape shape) {
+            System.out.println("도형 수정");
+            shapes.remove(shape);
+        }
+
+        public void editComponent(Graphics g) {
+            super.paintComponent(g);
+            for (Shape shape : shapes) {
+                if (shape != null) {
+                    shape.draw(g);
+                }
+            }
+            if (editCurrentShape != null) {
+                editCurrentShape.drawSelection(g);
+            }
+        }
         
+    }
+
+    public Style getStyle() {
+        return new Style(
+                lineWidth.getValue(),
+                lineColor.getValue(),
+                fillColor.getValue(),
+                textSize.getValue(),
+                textColor.getValue(),
+                textContent.getValue()
+        );
     }
 }
