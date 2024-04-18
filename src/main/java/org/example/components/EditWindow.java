@@ -2,12 +2,18 @@ package org.example.components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+
 import org.example.shapes.Shape;
 import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
 import org.example.shapes.Oval;
 import org.example.shapes.Text;
+import org.example.shapes.Style;
+
+import org.example.components.labeledslot.ColorInput;
+import org.example.components.labeledslot.NumberInput;
+import org.example.components.labeledslot.TextInput;
+
 import org.example.components.StyleWindow.*;
 import static org.example.components._Constants.CANVAS_SIZE;
 
@@ -15,6 +21,13 @@ import static org.example.components._Constants.*;
 
 // 편집 화면
 public class EditWindow extends _ComponentJPanel {
+
+    private final NumberInput lineWidth;
+    private final ColorInput lineColor;
+    private final ColorInput fillColor;
+    private final NumberInput textSize;
+    private final ColorInput textColor;
+    private final TextInput textContent;
 
     public java.util.List<Shape> shapes;
     private Shape editCurrentShape;
@@ -54,7 +67,7 @@ public class EditWindow extends _ComponentJPanel {
         // 기존 도형을 제거하는 함수
         // ->
         // Component 수정
-        public void editComponent(Graphics g) {
+        public void paintComponent(Graphics g) {
             super.paintComponent(g);
             for (Shape shape : shapes) {
                 if (shape != null) {
@@ -65,7 +78,7 @@ public class EditWindow extends _ComponentJPanel {
                 editCurrentShape.drawSelection(g);
             }
         }
-        // 새로운 Style이 적용된 도형이 새로 Canvas에 그려짐        
+        // 새로운 Style이 적용된 도형이 새로 Canvas에 그려짐
     }
 
     public Style getStyle() {
