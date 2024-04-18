@@ -48,10 +48,10 @@ public class Oval extends Shape {
     } else if (x2 < x1 && y2 < y1) {
       g.drawOval(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
     }
-    northEastHandle.draw(g);
-    northWestHandle.draw(g);
-    southEastHandle.draw(g);
-    southWestHandle.draw(g);
+    northEastHandle.drawHandle(g);
+    northWestHandle.drawHandle(g);
+    southEastHandle.drawHandle(g);
+    southWestHandle.drawHandle(g);
   }
 
   @Override
@@ -69,6 +69,42 @@ public class Oval extends Shape {
     northWestHandle.setLocation(x1, y1);
     southEastHandle.setLocation(x2, y2);
     southWestHandle.setLocation(x1, y2);
+  }
+
+  @Override
+  public void allHandleStopDrag() {
+    northEastHandle.stopDragging();
+    northWestHandle.stopDragging();
+    southEastHandle.stopDragging();
+    southWestHandle.stopDragging();
+  }
+
+  @Override
+  public void fineAndStartDrag(Point p){
+    if (northEastHandle.contains(p)) {
+      northEastHandle.startDragging(p);
+    } else if (northWestHandle.contains(p)) {
+      northWestHandle.startDragging(p);
+    } else if (southEastHandle.contains(p)) {
+      southEastHandle.startDragging(p);
+    } else if (southWestHandle.contains(p)) {
+      southWestHandle.startDragging(p);
+    }
+  }
+
+  @Override
+  public void handleDrag(Point p, int dx, int dy) {
+    if (northEastHandle.isDragging()) {
+      northEastHandle.drag(p);
+    } else if (northWestHandle.isDragging()) {
+      northWestHandle.drag(p);
+    } else if (southEastHandle.isDragging()) {
+      southEastHandle.drag(p);
+    } else if (southWestHandle.isDragging()) {
+      southWestHandle.drag(p);
+    } else {
+      move(dx, dy);
+    }
   }
 
   public void setOvalX1Y1(int x) {

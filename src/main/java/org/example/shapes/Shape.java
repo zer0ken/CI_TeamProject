@@ -13,4 +13,11 @@ public abstract class Shape {
   public abstract boolean contains(Point p);
 
   public abstract void move(int dx, int dy);
+
+  public abstract void allHandleStopDrag();
+
+  public abstract void fineAndStartDrag(Point p);
+
+  public abstract void handleDrag(Point p, int dx, int dy);
+
 }

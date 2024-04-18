@@ -29,8 +29,8 @@ public class Line extends Shape {
   @Override
   public void drawSelection(Graphics g) {
     g.drawLine(x1, y1, x2, y2);
-    startHandle.draw(g);
-    endHandle.draw(g);
+    startHandle.drawHandle(g);
+    endHandle.drawHandle(g);
   }
 
   @Override
@@ -48,6 +48,32 @@ public class Line extends Shape {
     y2 += dy;
     startHandle.setLocation(x1, y1);
     endHandle.setLocation(x2, y2);
+  }
+
+  @Override
+  public void allHandleStopDrag() {
+    startHandle.stopDragging();
+    endHandle.stopDragging();
+  }
+
+  @Override
+  public void fineAndStartDrag(Point p){
+    if (startHandle.contains(p)){
+      startHandle.startDragging(p);
+    } else if (endHandle.contains(p)) {
+      endHandle.startDragging(p);
+    }
+  }
+
+  @Override
+  public void handleDrag(Point p, int dx, int dy) {
+    if (startHandle.isDragging()) {
+      startHandle.drag(p);
+    } else if (endHandle.isDragging()) {
+      endHandle.drag(p);
+    } else {
+      move(dx, dy);
+    }
   }
 
   public void setLineX1Y1(int x, int y) {

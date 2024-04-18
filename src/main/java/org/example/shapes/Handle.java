@@ -10,7 +10,7 @@ public abstract class Handle {
   protected int offsetX, offsetY;
   protected static final int HANDLE_SIZE = 6;
 
-  public void draw(Graphics g) {
+  public void drawHandle(Graphics g) {
     g.setColor(Color.BLACK);
     g.fillRect(x - HANDLE_SIZE / 2, y - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
   }

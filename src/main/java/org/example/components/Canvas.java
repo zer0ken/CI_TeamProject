@@ -28,100 +28,21 @@ public class Canvas extends _ComponentJPanel {
                 for (int i = shapes.size() - 1; i >= 0; i--) {
                     Shape shape = shapes.get(i);
                     if (shape.contains(e.getPoint())) {
-
                         mousePoint = e.getPoint();
-                        // 드래그 상태를 설정합니다.
-                        if (currentCShape instanceof Line) {                 // 직선인 경우
-                            ((Line) currentCShape).startHandle.stopDragging();
-                            ((Line) currentCShape).endHandle.stopDragging();
-                            if (((Line) currentCShape).startHandle.contains(e.getPoint())) {
-                                ((Line) currentCShape).startHandle.startDragging(e.getPoint());
-                            } else if (((Line) currentCShape).endHandle.contains(e.getPoint())) {
-                                ((Line) currentCShape).endHandle.startDragging(e.getPoint());
-                            }
 
-                        } else if (currentCShape instanceof Rectangle) {   // 사각형인 경우
-                            ((Rectangle) currentCShape).northHandle.stopDragging();
-                            ((Rectangle) currentCShape).southHandle.stopDragging();
-                            ((Rectangle) currentCShape).eastHandle.stopDragging();
-                            ((Rectangle) currentCShape).westHandle.stopDragging();
-
-                            ((Rectangle) currentCShape).northEastHandle.stopDragging();
-                            ((Rectangle) currentCShape).northWestHandle.stopDragging();
-                            ((Rectangle) currentCShape).southEastHandle.stopDragging();
-                            ((Rectangle) currentCShape).southWestHandle.stopDragging();
-
-                            if (((Rectangle) currentCShape).northHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).northHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).southHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).southHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).eastHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).eastHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).westHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).westHandle.startDragging(e.getPoint());
-
-                            } else if (((Rectangle) currentCShape).northEastHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).northEastHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).northWestHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).northWestHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).southEastHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).southEastHandle.startDragging(e.getPoint());
-                            } else if (((Rectangle) currentCShape).southWestHandle.contains(e.getPoint())) {
-                                ((Rectangle) currentCShape).southWestHandle.startDragging(e.getPoint());
-                            }
-
-                        } else if (currentCShape instanceof Oval) {        // 원인 경우
-                            ((Oval) currentCShape).northEastHandle.stopDragging();
-                            ((Oval) currentCShape).northWestHandle.stopDragging();
-                            ((Oval) currentCShape).southEastHandle.stopDragging();
-                            ((Oval) currentCShape).southWestHandle.stopDragging();
-
-                            if (((Oval) currentCShape).northEastHandle.contains(e.getPoint())) {
-                                ((Oval) currentCShape).northEastHandle.startDragging(e.getPoint());
-                            } else if (((Oval) currentCShape).northWestHandle.contains(e.getPoint())) {
-                                ((Oval) currentCShape).northWestHandle.startDragging(e.getPoint());
-                            } else if (((Oval) currentCShape).southEastHandle.contains(e.getPoint())) {
-                                ((Oval) currentCShape).southEastHandle.startDragging(e.getPoint());
-                            } else if (((Oval) currentCShape).southWestHandle.contains(e.getPoint())) {
-                                ((Oval) currentCShape).southWestHandle.startDragging(e.getPoint());
-                            }
-
-                        } else if (currentCShape instanceof Text) {          // 텍스트인 경우
-                            ((Text) currentCShape).northHandle.stopDragging();
-                            ((Text) currentCShape).southHandle.stopDragging();
-                            ((Text) currentCShape).eastHandle.stopDragging();
-                            ((Text) currentCShape).westHandle.stopDragging();
-
-                            ((Text) currentCShape).northEastHandle.stopDragging();
-                            ((Text) currentCShape).northWestHandle.stopDragging();
-                            ((Text) currentCShape).southEastHandle.stopDragging();
-                            ((Text) currentCShape).southWestHandle.stopDragging();
-
-                            if (((Text) currentCShape).northHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).northHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).southHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).southHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).eastHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).eastHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).westHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).westHandle.startDragging(e.getPoint());
-
-                            } else if (((Text) currentCShape).northEastHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).northEastHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).northWestHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).northWestHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).southEastHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).southEastHandle.startDragging(e.getPoint());
-                            } else if (((Text) currentCShape).southWestHandle.contains(e.getPoint())) {
-                                ((Text) currentCShape).southWestHandle.startDragging(e.getPoint());
-                            }
-
+                        if (currentCShape instanceof Line || currentCShape instanceof Rectangle
+                            || currentCShape instanceof Oval || currentCShape instanceof Text) {
+                            currentCShape.allHandleStopDrag();
+                            currentCShape.fineAndStartDrag(e.getPoint());
                         }
 
                         currentCShape = shape;
                         repaint();
                         return;
                     }
+                }
+                if(currentCShape != null){
+                    currentCShape.allHandleStopDrag();
                 }
                 currentCShape = null;
                 repaint();
@@ -135,89 +56,15 @@ public class Canvas extends _ComponentJPanel {
                     int dx = e.getX() - mousePoint.x;
                     int dy = e.getY() - mousePoint.y;
 
-                    if (currentCShape instanceof Line) {         // 직선인 경우
-                        if (((Line) currentCShape).startHandle.isDragging()) {
-                            ((Line) currentCShape).startHandle.drag(e.getPoint());
-                        } else if (((Line) currentCShape).endHandle.isDragging()) {
-                            ((Line) currentCShape).endHandle.drag(e.getPoint());
-                        } else {
-                            currentCShape.move(dx, dy);
-                        }
+                    if (currentCShape instanceof Line || currentCShape instanceof Rectangle
+                        || currentCShape instanceof Oval || currentCShape instanceof Text) {
+
+                        currentCShape.handleDrag(e.getPoint(), dx, dy);
                         mousePoint = e.getPoint();
                         repaint();
                         return;
-
-                    } else if (currentCShape instanceof Rectangle) {     // 사각형인 경우
-                        if (((Rectangle) currentCShape).northHandle.isDragging()) {
-                            ((Rectangle) currentCShape).northHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).southHandle.isDragging()) {
-                            ((Rectangle) currentCShape).southHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).eastHandle.isDragging()) {
-                            ((Rectangle) currentCShape).eastHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).westHandle.isDragging()) {
-                            ((Rectangle) currentCShape).westHandle.drag(e.getPoint());
-
-                        } else if (((Rectangle) currentCShape).northEastHandle.isDragging()) {
-                            ((Rectangle) currentCShape).northEastHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).northWestHandle.isDragging()) {
-                            ((Rectangle) currentCShape).northWestHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).southEastHandle.isDragging()) {
-                            ((Rectangle) currentCShape).southEastHandle.drag(e.getPoint());
-                        } else if (((Rectangle) currentCShape).southWestHandle.isDragging()) {
-                            ((Rectangle) currentCShape).southWestHandle.drag(e.getPoint());
-
-                        } else {
-                            currentCShape.move(dx, dy);
-                        }
-                        mousePoint = e.getPoint();
-                        repaint();
-                        return;
-
-                    } else if (currentCShape instanceof Oval) {    // 원인 경우
-                        if (((Oval) currentCShape).northEastHandle.isDragging()) {
-                            ((Oval) currentCShape).northEastHandle.drag(e.getPoint());
-                        } else if (((Oval) currentCShape).northWestHandle.isDragging()) {
-                            ((Oval) currentCShape).northWestHandle.drag(e.getPoint());
-                        } else if (((Oval) currentCShape).southEastHandle.isDragging()) {
-                            ((Oval) currentCShape).southEastHandle.drag(e.getPoint());
-                        } else if (((Oval) currentCShape).southWestHandle.isDragging()) {
-                            ((Oval) currentCShape).southWestHandle.drag(e.getPoint());
-
-                        } else {
-                            currentCShape.move(dx, dy);
-                        }
-                        mousePoint = e.getPoint();
-                        repaint();
-                        return;
-                    } else if (currentCShape instanceof Text) {     // 텍스트인 경우
-                        if (((Text) currentCShape).northHandle.isDragging()) {
-                            ((Text) currentCShape).northHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).southHandle.isDragging()) {
-                            ((Text) currentCShape).southHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).eastHandle.isDragging()) {
-                            ((Text) currentCShape).eastHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).westHandle.isDragging()) {
-                            ((Text) currentCShape).westHandle.drag(e.getPoint());
-
-                        } else if (((Text) currentCShape).northEastHandle.isDragging()) {
-                            ((Text) currentCShape).northEastHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).northWestHandle.isDragging()) {
-                            ((Text) currentCShape).northWestHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).southEastHandle.isDragging()) {
-                            ((Text) currentCShape).southEastHandle.drag(e.getPoint());
-                        } else if (((Text) currentCShape).southWestHandle.isDragging()) {
-                            ((Text) currentCShape).southWestHandle.drag(e.getPoint());
-
-                        } else {
-                            currentCShape.move(dx, dy);
-                        }
-                        mousePoint = e.getPoint();
-                        repaint();
-                        return;
-
                     }
 
-                    currentCShape.move(dx, dy);
                     mousePoint = e.getPoint();
                     repaint();
                 }
