@@ -1,16 +1,18 @@
 package org.common;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class ShapeMap {
 
-    private TreeMap<Long, String> shapes = new TreeMap<>();
+    private Map<Long, String> shapes = Collections.synchronizedMap(new TreeMap<>());
 
-    public void setShapes(TreeMap<Long, String> newShapes) {
+    public void setShapes(Map<Long, String> newShapes) {
         shapes = newShapes;
     }
 
-    public TreeMap<Long, String> getShapes() {
+    public Map<Long, String> getShapes() {
         return shapes;
     }
 

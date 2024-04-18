@@ -4,6 +4,7 @@ import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 import org.common.ShapeMap;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 public class ServerStub extends CMServerStub {
@@ -21,11 +22,11 @@ public class ServerStub extends CMServerStub {
         System.out.println("@ server casted\n\t" + message);
     }
 
-    public void setShapes(TreeMap<Long, String> newShapes) {
+    public void setShapes(Map<Long, String> newShapes) {
         shapes.setShapes(newShapes);
     }
 
-    public TreeMap<Long, String> getShapes() {
+    public Map<Long, String> getShapes() {
         return shapes.getShapes();
     }
 
