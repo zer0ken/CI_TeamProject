@@ -2,8 +2,7 @@ package org.example.shapes;
 
 import java.awt.*;
 
-public class Line implements Shape {
-  private int x1, y1, x2, y2;
+public class Line extends Shape {
   public LineHandle startHandle, endHandle;
 
   public Line() {
@@ -11,11 +10,42 @@ public class Line implements Shape {
     endHandle = new LineHandle(x2, y2, false);
   }
 
+  @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
+    startHandle.setLocation(x1, y1);
+    endHandle.setLocation(x2, y2);
+  }
+
+  @Override
+  public void draw(Graphics g) {
+    g.setColor(Color.BLACK);
+    g.drawLine(x1, y1, x2, y2);
+  }
+
+  @Override
+  public void drawSelection(Graphics g) {
+    g.drawLine(x1, y1, x2, y2);
+    startHandle.draw(g);
+    endHandle.draw(g);
+  }
+
+  @Override
+  public boolean contains(Point p) {
+    double m = (double) (y2 - y1) / (x2 - x1);
+    double y = m * (p.x - x1) + y1;
+    return Math.abs(p.y - y) < 3;
+  }
+
+  @Override
+  public void move(int dx, int dy) {
+    x1 += dx;
+    y1 += dy;
+    x2 += dx;
+    y2 += dy;
     startHandle.setLocation(x1, y1);
     endHandle.setLocation(x2, y2);
   }
@@ -32,39 +62,8 @@ public class Line implements Shape {
     endHandle.setLocation(x, y);
   }
 
-
-  public void draw(Graphics g) {
-    g.setColor(Color.BLACK);
-    g.drawLine(x1, y1, x2, y2);
-  }
-
-  public void drawSelection(Graphics g) {
-    g.drawLine(x1, y1, x2, y2);
-    startHandle.draw(g);
-    endHandle.draw(g);
-  }
-
-  public boolean contains(Point p) {
-    double m = (double) (y2 - y1) / (x2 - x1);
-    double y = m * (p.x - x1) + y1;
-    return Math.abs(p.y - y) < 3;
-  }
-
-  public void move(int dx, int dy) {
-    x1 += dx;
-    y1 += dy;
-    x2 += dx;
-    y2 += dy;
-    startHandle.setLocation(x1, y1);
-    endHandle.setLocation(x2, y2);
-  }
-
-  public class LineHandle {
-    private int x, y;
+  public class LineHandle extends Handle {
     private boolean isStartHandle;
-    private boolean isDragging;
-    private int offsetX, offsetY;
-    private static final int HANDLE_SIZE = 6;
 
     public LineHandle(int x, int y, boolean isStartHandle) {
       this.x = x;
@@ -72,36 +71,7 @@ public class Line implements Shape {
       this.isStartHandle = isStartHandle;
     }
 
-    public void draw(Graphics g) {
-      g.setColor(Color.BLACK);
-      g.fillRect(x - HANDLE_SIZE / 2, y - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
-    }
-
-    public boolean contains(Point p) {
-      return p.x >= x - HANDLE_SIZE / 2 && p.x <= x + HANDLE_SIZE / 2 &&
-          p.y >= y - HANDLE_SIZE / 2 && p.y <= y + HANDLE_SIZE / 2;
-    }
-
-    public void setLocation(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
-
-    public void startDragging(Point mousePoint) {
-      isDragging = true;
-      offsetX = mousePoint.x - x;
-      offsetY = mousePoint.y - y;
-    }
-
-    public void stopDragging() {
-      isDragging = false;
-    }
-
-    public boolean isDragging() {
-      return isDragging;
-    }
-
-
+    @Override
     public void drag(Point mousePoint) {
       x = mousePoint.x - offsetX;
       y = mousePoint.y - offsetY;

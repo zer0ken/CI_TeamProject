@@ -1,16 +1,15 @@
 package org.example.components;
 
 import static org.example.components._Constants.CANVAS_SIZE;
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+
 import org.example.shapes.Shape;
 import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
 import org.example.shapes.Oval;
 import org.example.shapes.Text;
-
-import static org.example.components._Constants.CANVAS_SIZE;
 
 public class Canvas extends _ComponentJPanel {
     public java.util.List<Shape> shapes;
@@ -26,9 +25,9 @@ public class Canvas extends _ComponentJPanel {
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                for (int i = shapes.size() - 1; i >= 0; i--) {  // 도형 리스트를 순회하면서 클릭된 지점이 도형 내에 있는지 확인
+                for (int i = shapes.size() - 1; i >= 0; i--) {
                     Shape shape = shapes.get(i);
-                    if (shape.contains(e.getPoint())) {     // 리스트 안의 도형일 경우
+                    if (shape.contains(e.getPoint())) {
 
                         mousePoint = e.getPoint();
                         // 드래그 상태를 설정합니다.
@@ -132,8 +131,6 @@ public class Canvas extends _ComponentJPanel {
         // Canvas에 마우스 드래그 이벤트를 처리하는 리스너 추가
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                // 마우스를 드래그할 때, 현재 선택된 도형이 있을 경우
-                // 마우스 이동에 따라 해당 도형을 이동시키면서 다시 그림
                 if (currentCShape != null) {
                     int dx = e.getX() - mousePoint.x;
                     int dy = e.getY() - mousePoint.y;
@@ -242,7 +239,6 @@ public class Canvas extends _ComponentJPanel {
 
     // Canvas 객체에 새로운 도형을 추가하는 메소드
     public void addShape(Shape shape) {
-        System.out.println("도형추가");
         shapes.add(shape);
     }
 }

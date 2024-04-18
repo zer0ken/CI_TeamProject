@@ -2,8 +2,7 @@ package org.example.shapes;
 
 import java.awt.*;
 
-public class Rectangle implements Shape {
-  private int x1, y1, x2, y2;
+public class Rectangle extends Shape {
   public RectHandle northHandle, southHandle, eastHandle, westHandle;
   public RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
@@ -18,11 +17,67 @@ public class Rectangle implements Shape {
     southWestHandle = new RectHandle(x1, y2, true, "southWest");
   }
 
+  @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
+    northHandle.setLocation((x1 + x2) / 2, y1);
+    southHandle.setLocation((x1 + x2) / 2, y2);
+    eastHandle.setLocation(x2, (y1 + y2) / 2);
+    westHandle.setLocation(x1, (y1 + y2) / 2);
+    northEastHandle.setLocation(x2, y1);
+    northWestHandle.setLocation(x1, y1);
+    southEastHandle.setLocation(x2, y2);
+    southWestHandle.setLocation(x1, y2);
+  }
+
+  @Override
+  public void draw(Graphics g) {
+    if (x1 < x2 && y1 < y2) {
+      g.drawRect(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x2 < x1 && y1 < y2) {
+      g.drawRect(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x1 < x2 && y2 < y1) {
+      g.drawRect(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x2 < x1 && y2 < y1) {
+      g.drawRect(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    }
+  }
+
+  @Override
+  public void drawSelection(Graphics g) {
+    if (x1 < x2 && y1 < y2) {
+      g.drawRect(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x2 < x1 && y1 < y2) {
+      g.drawRect(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x1 < x2 && y2 < y1) {
+      g.drawRect(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    } else if (x2 < x1 && y2 < y1) {
+      g.drawRect(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
+    }
+    northHandle.draw(g);
+    southHandle.draw(g);
+    eastHandle.draw(g);
+    westHandle.draw(g);
+    northEastHandle.draw(g);
+    northWestHandle.draw(g);
+    southEastHandle.draw(g);
+    southWestHandle.draw(g);
+  }
+
+  @Override
+  public boolean contains(Point p) {
+    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
+  }
+
+  @Override
+  public void move(int dx, int dy) {
+    x1 += dx;
+    y1 += dy;
+    x2 += dx;
+    y2 += dy;
     northHandle.setLocation((x1 + x2) / 2, y1);
     southHandle.setLocation((x1 + x2) / 2, y2);
     eastHandle.setLocation(x2, (y1 + y2) / 2);
@@ -117,65 +172,8 @@ public class Rectangle implements Shape {
     southEastHandle.setLocation(x2, y2);
   }
 
-  public void draw(Graphics g) {
-    if (x1 < x2 && y1 < y2) {
-      g.drawRect(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y1 < y2) {
-      g.drawRect(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x1 < x2 && y2 < y1) {
-      g.drawRect(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y2 < y1) {
-      g.drawRect(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    }
-  }
 
-  public void drawSelection(Graphics g) {
-    g.setColor(Color.BLUE);
-    if (x1 < x2 && y1 < y2) {
-      g.drawRect(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y1 < y2) {
-      g.drawRect(x2, y1, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x1 < x2 && y2 < y1) {
-      g.drawRect(x1, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    } else if (x2 < x1 && y2 < y1) {
-      g.drawRect(x2, y2, Math.abs(x2 - x1), Math.abs(y2 - y1));
-    }
-    northHandle.draw(g);
-    southHandle.draw(g);
-    eastHandle.draw(g);
-    westHandle.draw(g);
-    northEastHandle.draw(g);
-    northWestHandle.draw(g);
-    southEastHandle.draw(g);
-    southWestHandle.draw(g);
-  }
-
-  public boolean contains(Point p) {
-    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
-  }
-
-  public void move(int dx, int dy) {
-    x1 += dx;
-    y1 += dy;
-    x2 += dx;
-    y2 += dy;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
-  }
-
-  public class RectHandle {
-    private int x, y;
-    private boolean isDiagonalHandle;
-    private String direction;
-    private boolean isDragging;
-    private int offsetX, offsetY;
-    private static final int HANDLE_SIZE = 6;
+  public class RectHandle extends Handle {
 
     // 생성자
     public RectHandle(int x, int y, boolean isDiagonalHandle, String direction) {
@@ -185,57 +183,23 @@ public class Rectangle implements Shape {
       this.direction = direction;
     }
 
-    public void draw(Graphics g) {
-      g.setColor(Color.BLACK);
-      g.fillRect(x - HANDLE_SIZE / 2, y - HANDLE_SIZE / 2, HANDLE_SIZE, HANDLE_SIZE);
-    }
-
-    public boolean contains(Point p) {
-      return p.x >= x - HANDLE_SIZE / 2 && p.x <= x + HANDLE_SIZE / 2 &&
-          p.y >= y - HANDLE_SIZE / 2 && p.y <= y + HANDLE_SIZE / 2;
-    }
-
-    public void setLocation(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
-
-    public void startDragging(Point mousePoint) {
-      isDragging = true;
-      offsetX = mousePoint.x - x;
-      offsetY = mousePoint.y - y;
-    }
-
-    public void stopDragging() {
-      isDragging = false;
-    }
-
-    public boolean isDragging() {
-      return isDragging;
-    }
-
+    @Override
     public void drag(Point mousePoint) {
       x = mousePoint.x - offsetX;
       y = mousePoint.y - offsetY;
       if (!isDiagonalHandle) {
-        if (direction.equals("west")) {
-          setRectX1(x);
-        } else if (direction.equals("east")) {
-          setRectX2(x);
-        } else if (direction.equals("north")) {
-          setRectY1(y);
-        } else if (direction.equals("south")) {
-          setRectY2(y);
+        switch (direction) {
+          case "west" -> setRectX1(x);
+          case "east" -> setRectX2(x);
+          case "north" -> setRectY1(y);
+          case "south" -> setRectY2(y);
         }
       } else {
-        if (direction.equals("northWest")) {
-          setRectX1Y1(x, y);
-        } else if (direction.equals("southEast")) {
-          setRectX2Y2(x, y);
-        } else if (direction.equals("northEast")) {
-          setRectX2Y1(x, y);
-        } else if (direction.equals("southWest")) {
-          setRectX1Y2(x, y);
+        switch (direction) {
+          case "northWest" -> setRectX1Y1(x, y);
+          case "southEast" -> setRectX2Y2(x, y);
+          case "northEast" -> setRectX2Y1(x, y);
+          case "southWest" -> setRectX1Y2(x, y);
         }
       }
     }

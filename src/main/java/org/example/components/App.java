@@ -6,12 +6,6 @@ import java.awt.*;
 
 import static org.example.components._Constants.*;
 
-import org.example.shapes.Shape;
-import org.example.shapes.Line;
-import org.example.shapes.Rectangle;
-import org.example.shapes.Oval;
-import org.example.shapes.Text;
-
 public class App extends JFrame {
 
     public static Shape currentShape;
