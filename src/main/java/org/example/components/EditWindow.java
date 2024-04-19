@@ -3,6 +3,9 @@ package org.example.components;
 import javax.swing.*;
 import java.awt.*;
 
+import org.example.components.Canvas;
+import org.example.components.StyleWindow;
+
 import org.example.shapes.Shape;
 import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
@@ -57,6 +60,17 @@ public class EditWindow extends _ComponentJPanel {
         add(textColor);
         add(textContent);
 
+        // 선택된 도형의 스타일이 보여짐
+
+        public void showStyle(Shape shape) {
+            lineWidth = getStyle(lineWidth);
+            lineColor = getStyle(lineColor);
+            fillColor = getStyle(fillColor);
+            textSize = getStyle(textSize);
+            textColor = getStyle(textColor);
+            textContent = getStyle(textContent);
+        }
+
         // 도형을 편집할 경우
         // 해당 도형의 Style을 선택
         // 기존 도형이 제거되고 수정된 도형이 Canvas에 나타남
@@ -64,21 +78,26 @@ public class EditWindow extends _ComponentJPanel {
         public void editShape(Shape shape) {
             shapes.remove(shape);
         }
-        // 기존 도형을 제거하는 함수
+
+        // 기존 도형을 제거
         // ->
         // Component 수정
+
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+
             for (Shape shape : shapes) {
                 if (shape != null) {
                     shape.draw(g);
                 }
             }
+
             if (editCurrentShape != null) {
                 editCurrentShape.drawSelection(g);
             }
         }
         // 새로운 Style이 적용된 도형이 새로 Canvas에 그려짐
+
     }
 
     public Style getStyle() {
