@@ -3,34 +3,24 @@ package org.example.components;
 import javax.swing.*;
 import java.awt.*;
 
-import org.example.components.Canvas;
-import org.example.components.StyleWindow;
-
 import org.example.shapes.Shape;
-import org.example.shapes.Line;
-import org.example.shapes.Rectangle;
-import org.example.shapes.Oval;
-import org.example.shapes.Text;
 import org.example.shapes.Style;
 
 import org.example.components.labeledslot.ColorInput;
 import org.example.components.labeledslot.NumberInput;
 import org.example.components.labeledslot.TextInput;
 
-import org.example.components.StyleWindow.*;
-import static org.example.components._Constants.CANVAS_SIZE;
-
 import static org.example.components._Constants.*;
 
 // 편집 화면
 public class EditWindow extends _ComponentJPanel {
 
-    private final NumberInput lineWidth;
-    private final ColorInput lineColor;
-    private final ColorInput fillColor;
-    private final NumberInput textSize;
-    private final ColorInput textColor;
-    private final TextInput textContent;
+    private NumberInput lineWidth;
+    private ColorInput lineColor;
+    private ColorInput fillColor;
+    private NumberInput textSize;
+    private ColorInput textColor;
+    private TextInput textContent;
 
     public java.util.List<Shape> shapes;
     private Shape editCurrentShape;
@@ -38,16 +28,13 @@ public class EditWindow extends _ComponentJPanel {
     EditWindow() {
         super(EDIT_WINDOW_SIZE);
 
-        setBorder(BorderFactory.createTitledBorder(EDIT_WINDOW_SIZE);
+        setBorder(BorderFactory.createTitledBorder(EDIT_WINDOW_SIZE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        lineWidth = new NumberInput(STYLE_LABELS[0],
-                new SpinnerNumberModel(10, 0, null, 1));
+        lineWidth = new NumberInput(STYLE_LABELS[0], 1, new SpinnerNumberModel(10, 0, null, 1));
         lineColor = new ColorInput(STYLE_LABELS[1], STYLE_LINE_COLOR_TITLE);
         fillColor = new ColorInput(STYLE_LABELS[2], STYLE_FILL_COLOR_TITLE);
-
-        textSize = new NumberInput(STYLE_LABELS[3],
-                new SpinnerNumberModel(10, 0, null, 1));
+        textSize = new NumberInput(STYLE_LABELS[3], 12, new SpinnerNumberModel(10, 0, null, 1));
         textColor = new ColorInput(STYLE_LABELS[4], STYLE_TEXT_COLOR_TITLE);
         textContent = new TextInput(STYLE_LABELS[5]);
 
@@ -62,7 +49,8 @@ public class EditWindow extends _ComponentJPanel {
 
         // 선택된 도형의 스타일이 보여짐
 
-        public void showStyle(Shape shape) {
+        /*
+        public void showStyle() {
             lineWidth = getStyle(lineWidth);
             lineColor = getStyle(lineColor);
             fillColor = getStyle(fillColor);
@@ -70,13 +58,14 @@ public class EditWindow extends _ComponentJPanel {
             textColor = getStyle(textColor);
             textContent = getStyle(textContent);
         }
+        */
 
         // 도형을 편집할 경우
         // 해당 도형의 Style을 선택
         // 기존 도형이 제거되고 수정된 도형이 Canvas에 나타남
 
-        public void editShape(Shape shape) {
-            shapes.remove(shape);
+        public void editShape(Shape shapes) {
+            shapes.remove(shapes);
         }
 
         // 기존 도형을 제거
@@ -101,7 +90,8 @@ public class EditWindow extends _ComponentJPanel {
 
     }
 
-    public Style getStyle() {
+    /*
+    public NumberInput getStyle() {
         return new Style(
                 lineWidth.getValue(),
                 lineColor.getValue(),
@@ -110,5 +100,5 @@ public class EditWindow extends _ComponentJPanel {
                 textColor.getValue(),
                 textContent.getValue()
         );
-    }
+    } */
 }
