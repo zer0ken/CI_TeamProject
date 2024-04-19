@@ -75,7 +75,7 @@ public class EditWindow extends _ComponentJPanel {
     }
 
     private void editStyle() {
-//        canvas.modifyStyle(selectedShape.getId(), getStyle());
+        canvas.modifyStyle(selectedShape.getId(), getStyle());
     }
 
     private Style getStyle() {

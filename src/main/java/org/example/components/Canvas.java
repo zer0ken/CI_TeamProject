@@ -42,7 +42,7 @@ public class Canvas extends _ComponentJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentCShape != null) {
-//                    removeShape(currentCShape);
+                    removeShape(currentCShape);
                     currentCShape = null;
                     repaint();
                 }
@@ -181,25 +181,25 @@ public class Canvas extends _ComponentJPanel {
     }
 
     public void unDo() {
-//        if(!_shapes.isEmpty()) {
-//            Act act = _shapes.pop();
-//            if(act.getAction() == Act.Action.CREATE) {
-//                shapes.remove(act.getShapeTarget());
-//                if(act.getShapeTarget() == currentCShape) {
-//                    currentCShape = null;
-//                }
-//            } else if (act.getAction() == Act.Action.DELETE) {
-//                shapes.add(act.getShapeTarget());
-//            } else if (act.getAction() == Act.Action.MODIFY) {
-//                shapes.remove(act.getShapeTarget());
-//                if(act.getShapeTarget() == currentCShape) {
-//                    currentCShape = null;
-//                }
-//                shapes.add(act.getPreShape());
-//            } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
-//                // 스타일 변경된 것 되돌리기
-//            }
-//        }
+        if(!_shapes.isEmpty()) {
+            Act act = _shapes.pop();
+            if(act.getAction() == Act.Action.CREATE) {
+                shapes.remove(act.getShapeTarget());
+                if(act.getShapeTarget() == currentCShape) {
+                    currentCShape = null;
+                }
+            } else if (act.getAction() == Act.Action.DELETE) {
+                shapes.add(act.getShapeTarget());
+            } else if (act.getAction() == Act.Action.MODIFY) {
+                shapes.remove(act.getShapeTarget());
+                if(act.getShapeTarget() == currentCShape) {
+                    currentCShape = null;
+                }
+                shapes.add(act.getPreShape());
+            } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
+                // 스타일 변경된 것 되돌리기
+            }
+        }
     }
 
     // TODO: 선택이 바뀔 때마다 이 함수 호출 (선택 해제되면 null)
