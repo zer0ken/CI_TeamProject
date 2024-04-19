@@ -1,19 +1,19 @@
 package org.example.components;
 
-import static org.example.components._Constants.CANVAS_SIZE;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-
-import org.example.shapes.Style;
-import org.example.shapes.Shape;
-import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
-import org.example.shapes.Oval;
-import org.example.shapes.Text;
+import org.example.shapes.Shape;
+import org.example.shapes.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
+import java.util.function.Function;
+
+import static org.example.components._Constants.CANVAS_SIZE;
 
 public class Canvas extends _ComponentJPanel {
     //public java.util.List<Shape> shapes;
@@ -23,6 +23,7 @@ public class Canvas extends _ComponentJPanel {
     private Shape currentCShape;
     private Shape currentPreShape;
     private int count = 0;
+    private Function<Shape, Void> onSelected;
 
     Canvas() {
         super(CANVAS_SIZE);
@@ -41,7 +42,7 @@ public class Canvas extends _ComponentJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentCShape != null) {
-                    removeShape(currentCShape);
+//                    removeShape(currentCShape);
                     currentCShape = null;
                     repaint();
                 }
@@ -180,24 +181,30 @@ public class Canvas extends _ComponentJPanel {
     }
 
     public void unDo() {
-        if(!_shapes.isEmpty()) {
-            Act act = _shapes.pop();
-            if(act.getAction() == Act.Action.CREATE) {
-                shapes.remove(act.getShapeTarget());
-                if(act.getShapeTarget() == currentCShape) {
-                    currentCShape = null;
-                }
-            } else if (act.getAction() == Act.Action.DELETE) {
-                shapes.add(act.getShapeTarget());
-            } else if (act.getAction() == Act.Action.MODIFY) {
-                shapes.remove(act.getShapeTarget());
-                if(act.getShapeTarget() == currentCShape) {
-                    currentCShape = null;
-                }
-                shapes.add(act.getPreShape());
-            } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
-                // 스타일 변경된 것 되돌리기
-            }
-        }
+//        if(!_shapes.isEmpty()) {
+//            Act act = _shapes.pop();
+//            if(act.getAction() == Act.Action.CREATE) {
+//                shapes.remove(act.getShapeTarget());
+//                if(act.getShapeTarget() == currentCShape) {
+//                    currentCShape = null;
+//                }
+//            } else if (act.getAction() == Act.Action.DELETE) {
+//                shapes.add(act.getShapeTarget());
+//            } else if (act.getAction() == Act.Action.MODIFY) {
+//                shapes.remove(act.getShapeTarget());
+//                if(act.getShapeTarget() == currentCShape) {
+//                    currentCShape = null;
+//                }
+//                shapes.add(act.getPreShape());
+//            } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
+//                // 스타일 변경된 것 되돌리기
+//            }
+//        }
+    }
+
+    // TODO: 선택이 바뀔 때마다 이 함수 호출 (선택 해제되면 null)
+    //       호출은 onSelected.apply(shape); 이렇게 하시면 돼요!
+    public void setOnSelected(Function<Shape, Void> onSelected) {
+        this.onSelected = onSelected;
     }
 }

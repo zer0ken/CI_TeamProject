@@ -20,6 +20,9 @@ public class _Constants {
     public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
+    public static final String EDIT_WINDOW_TITLE = "스타일 수정";
+    public static final String EDIT_APPLY_BUTTON = "스타일 변경";
+
 
     public static final String TOOLBAR_TITLE = "Toolbar";
     public static final String TOOLBAR_LINE = "직선";

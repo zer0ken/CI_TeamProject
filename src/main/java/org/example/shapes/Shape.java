@@ -35,4 +35,8 @@ public abstract class Shape {
   public long getId() {
     return id;
   }
+
+  public Style getStyle() {
+    return null;
+  }
 }

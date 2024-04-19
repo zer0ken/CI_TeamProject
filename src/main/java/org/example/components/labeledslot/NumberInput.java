@@ -25,4 +25,9 @@ public class NumberInput extends LabeledSlot {
     public int getValue() {
         return value;
     }
+
+    public void setValue(int value) {
+        this.value = value;
+        this.numberSpinner.setValue(value);
+    }
 }

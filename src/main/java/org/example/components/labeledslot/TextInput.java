@@ -17,4 +17,8 @@ public class TextInput extends LabeledSlot {
     public String getValue() {
         return textField.getText().trim();
     }
+
+    public void setValue(String value) {
+        textField.setText(value);
+    }
 }

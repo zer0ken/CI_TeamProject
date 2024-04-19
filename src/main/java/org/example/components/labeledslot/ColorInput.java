@@ -15,7 +15,7 @@ public class ColorInput extends LabeledSlot {
         lineColorButton.addActionListener(e -> {
             Color newColor = JColorChooser.showDialog(null, chooserTitle, color);
             if (newColor != null) {
-                changeColor(newColor);
+                setColor(newColor);
                 lineColorButton.setBackground(newColor);
             }
         });
@@ -23,7 +23,7 @@ public class ColorInput extends LabeledSlot {
         addSlot(lineColorButton);
     }
 
-    protected void changeColor(Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
