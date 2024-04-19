@@ -88,12 +88,13 @@ public class EditWindow extends _ComponentJPanel {
 
             for (Shape shape : shapes) {
                 if (shape != null) {
-                    shape.draw(g);
+                    continue;
                 }
             }
 
             if (editCurrentShape != null) {
                 editCurrentShape.drawSelection(g);
+                repaint();
             }
         }
         // 새로운 Style이 적용된 도형이 새로 Canvas에 그려짐
