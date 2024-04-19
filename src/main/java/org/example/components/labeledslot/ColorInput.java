@@ -13,10 +13,11 @@ public class ColorInput extends LabeledSlot {
         lineColorButton.setBackground(color);
 
         lineColorButton.addActionListener(e -> {
-            changeColor(
-                    JColorChooser.showDialog(null, chooserTitle, color)
-            );
-            lineColorButton.setBackground(color);
+            Color newColor = JColorChooser.showDialog(null, chooserTitle, color);
+            if (newColor != null) {
+                changeColor(newColor);
+                lineColorButton.setBackground(newColor);
+            }
         });
 
         addSlot(lineColorButton);
