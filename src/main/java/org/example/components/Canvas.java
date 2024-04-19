@@ -16,7 +16,7 @@ import javax.swing.*;
 
 public class Canvas extends _ComponentJPanel {
     public java.util.List<Shape> shapes;
-    public Stack<Shape> _shapes;
+    public Stack<Act> _shapes;
     private Point mousePoint;
     private Shape currentCShape;
 
@@ -48,7 +48,7 @@ public class Canvas extends _ComponentJPanel {
         getActionMap().put("restoreShape", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rsShape();
+                unDo();
                 repaint();
             }
         });
@@ -116,16 +116,24 @@ public class Canvas extends _ComponentJPanel {
 
     public void addShape(Shape shape) {
         shapes.add(shape);
+        _shapes.push(new Act(Act.Action.CREATE, shape));
     }
 
     public void rmShape(Shape shape) {
         shapes.remove(shape);
-        _shapes.push(shape);
+        _shapes.push(new Act(Act.Action.DELETE, shape));
     }
 
-    public void rsShape() {
+    public void unDo() {
         if(!_shapes.isEmpty()) {
-            shapes.add(_shapes.pop());
+            Act act = _shapes.pop();
+            if(act.getAction() == Act.Action.CREATE) {
+                shapes.remove(act.getShapeTarget());
+            } else if (act.getAction() == Act.Action.DELETE) {
+                shapes.add(act.getShapeTarget());
+            } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
+                // 스타일 변경된 것 되돌리기
+            }
         }
     }
 }
