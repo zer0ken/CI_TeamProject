@@ -7,22 +7,19 @@ public class Act {
   public enum Action {
     CREATE,
     DELETE,
+    MODIFY,
     STYLE_CHANGE
   }
 
   private Action action;
-  private Shape shapeTarget;
+  private Shape shapeTarget, preShape;
   private Style styleTarget;
 
-  public Act(Action action, Shape shapeTarget) {
-    this.action = action;
-    this.shapeTarget = shapeTarget;
-    this.styleTarget = null;
-  }
 
-  public Act(Action action, Shape shapeTarget, Style styleTarget) {     // 스타일 변경 시 사용 생성자
+  public Act(Action action, Shape shapeTarget, Shape preShape, Style styleTarget) {
     this.action = action;
     this.shapeTarget = shapeTarget;
+    this.preShape = preShape;
     this.styleTarget = styleTarget;
   }
 
@@ -32,6 +29,10 @@ public class Act {
 
   public Shape getShapeTarget() {
     return shapeTarget;
+  }
+
+  public Shape getPreShape() {
+    return preShape;
   }
 
   public Style getStyleTarget() {

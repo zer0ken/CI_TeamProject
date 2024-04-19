@@ -10,6 +10,8 @@ public class App extends JFrame {
 
     public App() {
         super(APP_TITLE);
+        Canvas canvas = new Canvas();
+        StyleWindow styleWindow = new StyleWindow();
 
         // init itself
         setLayout(new BorderLayout());
@@ -20,12 +22,10 @@ public class App extends JFrame {
 
         // init inner components
         JPanel leftPanel = new VerticalJPanel();
-        StyleWindow styleWindow = new StyleWindow();
         leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow());
+        leftPanel.add(new EditWindow(canvas));
 
         JPanel centerPanel = new VerticalJPanel();
-        Canvas canvas = new Canvas();
         centerPanel.add(new Toolbar(canvas, styleWindow));
         centerPanel.add(canvas);
 

@@ -19,6 +19,17 @@ public class Text extends Shape {
     southWestHandle = new TextHandle(x1, y2, true, "southWest");
   }
 
+  public Text(Text other) {
+    northHandle = new TextHandle(other.northHandle);
+    southHandle = new TextHandle(other.southHandle);
+    eastHandle = new TextHandle(other.eastHandle);
+    westHandle = new TextHandle(other.westHandle);
+    northEastHandle = new TextHandle(other.northEastHandle);
+    northWestHandle = new TextHandle(other.northWestHandle);
+    southEastHandle = new TextHandle(other.southEastHandle);
+    southWestHandle = new TextHandle(other.southWestHandle);
+  }
+
   @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
@@ -179,6 +190,11 @@ public class Text extends Shape {
     }
   }
 
+  @Override
+  public Shape copy() {
+    return new Text(this);
+  }
+
   public void setTextX1(int x1) {
     this.x1 = x1;
     northHandle.setLocation((x1 + x2) / 2, y1);
@@ -270,6 +286,13 @@ public class Text extends Shape {
       this.y = y;
       this.isDiagonalHandle = isDiagonalHandle;
       this.direction = direction;
+    }
+
+    public TextHandle(TextHandle other) {
+      this.x = other.x;
+      this.y = other.y;
+      this.isDiagonalHandle = other.isDiagonalHandle;
+      this.direction = other.direction;
     }
 
     @Override

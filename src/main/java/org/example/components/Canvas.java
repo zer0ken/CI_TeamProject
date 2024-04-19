@@ -4,8 +4,9 @@ import static org.example.components._Constants.CANVAS_SIZE;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Stack;
+import java.util.*;
 
+import org.example.shapes.Style;
 import org.example.shapes.Shape;
 import org.example.shapes.Line;
 import org.example.shapes.Rectangle;
@@ -15,10 +16,13 @@ import org.example.shapes.Text;
 import javax.swing.*;
 
 public class Canvas extends _ComponentJPanel {
-    public java.util.List<Shape> shapes;
+    //public java.util.List<Shape> shapes;
+    public Map<Long, Shape> shapes;
     public Stack<Act> _shapes;
     private Point mousePoint;
     private Shape currentCShape;
+    private Shape currentPreShape;
+    private int count = 0;
 
     Canvas() {
         super(CANVAS_SIZE);
@@ -27,8 +31,9 @@ public class Canvas extends _ComponentJPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        shapes = new java.util.ArrayList<>();
+        shapes = Collections.synchronizedMap(new TreeMap<>());
         _shapes = new Stack<>();
+        currentPreShape = null;
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).
             put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");
@@ -36,7 +41,7 @@ public class Canvas extends _ComponentJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentCShape != null) {
-                    rmShape(currentCShape);
+                    removeShape(currentCShape);
                     currentCShape = null;
                     repaint();
                 }
@@ -44,8 +49,8 @@ public class Canvas extends _ComponentJPanel {
         });
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).
-            put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "restoreShape");
-        getActionMap().put("restoreShape", new AbstractAction() {
+            put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "unDo");
+        getActionMap().put("unDo", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 unDo();
@@ -67,6 +72,8 @@ public class Canvas extends _ComponentJPanel {
                         }
 
                         currentCShape = shape;
+                        OnSelectionChanged();
+                        //currentPreShape = new Shape(currentCShape)
                         repaint();
                         return;
                     }
@@ -75,9 +82,17 @@ public class Canvas extends _ComponentJPanel {
                     currentCShape.allHandleStopDrag();
                 }
                 currentCShape = null;
+                OnSelectionChanged();
                 repaint();
             }
+
+            public void mouseReleased(MouseEvent e) {
+                // 드래그 이벤트 종료 시 실행할 코드
+                System.out.println("드래그 이벤트 종료");
+            }
         });
+
+
 
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
@@ -104,24 +119,64 @@ public class Canvas extends _ComponentJPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.WHITE);
-        for (Shape shape : shapes) {
-            if (shape != null) {
-                shape.draw(g);
-            }
+        Set<Long> keySet = shapes.keySet();
+        for(Long key : keySet) {
+            shapes.get(key).draw(g);
         }
+
         if (currentCShape != null) {
             currentCShape.drawSelection(g);
         }
     }
 
-    public void addShape(Shape shape) {
-        shapes.add(shape);
-        _shapes.push(new Act(Act.Action.CREATE, shape));
+    // 도형 선택
+    public void chooseShape(Shape shape) {
+        if (currentCShape != null) {
+            currentCShape = null;
+        }
+
+        Set<Long> keySet = shapes.keySet();
+        for(Long key : keySet) {
+            if (shapes.get(key).getId() == shape.getId()) {
+                currentCShape = shape;
+                OnSelectionChanged();
+                repaint();
+            }
+        }
     }
 
-    public void rmShape(Shape shape) {
-        shapes.remove(shape);
-        _shapes.push(new Act(Act.Action.DELETE, shape));
+    // 도형 수정
+    public void modifyShape(Shape shape) {
+        if (currentCShape != null) {
+            currentCShape = null;
+        }
+
+        Set<Long> keySet = shapes.keySet();
+        for(Long key : keySet) {
+            if (shapes.get(key).getId() == shape.getId()) {
+                currentCShape = shape;
+                OnSelectionChanged();
+                repaint();
+            }
+        }
+    }
+
+    // 도형 추가
+    public void addShape(Long id, Shape shape) {
+        shapes.put(id, shape);
+        _shapes.push(new Act(Act.Action.CREATE, shape, null, null));
+    }
+
+    // 도형 삭제
+    public void removeShape(Long id) {
+        _shapes.push(new Act(Act.Action.DELETE, shapes.get(id), null, null));
+        shapes.remove(id);
+        OnSelectionChanged();
+    }
+
+    // 선택된 도형 변경
+    public Shape OnSelectionChanged() {
+        return currentCShape;
     }
 
     public void unDo() {
@@ -129,8 +184,17 @@ public class Canvas extends _ComponentJPanel {
             Act act = _shapes.pop();
             if(act.getAction() == Act.Action.CREATE) {
                 shapes.remove(act.getShapeTarget());
+                if(act.getShapeTarget() == currentCShape) {
+                    currentCShape = null;
+                }
             } else if (act.getAction() == Act.Action.DELETE) {
                 shapes.add(act.getShapeTarget());
+            } else if (act.getAction() == Act.Action.MODIFY) {
+                shapes.remove(act.getShapeTarget());
+                if(act.getShapeTarget() == currentCShape) {
+                    currentCShape = null;
+                }
+                shapes.add(act.getPreShape());
             } else if (act.getAction() == Act.Action.STYLE_CHANGE) {
                 // 스타일 변경된 것 되돌리기
             }

@@ -10,6 +10,7 @@ public abstract class Shape {
   protected int textSize;
   protected Color textColor;
   protected String textContent;
+  protected long id;
 
   public abstract void setLocation(int x1, int y1, int x2, int y2);
 
@@ -29,4 +30,9 @@ public abstract class Shape {
 
   public abstract void handleDrag(Point p, int dx, int dy);
 
+  public abstract Shape copy();
+
+  public long getId() {
+    return id;
+  }
 }

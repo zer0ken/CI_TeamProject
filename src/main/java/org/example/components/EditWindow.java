@@ -2,6 +2,11 @@ package org.example.components;
 
 import javax.swing.*;
 import java.awt.*;
+
+import org.example.components.labeledslot.ColorInput;
+import org.example.components.labeledslot.NumberInput;
+import org.example.components.labeledslot.TextInput;
+import org.example.shapes.Style;
 import org.example.shapes.Shape;
 
 import static org.example.components._Constants.*;
@@ -18,6 +23,9 @@ public class EditWindow extends _ComponentJPanel {
     private Canvas canvas;
     private Long ShapeID;
 
+    EditWindow(Canvas canvas) {
+
+    }
     EditWindow() {
         super(EDIT_WINDOW_SIZE);
 

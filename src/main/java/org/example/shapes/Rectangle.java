@@ -17,6 +17,17 @@ public class Rectangle extends Shape {
     southWestHandle = new RectHandle(x1, y2, true, "southWest");
   }
 
+  public Rectangle(Rectangle other) {
+    northHandle = new RectHandle(other.northHandle);
+    southHandle = new RectHandle(other.southHandle);
+    eastHandle = new RectHandle(other.eastHandle);
+    westHandle = new RectHandle(other.westHandle);
+    northEastHandle = new RectHandle(other.northEastHandle);
+    northWestHandle = new RectHandle(other.northWestHandle);
+    southEastHandle = new RectHandle(other.southEastHandle);
+    southWestHandle = new RectHandle(other.southWestHandle);
+  }
+
   @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
@@ -146,6 +157,11 @@ public class Rectangle extends Shape {
     }
   }
 
+  @Override
+  public Shape copy() {
+    return new Rectangle(this);
+  }
+
   public void setRectX1(int x1) {
     this.x1 = x1;
     northHandle.setLocation((x1 + x2) / 2, y1);
@@ -239,6 +255,13 @@ public class Rectangle extends Shape {
       this.y = y;
       this.isDiagonalHandle = isDiagonalHandle;
       this.direction = direction;
+    }
+
+    public RectHandle(RectHandle other) {
+      this.x = other.x;
+      this.y = other.y;
+      this.isDiagonalHandle = other.isDiagonalHandle;
+      this.direction = other.direction;
     }
 
     @Override

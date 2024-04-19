@@ -66,7 +66,7 @@ public class Toolbar extends _ComponentJPanel {
                 currentTShape.setLocation(300, 300, 400, 400);
                 style = styleWindow.getStyle();
                 currentTShape.setStyle(style);
-                canvas.addShape(currentTShape);
+                //canvas.addShape(currentTShape);
                 canvas.repaint();
             }
         }
