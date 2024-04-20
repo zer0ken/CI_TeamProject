@@ -57,7 +57,7 @@ public class EditWindow extends _ComponentJPanel {
         add(textSize);
         add(textColor);
         add(textContent);
-        add(applyButton);
+        add(new Resized(applyButton));
     }
 
     private Void select(Shape shape) {
@@ -87,5 +87,16 @@ public class EditWindow extends _ComponentJPanel {
                 textColor.getValue(),
                 textContent.getValue()
         );
+    }
+}
+
+class Resized extends JPanel {
+    Resized(JButton button) {
+        setLayout(new BorderLayout());
+        setMaximumSize(STYLE_ITEM_SIZE);
+        setBorder(STYLE_ITEM_BORDER);
+
+        button.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
+        add(BorderLayout.CENTER, button);
     }
 }
