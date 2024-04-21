@@ -26,7 +26,7 @@ public class EditWindow extends _ComponentJPanel {
     EditWindow(Canvas canvas) {
         this();
         this.canvas = canvas;
-        canvas.setOnSelected(this::select);
+        canvas.addOnSelectedListener(this::select);
     }
 
     private EditWindow() {

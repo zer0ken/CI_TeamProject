@@ -23,7 +23,10 @@ public class Canvas extends _ComponentJPanel {
     private Shape currentCShape;
     private Shape currentPreShape;
     private int count = 0;
-    private Function<Shape, Void> onSelected;
+    private ArrayList<Function<Shape, Void>> onSelectedListeners;
+    private ArrayList<Function<Shape, Void>> onCreatedListeners;
+    private ArrayList<Function<Shape, Void>> onModifiedListeners;
+    private ArrayList<Function<Shape, Void>> onRemovedListeners;
 
     Canvas() {
         super(CANVAS_SIZE);
@@ -35,6 +38,10 @@ public class Canvas extends _ComponentJPanel {
         shapes = Collections.synchronizedMap(new TreeMap<>());
         _shapes = new Stack<>();
         currentPreShape = null;
+        onSelectedListeners = new ArrayList<>();
+        onCreatedListeners = new ArrayList<>();
+        onModifiedListeners = new ArrayList<>();
+        onRemovedListeners = new ArrayList<>();
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).
             put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");
@@ -201,10 +208,46 @@ public class Canvas extends _ComponentJPanel {
             }
         }
     }
+    
+    public void select(long id) {
+        Shape selectedShape = null;
+        // TODO: 도형 선택
+        
+        this.onSelectedListeners.forEach(listener -> listener.apply(selectedShape));
+    }
 
-    // TODO: 선택이 바뀔 때마다 이 함수 호출 (선택 해제되면 null)
-    //       호출은 onSelected.apply(shape); 이렇게 하시면 돼요!
-    public void setOnSelected(Function<Shape, Void> onSelected) {
-        this.onSelected = onSelected;
+    public void create(Shape newShape) {
+        // TODO: 도형 추가
+
+        this.onCreatedListeners.forEach(listener -> listener.apply(newShape));
+    }
+
+    public void modify(long id, Shape modifiedShape) {
+        // TODO: 도형 수정
+
+        this.onModifiedListeners.forEach(listener -> listener.apply(modifiedShape));
+    }
+
+    public void remove(long id) {
+        Shape removedShape = null;
+        // TODO: 도형 삭제
+
+        this.onRemovedListeners.forEach(listener -> listener.apply(removedShape));
+    }
+
+    public void addOnSelectedListener(Function<Shape, Void> onSelected) {
+        this.onSelectedListeners.add(onSelected);
+    }
+
+    public void addOnCreatedListener(Function<Shape, Void> onCreated) {
+        this.onCreatedListeners.add(onCreated);
+    }
+
+    public void addonModifiedListeners(Function<Shape, Void> onModified) {
+        this.onModifiedListeners.add(onModified);
+    }
+
+    public void addOnRemovedListener(Function<Shape, Void> onRemoved) {
+        this.onRemovedListeners.add(onRemoved);
     }
 }
