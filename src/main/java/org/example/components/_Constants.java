@@ -18,11 +18,13 @@ public class _Constants {
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
     public static final String STYLE_TEXT_COLOR_TITLE = "텍스트 색상을 선택하세요.";
     public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
+
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
     public static final String EDIT_WINDOW_TITLE = "스타일 수정";
     public static final String EDIT_APPLY_BUTTON = "스타일 변경";
 
+    public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
     public static final String TOOLBAR_TITLE = "Toolbar";
     public static final String TOOLBAR_LINE = "직선";
@@ -36,7 +38,7 @@ public class _Constants {
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 300;
+    public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;
