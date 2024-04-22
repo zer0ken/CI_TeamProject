@@ -208,11 +208,11 @@ public class Canvas extends _ComponentJPanel {
             }
         }
     }
-    
+
     public void select(long id) {
         Shape selectedShape = null;
         // TODO: 도형 선택
-        
+
         this.onSelectedListeners.forEach(listener -> listener.apply(selectedShape));
     }
 
