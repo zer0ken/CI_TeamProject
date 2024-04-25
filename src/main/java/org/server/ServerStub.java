@@ -5,7 +5,6 @@ import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 import org.common.ShapeMap;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 public class ServerStub extends CMServerStub {
     public static final String DEFAULT_SESSION = "session1";
