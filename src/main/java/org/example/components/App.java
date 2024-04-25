@@ -1,5 +1,7 @@
 package org.example.components;
 
+import org.example.ShapesViewModel;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -8,10 +10,8 @@ import static org.example.components._Constants.*;
 
 public class App extends JFrame {
 
-    public App() {
+    public App(ShapesViewModel shapesViewModel) {
         super(APP_TITLE);
-        Canvas canvas = new Canvas();
-        StyleWindow styleWindow = new StyleWindow();
 
         // init itself
         setLayout(new BorderLayout());
@@ -21,17 +21,20 @@ public class App extends JFrame {
         setResizable(false);
 
         // init inner components
+        Canvas canvas = new Canvas(shapesViewModel);
+        StyleWindow styleWindow = new StyleWindow(shapesViewModel);
+
         JPanel leftPanel = new VerticalJPanel();
         leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow(canvas));
+        leftPanel.add(new EditWindow(shapesViewModel));
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar(canvas, styleWindow));
+        centerPanel.add(new Toolbar(shapesViewModel, styleWindow));
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(new ClientsWindow());
-        rightPanel.add(new ShapesWindow());
+        rightPanel.add(new ClientsWindow(shapesViewModel));
+        rightPanel.add(new ShapesWindow(shapesViewModel));
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
