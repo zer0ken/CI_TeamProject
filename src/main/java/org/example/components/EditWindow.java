@@ -1,5 +1,6 @@
 package org.example.components;
 
+import org.example.ShapesViewModel;
 import org.example.components.labeledslot.ColorInput;
 import org.example.components.labeledslot.NumberInput;
 import org.example.components.labeledslot.TextInput;
@@ -20,17 +21,8 @@ public class EditWindow extends _ComponentJPanel {
     private final TextInput textContent;
     private final JButton applyButton;
 
-    private Canvas canvas;
-    private Shape selectedShape;
-
-    EditWindow(Canvas canvas) {
-        this();
-        this.canvas = canvas;
-        canvas.addOnSelectedListener(this::select);
-    }
-
-    private EditWindow() {
-        super(EDIT_WINDOW_SIZE);
+    public EditWindow(ShapesViewModel shapesViewModel) {
+        super(EDIT_WINDOW_SIZE, shapesViewModel);
         setBorder(BorderFactory.createTitledBorder(EDIT_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -58,13 +50,15 @@ public class EditWindow extends _ComponentJPanel {
         add(textColor);
         add(textContent);
         add(new Resized(applyButton));
+
+        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::select);
     }
 
     private Void select(Shape shape) {
         if (shape == null) {
             return null;
         }
-        this.selectedShape = shape;
+
         Style style = shape.getStyle();
         lineWidth.setValue(style.getLineWidth());
         lineColor.setColor(style.getLineColor());
@@ -75,7 +69,9 @@ public class EditWindow extends _ComponentJPanel {
     }
 
     private void editStyle() {
-        canvas.modifyStyle(selectedShape.getId(), getStyle());
+        Shape before = shapesViewModel.getSelectedShape();
+        Shape after = before.copy(getStyle());
+        shapesViewModel.modifyByUser(after.getId(), after);
     }
 
     private Style getStyle() {

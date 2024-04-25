@@ -1,6 +1,7 @@
 package org.example.components;
 
 
+import org.example.ShapesViewModel;
 import org.example.shapes.Shape;
 
 import javax.swing.*;
@@ -12,22 +13,15 @@ import java.util.Map;
 import static org.example.components._Constants.*;
 
 public class ShapesWindow extends _ComponentJPanel implements ListSelectionListener {
-    Canvas canvas;
     DefaultListModel<ShapeListItem> shapeListModel;
     JList<ShapeListItem> shapeList;
-    ShapeListItem selectedShape = null;
 
-    ShapesWindow(Canvas canvas) {
-        this();
-        this.canvas = canvas;
-
-        canvas.addOnSelectedListener(this::onCanvasSelected);
-    }
-
-    private ShapesWindow() {
-        super(SHAPES_WINDOW_SIZE);
+    public ShapesWindow(ShapesViewModel shapesViewModel) {
+        super(SHAPES_WINDOW_SIZE, shapesViewModel);
         setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
+
+        shapesViewModel.addListener(ShapesViewModel.Listener.CANVAS_SELECTION, this::selectByCanvas);
 
         shapeListModel = new DefaultListModel<>();
 
@@ -52,33 +46,29 @@ public class ShapesWindow extends _ComponentJPanel implements ListSelectionListe
 
     public void setShapes(Map<Long, Shape> shapes) {
         shapeListModel.removeAllElements();
-        shapes.forEach((id, shape) -> shapeListModel.add(0, new ShapeListItem(shape.getId(), shape.getName())));
+        shapes.forEach((id, shape) ->
+                shapeListModel.add(0, new ShapeListItem(shape.getId(), shape.getRepresentation())));
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (shapeList.isSelectionEmpty()) {
-            selectedShape = null;
-            canvas.select(-1);
-            return;
+        ShapeListItem selectedShape;
+        if (!shapeList.isSelectionEmpty()) {
+            selectedShape = shapeListModel.get(e.getFirstIndex());
+            shapesViewModel.selectByShapesWindow(selectedShape.getId());
+        } else {
+            shapesViewModel.selectByShapesWindow(-1);
         }
-        selectedShape = shapeListModel.get(e.getFirstIndex());
-        canvas.select(selectedShape.getId());
     }
 
-    public Void onCanvasSelected(Shape newSelectedShape) {
-        if (newSelectedShape == null) {
-            selectedShape = null;
+    public Void selectByCanvas(Shape selectedShape) {
+        if (selectedShape == null) {
             shapeList.clearSelection();
-            return null;
-        }
-        if (selectedShape != null && selectedShape.getId() == newSelectedShape.getId()) {
             return null;
         }
         for (int i = 0; i < shapeListModel.getSize(); i++) {
             ShapeListItem item = shapeListModel.get(i);
-            if (item.getId() == newSelectedShape.getId()) {
-                selectedShape = item;
+            if (item.getId() == selectedShape.getId()) {
                 shapeList.setSelectedIndex(i);
                 return null;
             }

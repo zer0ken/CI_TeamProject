@@ -1,31 +1,26 @@
 package org.example.components;
 
+import org.example.ShapesViewModel;
+import org.example.shapes.Rectangle;
+import org.example.shapes.Shape;
+import org.example.shapes.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import static org.example.components._Constants.*;
 
-import org.example.shapes.Style;
-import org.example.shapes.Shape;
-import org.example.shapes.Line;
-import org.example.shapes.Rectangle;
-import org.example.shapes.Oval;
-import org.example.shapes.Text;
-
 public class Toolbar extends _ComponentJPanel {
-    private JLabel titleLabel;
-    private Canvas canvas;
-    private StyleWindow styleWindow;
+    private final JLabel titleLabel;
+    private final StyleWindow styleWindow;
 
-    Toolbar(Canvas canvas, StyleWindow styleWindow) {
-        this();
-        this.canvas = canvas;
-        this.styleWindow = styleWindow;
-    }
-
-    Toolbar() {
-        super(TOOLBAR_SIZE);
+    Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
+        super(TOOLBAR_SIZE, shapesViewModel);
         setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        this.styleWindow = styleWindow;
 
         // Toolbar title
         titleLabel = new JLabel(TOOLBAR_TITLE);
@@ -66,8 +61,9 @@ public class Toolbar extends _ComponentJPanel {
                 currentTShape.setLocation(300, 300, 400, 400);
                 style = styleWindow.getStyle();
                 currentTShape.setStyle(style);
-                //canvas.addShape(currentTShape);
-                canvas.repaint();
+                shapesViewModel.createByUser(currentTShape);
+//                canvas.addShape(currentTShape);
+//                canvas.repaint();
             }
         }
     }

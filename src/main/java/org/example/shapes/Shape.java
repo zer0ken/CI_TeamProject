@@ -2,6 +2,8 @@ package org.example.shapes;
 
 import java.awt.*;
 
+import static org.example.components._Constants.*;
+
 public abstract class Shape {
   protected int x1, y1, x2, y2;
   protected int lineWidth;
@@ -38,5 +40,21 @@ public abstract class Shape {
 
   public Style getStyle() {
     return null;
+  }
+
+  public Shape copy(Style style) {
+    Shape copied = this.copy();
+    copied.setStyle(style);
+    return copied;
+  }
+
+  public String getRepresentation() {
+    return switch (getClass().getName()) {
+      case "Line" -> TOOLBAR_LINE;
+      case "Oval" -> TOOLBAR_OVAL;
+      case "Rectangle" -> TOOLBAR_RECT;
+      case "Text" -> TOOLBAR_TEXT + "\"" + getStyle().getTextContent() + "\"" ;
+      default -> null;
+    };
   }
 }

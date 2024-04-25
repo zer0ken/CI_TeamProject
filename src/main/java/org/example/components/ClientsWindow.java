@@ -1,5 +1,7 @@
 package org.example.components;
 
+import org.example.ShapesViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -11,8 +13,8 @@ public class ClientsWindow extends _ComponentJPanel {
     DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
-    ClientsWindow() {
-        super(CLIENTS_WINDOW_SIZE);
+    ClientsWindow(ShapesViewModel shapesViewModel) {
+        super(CLIENTS_WINDOW_SIZE, shapesViewModel);
         setBorder(BorderFactory.createTitledBorder(CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 

@@ -1,5 +1,6 @@
 package org.example.components;
 
+import org.example.ShapesViewModel;
 import org.example.shapes.Rectangle;
 import org.example.shapes.Shape;
 import org.example.shapes.*;
@@ -11,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
-import java.util.function.Function;
 
 import static org.example.components._Constants.CANVAS_SIZE;
 
@@ -23,25 +23,22 @@ public class Canvas extends _ComponentJPanel {
     private Shape currentCShape;
     private Shape currentPreShape;
     private int count = 0;
-    private ArrayList<Function<Shape, Void>> onSelectedListeners;
-    private ArrayList<Function<Shape, Void>> onCreatedListeners;
-    private ArrayList<Function<Shape, Void>> onModifiedListeners;
-    private ArrayList<Function<Shape, Void>> onRemovedListeners;
 
-    Canvas() {
-        super(CANVAS_SIZE);
+    Canvas(ShapesViewModel shapesViewModel) {
+        super(CANVAS_SIZE, shapesViewModel);
         setLayout(new BorderLayout());
         setBackground(Color.white);
         setFocusable(true);
         requestFocusInWindow();
 
+        shapesViewModel.addListener(ShapesViewModel.Listener.SHAPES_WINDOW_SELECTION, this::selectSilently);
+        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_CREATION, this::createSilently);
+        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_MODIFICATION, this::modifySilently);
+        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_REMOVAL, this::removeSilently);
+
         shapes = Collections.synchronizedMap(new TreeMap<>());
         _shapes = new Stack<>();
         currentPreShape = null;
-        onSelectedListeners = new ArrayList<>();
-        onCreatedListeners = new ArrayList<>();
-        onModifiedListeners = new ArrayList<>();
-        onRemovedListeners = new ArrayList<>();
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).
             put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");
@@ -209,45 +206,47 @@ public class Canvas extends _ComponentJPanel {
         }
     }
 
-    public void select(long id) {
-        Shape selectedShape = null;
-        // TODO: 도형 선택
-
-        this.onSelectedListeners.forEach(listener -> listener.apply(selectedShape));
+    public void select(Shape shape) {
+        selectSilently(shape);
+        shapesViewModel.selectByCanvas(shape.getId());
     }
 
     public void create(Shape newShape) {
-        // TODO: 도형 추가
-
-        this.onCreatedListeners.forEach(listener -> listener.apply(newShape));
+        createSilently(newShape);
+        shapesViewModel.createByUser(newShape);
     }
 
     public void modify(long id, Shape modifiedShape) {
+        modifySilently(modifiedShape);
+        shapesViewModel.modifyByUser(id, modifiedShape);
+    }
+
+    public void remove(Shape shape) {
+        removeSilently(shape);
+        shapesViewModel.removeByUser(shape.getId());
+    }
+
+    private Void selectSilently(Shape selected) {
+        // TODO: 도형 선택
+
+        return null;
+    }
+
+    private Void createSilently(Shape newShape) {
+        // TODO: 도형 추가
+
+        return null;
+    }
+
+    private Void modifySilently(Shape modifiedShape) {
         // TODO: 도형 수정
 
-        this.onModifiedListeners.forEach(listener -> listener.apply(modifiedShape));
+        return null;
     }
 
-    public void remove(long id) {
-        Shape removedShape = null;
+    private Void removeSilently(Shape removedShape) {
         // TODO: 도형 삭제
 
-        this.onRemovedListeners.forEach(listener -> listener.apply(removedShape));
-    }
-
-    public void addOnSelectedListener(Function<Shape, Void> onSelected) {
-        this.onSelectedListeners.add(onSelected);
-    }
-
-    public void addOnCreatedListener(Function<Shape, Void> onCreated) {
-        this.onCreatedListeners.add(onCreated);
-    }
-
-    public void addonModifiedListeners(Function<Shape, Void> onModified) {
-        this.onModifiedListeners.add(onModified);
-    }
-
-    public void addOnRemovedListener(Function<Shape, Void> onRemoved) {
-        this.onRemovedListeners.add(onRemoved);
+        return null;
     }
 }
