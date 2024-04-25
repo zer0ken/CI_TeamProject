@@ -1,6 +1,6 @@
-package org.example.components;
+package org.gui.components;
 
-import static org.example.components._Constants.EDIT_WINDOW_SIZE;
+import static org.gui.components._Constants.EDIT_WINDOW_SIZE;
 
 public class EditWindow extends _ComponentJPanel {
     EditWindow() {

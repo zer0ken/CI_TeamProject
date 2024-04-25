@@ -1,10 +1,10 @@
-package org.example.components.labeledslot;
+package org.gui.components.labeledslot;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class LabeledSlot extends JPanel {
     public LabeledSlot(String label) {

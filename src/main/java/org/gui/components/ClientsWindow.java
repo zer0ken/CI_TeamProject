@@ -1,11 +1,11 @@
-package org.example.components;
+package org.gui.components;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-import static org.example.components._Constants.CLIENTS_WINDOW_SIZE;
-import static org.example.components._Constants.CLIENTS_WINDOW_TITLE;
+import static org.gui.components._Constants.CLIENTS_WINDOW_SIZE;
+import static org.gui.components._Constants.CLIENTS_WINDOW_TITLE;
 
 public class ClientsWindow extends _ComponentJPanel {
     DefaultListModel<String> clientListModel;

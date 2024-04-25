@@ -1,15 +1,15 @@
-package org.example.components;
+package org.gui.components;
 
-import org.example.components.labeledslot.ColorInput;
-import org.example.components.labeledslot.NumberInput;
-import org.example.components.labeledslot.TextInput;
-import org.example.shapes.Style;
+import org.gui.components.labeledslot.ColorInput;
+import org.gui.components.labeledslot.NumberInput;
+import org.gui.components.labeledslot.TextInput;
+import org.gui.shapes.Style;
 
 import javax.swing.*;
 
 import java.awt.*;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class StyleWindow extends _ComponentJPanel {
     private final NumberInput lineWidth;

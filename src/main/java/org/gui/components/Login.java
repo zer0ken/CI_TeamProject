@@ -1,8 +1,8 @@
-package org.example.components;
+package org.gui.components;
 
 import javax.swing.*;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class Login {
     public static String login(boolean invalid) {

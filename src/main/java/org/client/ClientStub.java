@@ -2,7 +2,7 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
-import org.example.components.Login;
+import org.gui.components.Login;
 import org.protocol.Actions;
 import org.protocol.ClientsideProtocol;
 

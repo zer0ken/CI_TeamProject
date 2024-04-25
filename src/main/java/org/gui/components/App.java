@@ -1,4 +1,4 @@
-package org.example.components;
+package org.gui.components;
 
 import org.client.ClientStub;
 
@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class App extends JFrame {
     private ClientStub clientStub;

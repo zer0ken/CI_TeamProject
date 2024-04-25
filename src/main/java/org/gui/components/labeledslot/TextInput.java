@@ -1,9 +1,9 @@
-package org.example.components.labeledslot;
+package org.gui.components.labeledslot;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static org.example.components._Constants.STYLE_DEFAULT_TEXT_CONTENT;
+import static org.gui.components._Constants.STYLE_DEFAULT_TEXT_CONTENT;
 
 public class TextInput extends LabeledSlot {
     JTextField textField;

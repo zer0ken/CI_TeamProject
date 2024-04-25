@@ -1,10 +1,6 @@
 package org.client;
 
-import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
-import org.example.components.App;
-import org.example.components.Login;
-import org.protocol.Actions;
-import org.protocol.ClientsideProtocol;
+import org.gui.components.App;
 
 public class Client {
     private final ClientStub clientStub;
