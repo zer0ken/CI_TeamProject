@@ -32,6 +32,9 @@ public class ServerEventHandler extends EventHandler {
     @Override
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
         long id = System.currentTimeMillis();
+        while (((ServerStub) stub).getShape(id) != null) {
+            id++;   // id 중복을 회피
+        }
         ((ServerStub) stub).putShape(id, cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.ADD, id, cmd.getShape());

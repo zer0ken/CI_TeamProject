@@ -34,6 +34,8 @@ public class ServerStub extends CMServerStub {
         shapes.putShape(id, shape);
     }
 
+    public String getShape(long id) { return shapes.getShape(id); }
+
     public void removeShape(long id) {
         shapes.removeShape(id);
     }

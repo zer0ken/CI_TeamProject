@@ -16,6 +16,10 @@ public class ShapeMap {
         return shapes;
     }
 
+    public String getShape(long id) {
+        return shapes.get(id);
+    }
+
     public void putShape(long id, String shape) {
         shapes.put(id, shape);
     }
