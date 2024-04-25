@@ -43,6 +43,10 @@ public class ServerEventHandler extends EventHandler {
 
     @Override
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
+        if (((ServerStub) stub).getShape(cmd.getId()) == null) {
+            return;
+        }
+
         ((ServerStub) stub).putShape(cmd.getId(), cmd.getShape());
 
         String message = ServersideProtocol.build(Actions.EDIT, cmd.getId(), cmd.getShape());
@@ -50,7 +54,11 @@ public class ServerEventHandler extends EventHandler {
     }
 
     @Override
-    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd){
+    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
+        if (((ServerStub) stub).getShape(cmd.getId()) == null) {
+            return;
+        }
+
         ((ServerStub) stub).removeShape(cmd.getId());
 
         String message = ServersideProtocol.build(Actions.REMOVE, cmd.getId());
