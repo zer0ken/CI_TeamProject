@@ -1,6 +1,8 @@
-package org.gui.components;
+package org.gui;
 
 import org.client.ClientStub;
+import org.gui.components.*;
+import org.gui.components.Canvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,7 @@ public class App extends JFrame {
     private final StyleWindow styleWindow;
     private final EditWindow editWindow;
     private final Toolbar toolbar;
-    private final Canvas canvas;
+    private final org.gui.components.Canvas canvas;
     private final ClientsWindow clientsWindow;
     private final ShapesWindow shapesWindow;
 

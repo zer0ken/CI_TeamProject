@@ -3,7 +3,7 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.EventHandler;
-import org.gui.components.App;
+import org.gui.App;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {

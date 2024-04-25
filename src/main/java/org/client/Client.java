@@ -1,6 +1,6 @@
 package org.client;
 
-import org.gui.components.App;
+import org.gui.App;
 
 public class Client {
     private final ClientStub clientStub;

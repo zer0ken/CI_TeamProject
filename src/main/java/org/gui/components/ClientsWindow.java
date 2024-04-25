@@ -11,7 +11,7 @@ public class ClientsWindow extends _ComponentJPanel {
     DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
-    ClientsWindow() {
+    public ClientsWindow() {
         super(CLIENTS_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
