@@ -2,13 +2,13 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.common.BaseEventHandler;
+import org.common.EventHandler;
 import org.protocol.Actions;
 import org.protocol.ClientsideProtocol;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
-public class ServerEventHandler extends BaseEventHandler {
+public class ServerEventHandler extends EventHandler {
     public ServerEventHandler(ServerStub serverStub) {
         super(ClientsideProtocol::parse, serverStub);
     }

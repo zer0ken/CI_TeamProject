@@ -2,13 +2,11 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.common.BaseEventHandler;
+import org.common.EventHandler;
 import org.example.components.App;
 import org.protocol.ServersideProtocol;
 
-import java.util.function.Function;
-
-public class ClientEventHandler extends BaseEventHandler {
+public class ClientEventHandler extends EventHandler {
     private App app;
 
     public ClientEventHandler(ClientStub clientStub, App app) {

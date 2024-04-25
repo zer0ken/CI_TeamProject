@@ -8,11 +8,11 @@ import org.protocol.Command;
 
 import java.util.function.Function;
 
-public abstract class BaseEventHandler implements CMAppEventHandler {
+public abstract class EventHandler implements CMAppEventHandler {
     Function<String, Command> parse;
     protected CMStub stub;
 
-    public BaseEventHandler(Function<String, Command> parse, CMStub stub) {
+    public EventHandler(Function<String, Command> parse, CMStub stub) {
         this.parse = parse;
         this.stub = stub;
     }
