@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.shapes.Shape;
-import org.example.shapes.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import java.util.function.Function;
 public class ShapesViewModel {
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
-    private Style currentStyle;
 
     public enum Listener {
         SELECTION, CANVAS_SELECTION, SHAPES_WINDOW_SELECTION,
@@ -135,13 +133,5 @@ public class ShapesViewModel {
 
     public Shape getSelectedShape() {
         return selectedShape;
-    }
-
-    public Style getCurrentStyle() {
-        return currentStyle;
-    }
-
-    public void setCurrentStyle(Style currentStyle) {
-        this.currentStyle = currentStyle;
     }
 }
