@@ -283,19 +283,11 @@ public class Canvas extends _ComponentJPanel {
         }
     }
 
-    // 도형 수정
-    public void modifyShape(Shape shape) {
-        if (selectedShape != null) {
-            selectedShape = null;
-        }
-
-        Set<Long> keySet = shapes.keySet();
-        for(Long key : keySet) {
-            if (shapes.get(key).getId() == shape.getId()) {
-                selectedShape = shape;
-                OnSelectionChanged();
-                repaint();
-            }
+    // 도형 스타일 수정
+    public void changeShapeStyle(Long id, Style style) {
+        if(selectedShape.getId() == id){
+            selectedShape.setStyle(style);
+            repaint();
         }
     }
 
