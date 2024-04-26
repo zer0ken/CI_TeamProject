@@ -3,16 +3,12 @@ package org.example.shapes;
 import java.awt.*;
 
 public class Line extends Shape {
+
   public LineHandle startHandle, endHandle;
 
   public Line() {
     startHandle = new LineHandle(x1, y1, true);
     endHandle = new LineHandle(x2, y2, false);
-  }
-
-  public Line(Line other) {
-    startHandle = new LineHandle(other.startHandle);
-    endHandle = new LineHandle(other.endHandle);
   }
 
   @Override
@@ -21,32 +17,23 @@ public class Line extends Shape {
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
-    startHandle.setLocation(x1, y1);
-    endHandle.setLocation(x2, y2);
-  }
-
-  @Override
-  public void setStyle(Style style) {
-    this.lineWidth = style.getLineWidth();
-    this.lineColor = style.getLineColor();
+    startHandle.setHandleLocation(x1, y1);
+    endHandle.setHandleLocation(x2, y2);
   }
 
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setStroke(new BasicStroke(lineWidth));
-    g2d.setColor(lineColor);
+    g2d.setStroke(new BasicStroke(style.getLineWidth()));
+    g2d.setColor(style.getLineColor());
     g2d.drawLine(x1, y1, x2, y2);
   }
 
   @Override
-  public void drawSelection(Graphics g) {
+  public void drawSelected(Graphics g) {
+    draw(g);
     startHandle.drawHandle(g);
     endHandle.drawHandle(g);
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.setStroke(new BasicStroke(lineWidth));
-    g2d.setColor(lineColor);
-    g2d.drawLine(x1, y1, x2, y2);
   }
 
   @Override
@@ -57,16 +44,6 @@ public class Line extends Shape {
   }
 
   @Override
-  public void move(int dx, int dy) {
-    x1 += dx;
-    y1 += dy;
-    x2 += dx;
-    y2 += dy;
-    startHandle.setLocation(x1, y1);
-    endHandle.setLocation(x2, y2);
-  }
-
-  @Override
   public void allHandleStopDrag() {
     startHandle.stopDragging();
     endHandle.stopDragging();
@@ -74,15 +51,15 @@ public class Line extends Shape {
 
   @Override
   public void fineAndStartDrag(Point p){
-    if (startHandle.contains(p)){
+    if (startHandle.containsHandle(p)){
       startHandle.startDragging(p);
-    } else if (endHandle.contains(p)) {
+    } else if (endHandle.containsHandle(p)) {
       endHandle.startDragging(p);
     }
   }
 
   @Override
-  public void handleDrag(Point p, int dx, int dy) {
+  public void DragOrMove(Point p, int dx, int dy) {
     if (startHandle.isDragging()) {
       startHandle.drag(p);
     } else if (endHandle.isDragging()) {
@@ -92,22 +69,20 @@ public class Line extends Shape {
     }
   }
 
-  @Override
-  public Shape copy() {
-    return new Line(this);
-  }
-
+  // 시작점 이동
   public void setLineX1Y1(int x, int y) {
     this.x1 = x;
     this.y1 = y;
-    startHandle.setLocation(x, y);
+    startHandle.setHandleLocation(x, y);
   }
 
+  // 끝점 이동
   public void setLineX2Y2(int x, int y) {
     this.x2 = x;
     this.y2 = y;
-    endHandle.setLocation(x, y);
+    endHandle.setHandleLocation(x, y);
   }
+
 
   public class LineHandle extends Handle {
     private boolean isStartHandle;
@@ -118,10 +93,8 @@ public class Line extends Shape {
       this.isStartHandle = isStartHandle;
     }
 
-    public LineHandle(LineHandle other) {
-      this.x = other.x;
-      this.y = other.y;
-      this.isStartHandle = other.isStartHandle;
+    public boolean getIsStartHandle() {
+      return isStartHandle;
     }
 
     @Override

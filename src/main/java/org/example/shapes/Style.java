@@ -17,7 +17,15 @@ public class Style {
         this.textSize = textSize;
         this.textColor = textColor;
         this.textContent = textContent;
+    }
 
+    public Style(Style other) {
+        this.lineWidth = other.getLineWidth();
+        this.lineColor = other.getLineColor();
+        this.fillColor = other.getFillColor();
+        this.textSize = other.getTextSize();
+        this.textColor = other.getTextColor();
+        this.textContent = other.getTextContent();
     }
 
     public int getLineWidth() {

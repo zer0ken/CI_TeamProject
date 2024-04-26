@@ -14,7 +14,9 @@ import static org.example.components._Constants.*;
 
 public class Toolbar extends _ComponentJPanel {
     private final JLabel titleLabel;
+    //private Canvas canvas;
     private final StyleWindow styleWindow;
+    private long count = 0;                 // 도형 id용(임시)
 
     Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
         super(TOOLBAR_SIZE, shapesViewModel);
@@ -40,29 +42,29 @@ public class Toolbar extends _ComponentJPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 JButton source = (JButton) e.getSource();
-                Shape currentTShape;
-                Style style;
+                Shape selectedShape;
                 switch (source.getText()) {
                     case TOOLBAR_LINE :
-                        currentTShape = new Line();
+                        selectedShape = new Line();
                         break;
                     case TOOLBAR_RECT:
-                        currentTShape = new Rectangle();
+                        selectedShape = new Rectangle();
                         break;
                     case TOOLBAR_OVAL:
-                        currentTShape = new Oval();
+                        selectedShape = new Oval();
                         break;
                     case TOOLBAR_TEXT:
-                        currentTShape = new Text();
+                        selectedShape = new Text();
                         break;
                     default:
                         return;
                 }
-                currentTShape.setLocation(300, 300, 400, 400);
-                style = styleWindow.getStyle();
-                currentTShape.setStyle(style);
-                shapesViewModel.createByUser(currentTShape);
-//                canvas.addShape(currentTShape);
+                selectedShape.setLocation(300, 300, 400, 400);
+                selectedShape.setStyle(styleWindow.getStyle());
+                count++;
+                selectedShape.setId(count);
+                shapesViewModel.createByUser(selectedShape);
+//                canvas.addShape(count, selectedShape);
 //                canvas.repaint();
             }
         }

@@ -9,25 +9,14 @@ public class Text extends Shape {
   private int centerX, centerY;
 
   public Text() {
-    northHandle = new TextHandle((x1 + x2) / 2, y1, false, "north");
-    southHandle = new TextHandle((x1 + x2) / 2, y2, false, "south");
-    eastHandle = new TextHandle(x2, (y1 + y2) / 2, false, "east");
-    westHandle = new TextHandle(x1, (y1 + y2) / 2, false, "west");
-    northEastHandle = new TextHandle(x2, y1, true, "northEast");
     northWestHandle = new TextHandle(x1, y1, true, "northWest");
     southEastHandle = new TextHandle(x2, y2, true, "southEast");
-    southWestHandle = new TextHandle(x1, y2, true, "southWest");
-  }
-
-  public Text(Text other) {
-    northHandle = new TextHandle(other.northHandle);
-    southHandle = new TextHandle(other.southHandle);
-    eastHandle = new TextHandle(other.eastHandle);
-    westHandle = new TextHandle(other.westHandle);
-    northEastHandle = new TextHandle(other.northEastHandle);
-    northWestHandle = new TextHandle(other.northWestHandle);
-    southEastHandle = new TextHandle(other.southEastHandle);
-    southWestHandle = new TextHandle(other.southWestHandle);
+    northEastHandle = new TextHandle(x1, y2, true, "northEast");
+    southWestHandle = new TextHandle(x2, y1, true, "southWest");
+    northHandle = new TextHandle(x1, (y1 + y2) / 2, false, "north");
+    southHandle = new TextHandle(x2, (y1 + y2) / 2, false, "south");
+    eastHandle = new TextHandle((x1 + x2) / 2, y2, false, "east");
+    westHandle = new TextHandle((x1 + x2) / 2, y1, false, "west");
   }
 
   @Override
@@ -36,140 +25,94 @@ public class Text extends Shape {
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
-  }
-
-  @Override
-  public void setStyle(Style style) {
-    this.textSize = style.getTextSize();
-    this.textColor = style.getTextColor();
-    this.textContent = style.getTextContent();
+    northWestHandle.setHandleLocation(x1, y1);
+    southEastHandle.setHandleLocation(x2, y2);
+    northEastHandle.setHandleLocation(x1, y2);
+    southWestHandle.setHandleLocation(x2, y1);
+    northHandle.setHandleLocation(x1, (y1 + y2) / 2);
+    southHandle.setHandleLocation(x2, (y1 + y2) / 2);
+    eastHandle.setHandleLocation((x1 + x2) / 2, y2);
+    westHandle.setHandleLocation((x1 + x2) / 2, y1);
   }
 
   @Override
   public void draw(Graphics g) {
-    Font font = new Font(null, Font.PLAIN, textSize);
-    g.setColor(textColor);
+    Font font = new Font(null, Font.PLAIN, style.getTextSize());
+    g.setColor(style.getTextColor());
     g.setFont(font);
 
     FontMetrics metrics = g.getFontMetrics(font);
-    textWidth = metrics.stringWidth(textContent);
+    textWidth = metrics.stringWidth(style.getTextContent());
     textHeight = metrics.getHeight();
 
-    if (x1 < x2 && y1 < y2) {
-      centerX = x1 + (x2 - x1) / 2;
-      centerY = y1 + (y2 - y1) / 2;
-    } else if (x2 < x1 && y1 < y2) {
-      centerX = x2 + (x1 - x2) / 2;
-      centerY = y1 + (y2 - y1) / 2;
-    } else if (x1 < x2 && y2 < y1) {
-      centerX = x1 + (x2 - x1) / 2;
-      centerY = y2 + (y1 - y2) / 2;
-    } else if (x2 < x1 && y2 < y1) {
-      centerX = x2 + (x1 - x2) / 2;
-      centerY = y2 + (y1 - y2) / 2;
-    }
-    g.drawString(textContent, centerX - textWidth/2, centerY + textHeight/2);
+    centerX = Math.min(x1, x2) + (Math.max(x1, x2) - Math.min(x1, x2)) / 2;
+    centerY = Math.min(y1, y2) + (Math.max(y1, y2) - Math.min(y1, y2)) / 2;
+
+    g.drawString(style.getTextContent(), centerX - textWidth / 2, centerY + textHeight / 2);
   }
 
   @Override
-  public void drawSelection(Graphics g) {
-    Font font = new Font(Font.SANS_SERIF, Font.PLAIN, textSize);
-    g.setFont(font);
-    g.setColor(textColor);
-    FontMetrics metrics = g.getFontMetrics(font);
-    textWidth = metrics.stringWidth(textContent);
-    textHeight = metrics.getHeight();
-
-    if (x1 < x2 && y1 < y2) {
-      centerX = x1 + (x2 - x1) / 2;
-      centerY = y1 + (y2 - y1) / 2;
-    } else if (x2 < x1 && y1 < y2) {
-      centerX = x2 + (x1 - x2) / 2;
-      centerY = y1 + (y2 - y1) / 2;
-    } else if (x1 < x2 && y2 < y1) {
-      centerX = x1 + (x2 - x1) / 2;
-      centerY = y2 + (y1 - y2) / 2;
-    } else if (x2 < x1 && y2 < y1) {
-      centerX = x2 + (x1 - x2) / 2;
-      centerY = y2 + (y1 - y2) / 2;
-    }
-    g.drawString(textContent, centerX - textWidth/2, centerY + textHeight/2);
-
+  public void drawSelected(Graphics g) {
+    draw(g);
+    northWestHandle.drawHandle(g);
+    southEastHandle.drawHandle(g);
+    northEastHandle.drawHandle(g);
+    southWestHandle.drawHandle(g);
     northHandle.drawHandle(g);
     southHandle.drawHandle(g);
     eastHandle.drawHandle(g);
     westHandle.drawHandle(g);
-    northEastHandle.drawHandle(g);
-    northWestHandle.drawHandle(g);
-    southEastHandle.drawHandle(g);
-    southWestHandle.drawHandle(g);
   }
 
   @Override
-  public boolean contains(Point p) {
+  public boolean contains(Point p) {                  // 포인트가 사각형 내에 있는 지 확인
     return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
   }
 
   @Override
-  public void move(int dx, int dy) {
-    x1 += dx;
-    y1 += dy;
-    x2 += dx;
-    y2 += dy;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
-  }
-
-  @Override
   public void allHandleStopDrag() {
+    northWestHandle.stopDragging();
+    southEastHandle.stopDragging();
+    northEastHandle.stopDragging();
+    southWestHandle.stopDragging();
     northHandle.stopDragging();
     southHandle.stopDragging();
     eastHandle.stopDragging();
     westHandle.stopDragging();
-    northEastHandle.stopDragging();
-    northWestHandle.stopDragging();
-    southEastHandle.stopDragging();
-    southWestHandle.stopDragging();
   }
 
   @Override
   public void fineAndStartDrag(Point p){
-    if (northHandle.contains(p)){
-      northHandle.startDragging(p);
-    } else if (southHandle.contains(p)) {
-      southHandle.startDragging(p);
-    } else if (eastHandle.contains(p)) {
-      eastHandle.startDragging(p);
-    } else if (westHandle.contains(p)) {
-      westHandle.startDragging(p);
-    } else if (northEastHandle.contains(p)) {
-      northEastHandle.startDragging(p);
-    } else if (northWestHandle.contains(p)) {
+    if (northWestHandle.containsHandle(p)) {
       northWestHandle.startDragging(p);
-    } else if (southEastHandle.contains(p)) {
+    } else if (southEastHandle.containsHandle(p)) {
       southEastHandle.startDragging(p);
-    } else if (southWestHandle.contains(p)) {
+    } else if (northEastHandle.containsHandle(p)) {
+      northEastHandle.startDragging(p);
+    } else if (southWestHandle.containsHandle(p)) {
       southWestHandle.startDragging(p);
+    } else if (northHandle.containsHandle(p)){
+      northHandle.startDragging(p);
+    } else if (southHandle.containsHandle(p)) {
+      southHandle.startDragging(p);
+    } else if (eastHandle.containsHandle(p)) {
+      eastHandle.startDragging(p);
+    } else if (westHandle.containsHandle(p)) {
+      westHandle.startDragging(p);
     }
   }
 
   @Override
-  public void handleDrag(Point p, int dx, int dy) {
-    if (northHandle.isDragging()) {
+  public void DragOrMove(Point p, int dx, int dy) {
+    if (northWestHandle.isDragging()) {
+      northWestHandle.drag(p);
+    } else if (southEastHandle.isDragging()) {
+      southEastHandle.drag(p);
+    } else if (northEastHandle.isDragging()) {
+      northEastHandle.drag(p);
+    } else if (southWestHandle.isDragging()) {
+      southWestHandle.drag(p);
+    } else if (northHandle.isDragging()) {
       northHandle.drag(p);
     } else if (southHandle.isDragging()) {
       southHandle.drag(p);
@@ -177,107 +120,43 @@ public class Text extends Shape {
       eastHandle.drag(p);
     } else if (westHandle.isDragging()) {
       westHandle.drag(p);
-    } else if (northEastHandle.isDragging()) {
-      northEastHandle.drag(p);
-    } else if (northWestHandle.isDragging()) {
-      northWestHandle.drag(p);
-    } else if (southEastHandle.isDragging()) {
-      southEastHandle.drag(p);
-    } else if (southWestHandle.isDragging()) {
-      southWestHandle.drag(p);
     } else {
       move(dx, dy);
     }
   }
 
-  @Override
-  public Shape copy() {
-    return new Text(this);
+  public void setRectX1(int x) {
+    setLocation(x, this.y1, this.x2, this.y2);
   }
 
-  public void setTextX1(int x1) {
-    this.x1 = x1;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northWestHandle.setLocation(x1, y1);
-    southWestHandle.setLocation(x1, y2);
+  public void setRectY1(int y) {
+    setLocation(this.x1, y, this.x2, this.y2);
   }
 
-  public void setTextY1(int y1) {
-    this.y1 = y1;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
+  public void setRectX2(int x) {
+    setLocation(this.x1, this.y1, x, this.y2);
   }
 
-  public void setTextX2(int x2) {
-    this.x2 = x2;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    southEastHandle.setLocation(x2, y2);
+  public void setRectY2(int y) {
+    setLocation(this.x1, this.y1, this.x2, y);
   }
 
-  public void setTextY2(int y2) {
-    this.y2 = y2;
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
+  public void setRectX1Y1(int x, int y) {
+    setLocation(x, y, this.x2, this.y2);
   }
 
-  public void setTextX1Y1(int x, int y) {
-    this.x1 = x;
-    this.y1 = y;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
-    southWestHandle.setLocation(x1, y2);
+  public void setRectX2Y2(int x, int y) {
+    setLocation(this.x1, this.y1, x, y);
   }
 
-  public void setTextX2Y2(int x, int y) {
-    this.x2 = x;
-    this.y2 = y;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
+  public void setRectX1Y2(int x, int y) {
+    setLocation(x, this.y1, this.x2, y);
   }
 
-  public void setTextX1Y2(int x1, int y2) {
-    this.x1 = x1;
-    this.y2 = y2;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northWestHandle.setLocation(x1, y1);
-    southEastHandle.setLocation(x2, y2);
-    southWestHandle.setLocation(x1, y2);
+  public void setRectX2Y1(int x, int y) {
+    setLocation(this.x1, y, x, this.y2);
   }
 
-  public void setTextX2Y1(int x2, int y1) {
-    this.x2 = x2;
-    this.y1 = y1;
-    northHandle.setLocation((x1 + x2) / 2, y1);
-    southHandle.setLocation((x1 + x2) / 2, y2);
-    eastHandle.setLocation(x2, (y1 + y2) / 2);
-    westHandle.setLocation(x1, (y1 + y2) / 2);
-    northEastHandle.setLocation(x2, y1);
-    northWestHandle.setLocation(x1, y1);
-    southEastHandle.setLocation(x2, y2);
-  }
 
   public class TextHandle extends Handle {
 
@@ -288,30 +167,23 @@ public class Text extends Shape {
       this.direction = direction;
     }
 
-    public TextHandle(TextHandle other) {
-      this.x = other.x;
-      this.y = other.y;
-      this.isDiagonalHandle = other.isDiagonalHandle;
-      this.direction = other.direction;
-    }
-
     @Override
     public void drag(Point mousePoint) {
       x = mousePoint.x - offsetX;
       y = mousePoint.y - offsetY;
       if (!isDiagonalHandle) {
         switch (direction) {
-          case "west" -> setTextX1(x);
-          case "east" -> setTextX2(x);
-          case "north" -> setTextY1(y);
-          case "south" -> setTextY2(y);
+          case "north" -> setRectX1(x);
+          case "west" -> setRectY1(y);
+          case "south" -> setRectX2(x);
+          case "east" -> setRectY2(y);
         }
       } else {
         switch (direction) {
-          case "northWest" -> setTextX1Y1(x, y);
-          case "southEast" -> setTextX2Y2(x, y);
-          case "northEast" -> setTextX2Y1(x, y);
-          case "southWest" -> setTextX1Y2(x, y);
+          case "northWest" -> setRectX1Y1(x, y);
+          case "southEast" -> setRectX2Y2(x, y);
+          case "northEast" -> setRectX1Y2(x, y);
+          case "southWest" -> setRectX2Y1(x, y);
         }
       }
     }

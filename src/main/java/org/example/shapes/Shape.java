@@ -6,47 +6,72 @@ import static org.example.components._Constants.*;
 
 public abstract class Shape {
   protected int x1, y1, x2, y2;
-  protected int lineWidth;
-  protected Color lineColor;
-  protected Color fillColor;
-  protected int textSize;
-  protected Color textColor;
-  protected String textContent;
+  protected Style style;
   protected long id;
+
+
+  public int getX1() {
+    return x1;
+  }
+
+  public int getY1() {
+    return y1;
+  }
+
+  public int getX2() {
+    return x2;
+  }
+
+  public int getY2() {
+    return y2;
+  }
+
+  public Style getStyle() {               // 도형의 스타일 리턴
+    return style;
+  }
+
+  public void setStyle(Style style) {     // 도형의 스타일 설정
+    this.style = style;
+  }
+
+  public long getId() {                   // 도형의 id 리턴
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public void move(int dx, int dy) {      // 도형 전체 이동
+    setLocation(x1 + dx, y1 + dy, x2 + dx, y2 + dy);
+  }
+
+  public void copy(Shape other) {
+    this.setLocation(other.getX1(), other.getY1(), other.getX2(), other.getY2());
+    this.setStyle(new Style(other.getStyle()));
+    this.setId(other.getId());
+  }
+
 
   public abstract void setLocation(int x1, int y1, int x2, int y2);
 
-  public abstract void setStyle(Style style);
-
   public abstract void draw(Graphics g);
 
-  public abstract void drawSelection(Graphics g);
+  public abstract void drawSelected(Graphics g);
 
   public abstract boolean contains(Point p);
-
-  public abstract void move(int dx, int dy);
 
   public abstract void allHandleStopDrag();
 
   public abstract void fineAndStartDrag(Point p);
 
-  public abstract void handleDrag(Point p, int dx, int dy);
+  public abstract void DragOrMove(Point p, int dx, int dy);
 
-  public abstract Shape copy();
-
-  public long getId() {
-    return id;
-  }
-
-  public Style getStyle() {
-    return null;
-  }
-
-  public Shape copy(Style style) {
-    Shape copied = this.copy();
-    copied.setStyle(style);
-    return copied;
-  }
+//  public Shape copy(Style style) {
+//    Shape copied = this.copy();
+//    copied.setStyle(style);
+//    return copied;
+//  }
 
   public String getRepresentation() {
     return switch (getClass().getName()) {
