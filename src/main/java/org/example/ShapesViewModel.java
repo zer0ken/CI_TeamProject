@@ -4,12 +4,14 @@ import org.example.shapes.Shape;
 import org.example.shapes.Style;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 
 public class ShapesViewModel {
-    private Map<Long, Shape> shapes;
+    private final Map<Long, Shape> shapes;
     private Shape selectedShape;
     private Style currentStyle;
 
@@ -42,6 +44,8 @@ public class ShapesViewModel {
         serverCreationListeners = new ArrayList<>();
         serverModificationListeners = new ArrayList<>();
         serverRemovalListeners = new ArrayList<>();
+
+        shapes = Collections.synchronizedMap(new TreeMap<>());
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
