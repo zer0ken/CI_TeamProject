@@ -1,8 +1,10 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Style {
+public class Style implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int lineWidth;
     private Color lineColor;    // TODO: Change type as need.
     private Color fillColor;

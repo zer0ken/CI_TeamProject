@@ -1,9 +1,10 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Oval extends Shape {
-
+public class Oval extends Shape implements Serializable {
+  private static final long serialVersionUID = 1L;
   public OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Oval() {
@@ -120,8 +121,8 @@ public class Oval extends Shape {
   }
 
 
-  public class OvalHandle extends Handle {
-
+  public class OvalHandle extends Handle implements Serializable {
+    private static final long serialVersionUID = 1L;
     public OvalHandle(int x, int y, String direction) {
       this.x = x;
       this.y = y;

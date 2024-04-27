@@ -1,9 +1,10 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Rectangle extends Shape {
-
+public class Rectangle extends Shape implements Serializable {
+  private static final long serialVersionUID = 1L;
   public RectHandle northHandle, southHandle, eastHandle, westHandle;
   public RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
@@ -174,8 +175,8 @@ public class Rectangle extends Shape {
   }
 
 
-  public class RectHandle extends Handle {
-
+  public class RectHandle extends Handle implements Serializable {
+    private static final long serialVersionUID = 1L;
     public RectHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;
       this.y = y;
