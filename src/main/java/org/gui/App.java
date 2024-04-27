@@ -1,12 +1,13 @@
-package org.example.components;
+package org.gui;
 
-import org.example.ShapesViewModel;
+import org.gui.components.*;
+import org.gui.components.Canvas;
 
 import javax.swing.*;
 
 import java.awt.*;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class App extends JFrame {
 
@@ -21,7 +22,7 @@ public class App extends JFrame {
         setResizable(false);
 
         // init inner components
-        Canvas canvas = new Canvas(shapesViewModel);
+        org.gui.components.Canvas canvas = new Canvas(shapesViewModel);
         StyleWindow styleWindow = new StyleWindow(shapesViewModel);
 
         JPanel leftPanel = new VerticalJPanel();

@@ -1,10 +1,10 @@
-package org.example.components;
+package org.gui.components;
 
-import org.example.ShapesViewModel;
-import org.example.act.Act;
-import org.example.shapes.Rectangle;
-import org.example.shapes.Shape;
-import org.example.shapes.*;
+import org.gui.ShapesViewModel;
+import org.gui.act.Act;
+import org.gui.shapes.Rectangle;
+import org.gui.shapes.Shape;
+import org.gui.shapes.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-import static org.example.components._Constants.CANVAS_SIZE;
+import static org.gui.components._Constants.CANVAS_SIZE;
 
 public class Canvas extends _ComponentJPanel {
 

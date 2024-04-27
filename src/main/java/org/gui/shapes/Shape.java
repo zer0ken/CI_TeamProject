@@ -1,8 +1,8 @@
-package org.example.shapes;
+package org.gui.shapes;
 
 import java.awt.*;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public abstract class Shape {
   protected int x1, y1, x2, y2;

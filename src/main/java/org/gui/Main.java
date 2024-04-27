@@ -1,7 +1,6 @@
-package org.example;
+package org.gui;
 
-import org.example.components.App;
-import org.example.components.Login;
+import org.gui.components.Login;
 
 public class Main {
     public static void main(String[] args) {
