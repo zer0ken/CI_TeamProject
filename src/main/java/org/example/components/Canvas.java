@@ -41,7 +41,7 @@ public class Canvas extends _ComponentJPanel {
         undoStack = new Stack<>();
         redoStack = new Stack<>();
 
-        //shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION, );
+        shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION, this::createToolbar);
 
         shapesViewModel.addListener(ShapesViewModel.Listener.SHAPES_WINDOW_SELECTION, this::selectSilently);
         shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_CREATION, this::createSilently);
@@ -54,7 +54,8 @@ public class Canvas extends _ComponentJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedShape != null) {
-                    //removeShape(selectedShape.getId());
+                    // DELETE 동작 스택에 저장
+                    storeUndoStack(Act.Action.DELETE, selectedShape, null);
                     remove(selectedShape);   // 맵에서 도형 삭제 -> 다시 그림 -> 뷰모델에 도형 삭제 전달
                     selectedShape = null;
                     select(null);    // 선택된 도형 x -> 다시 그림 -> 뷰모델에 현재 선택된 도형 없음 전달
@@ -98,17 +99,7 @@ public class Canvas extends _ComponentJPanel {
                             || selectedShape instanceof Oval || selectedShape instanceof Text) {
                             selectedShape.allHandleStopDrag();
                             selectedShape.fineAndStartDrag(e.getPoint());
-
-                            if (selectedShape instanceof Line) {
-                                previousShape = new Line();
-                            } else if (selectedShape instanceof Rectangle) {
-                                previousShape = new Rectangle();
-                            } else if (selectedShape instanceof Oval) {
-                                previousShape = new Oval();
-                            } else if (selectedShape instanceof Text) {
-                                previousShape = new Text();
-                            }
-                            previousShape.copy(selectedShape);
+                            previousShape = selectedShape.copy();
                         }
                         repaint();
                         return;
@@ -136,7 +127,9 @@ public class Canvas extends _ComponentJPanel {
 
                         // 도형 변경 동작 스택에 저장
                         //changeShape(selectedShape, previousShape);
-                        modify(selectedShape, previousShape);
+                        // CHANGE 동작 스택에 저장
+                        storeUndoStack(Act.Action.CHANGE, selectedShape, previousShape);
+                        modify(selectedShape);   // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
                     }
                 }
             }
@@ -196,23 +189,11 @@ public class Canvas extends _ComponentJPanel {
 
     // CREATE, DELETE, CHANGE 동작을 스택에 저장
     public void storeUndoStack(Act.Action action, Shape targetShape, Shape previousShape) {
-        Shape temp = null;
-        if (targetShape instanceof Line) {
-            temp = new Line();
-        } else if (targetShape instanceof Rectangle) {
-            temp = new Rectangle();
-        } else if (targetShape instanceof Oval) {
-            temp = new Oval();
-        } else if (targetShape instanceof Text) {
-            temp = new Text();
-        }
-        Objects.requireNonNull(temp).copy(targetShape);
-
         if (previousShape != null) {        // CHANGE
-            undoStack.push(new Act(action, temp, previousShape,
+            undoStack.push(new Act(action, targetShape.copy(), previousShape,
                 null,null));
         } else {                            // CREATE, DELETE
-            undoStack.push(new Act(action, temp, null,
+            undoStack.push(new Act(action, targetShape.copy(), null,
                 null,null));
         }
         while (!redoStack.isEmpty()) {
@@ -220,27 +201,26 @@ public class Canvas extends _ComponentJPanel {
         }
     }
 
-    // 되돌리기 메소드
+    // undo 메소드
     public void unDo() {
         if(!undoStack.isEmpty()) {
             Act act = undoStack.pop();
             if(act.getAction() == Act.Action.CREATE) {
-                shapes.remove(act.getTargetShape().getId());
+                remove(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = null;
                     select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
                 }
 
             } else if (act.getAction() == Act.Action.DELETE) {
-                shapes.put(act.getTargetShape().getId(), act.getTargetShape());
+                create(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getTargetShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
 
             } else if (act.getAction() == Act.Action.CHANGE) {
-                shapes.remove(act.getTargetShape().getId());
-                shapes.put(act.getPreviousShape().getId(), act.getPreviousShape());
+                modify(act.getPreviousShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
@@ -261,18 +241,17 @@ public class Canvas extends _ComponentJPanel {
         if(!redoStack.isEmpty()) {
             Act act = redoStack.pop();
             if (act.getAction() == Act.Action.CREATE) {
-                shapes.put(act.getTargetShape().getId(), act.getTargetShape());
+                create(act.getTargetShape());
 
             } else if (act.getAction() == Act.Action.DELETE) {
-                shapes.remove(act.getTargetShape().getId());
+                remove(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = null;
                     select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
                 }
 
             } else if (act.getAction() == Act.Action.CHANGE) {
-                shapes.remove(act.getTargetShape().getId());
-                shapes.put(act.getPreviousShape().getId(), act.getPreviousShape());
+                modify(act.getTargetShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
@@ -288,25 +267,6 @@ public class Canvas extends _ComponentJPanel {
         }
     }
 
-
-//    // 도형 선택 (도형목록 창에서 요청)
-//    public void chooseShape(Shape shape) {
-//        if (selectedShape != null) {
-//            selectedShape = null;
-//            shapesViewModel.selectByCanvas(-1);
-//        }
-//
-//        Set<Long> keySet = shapes.keySet();
-//        for(Long key : keySet) {
-//            if (shapes.get(key).getId() == shape.getId()) {
-//                selectedShape = shape;
-//                shapesViewModel.selectByCanvas(selectedShape.getId());
-//                //OnSelectionChanged();
-//                repaint();
-//            }
-//        }
-//    }
-
     // 도형 스타일 수정
     public void changeShapeStyle(Long id, Style style) {
         if(selectedShape.getId() == id){
@@ -316,70 +276,71 @@ public class Canvas extends _ComponentJPanel {
     }
 
 
-//    // 선택된 도형 변경
-//    public Shape OnSelectionChanged() {
-//        return selectedShape;
-//    }
-
-
-
     public void select(Shape shape) {
-        selectSilently(shape);
         if (shape == null) {
             shapesViewModel.selectByCanvas(-1);
         } else {
             shapesViewModel.selectByCanvas(shape.getId());
         }
+        selectSilently(shape);
     }
 
-    public void create(Shape newShape) {
-        createSilently(newShape);
-        shapesViewModel.createByUser(newShape);
+
+    public void create(Shape shape) {                     // 유저가 도형 생성할 때
+        shapesViewModel.createByUser(shape);              // 맵에서 도형 생성 후 다른 컴포넌트에 전파
+        createSilently(shape);                            // 캔버스에 반영
     }
 
-    public void remove(Shape shape) {
-        removeSilently(shape);
-        shapesViewModel.removeByUser(shape.getId());
+    public void remove(Shape shape) {                     // 유저가 도형 지울 때
+        shapesViewModel.removeByUser(shape.getId());      // 맵에서 도형 지우고 다른 컴포넌트에 전파
+        removeSilently(shape);                            // 캔버스에 반영
     }
 
-    public void modify(Shape modifiedShape, Shape previousShape) {
-        modifySilently(modifiedShape, previousShape);
-        shapesViewModel.modifyByUser(modifiedShape, previousShape);
+    public void modify(Shape modifiedShape) {                               // 유저가 도형 변경할 때
+        shapesViewModel.modifyByUser(modifiedShape.getId(), modifiedShape); // 맵 도형변경 후 다른 컴포넌트에 전파
+        modifySilently(modifiedShape);                                      // 캔버스에 반영
     }
 
+
+    public Void createToolbar(Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
+        storeUndoStack(Act.Action.CREATE, newShape, null);  // CREATE 동작 스택에 저장
+        create(newShape);
+        return null;
+    }
 
     private Void selectSilently(Shape selected) {
         // TODO: 도형 선택
-        // 도형 편집 창에서 도형 선택 -> 맵에 선택된 도형 업데이트
-        // -> 다른 컴포넌트에 전파 -> 캔버스에 선택된 도형 그림
-        shapesViewModel.selectByShapesWindow(selected.getId());
+        // 2. 뷰모델의 맵에 선택된 도형이 바뀌어 있음 -> 캔버스에서 선택된 도형 변경 -> 리페인트
+
+        selectedShape = shapesViewModel.getSelectedShape();
         repaint();
         return null;
     }
 
     private Void createSilently(Shape newShape) {
         // TODO: 도형 추가
-        // 서버에서 도형 추가 요청 -> 뷰모델의 맵에 도형 추가
-        // -> 다른 컴포넌트에 전파 -> 캔버스에 추가된 도형 그림
-        shapesViewModel.createByServer(newShape);
+        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 추가되있음, 다른 클라이언트의 뷰모델에도 추가됨
+        // -> 캔버스에 추가된 도형 그림(리페인트)
+
         repaint();
         return null;
     }
 
     private Void removeSilently(Shape removedShape) {
         // TODO: 도형 삭제
-        // 서버에서 도형 삭제 요청 -> 뷰모델의 맵에서 도형 삭제
-        // -> 다른 컴포넌트에 전파 -> 캔버스에서 삭제된 도형 지움
-        shapesViewModel.removeByServer(removedShape.getId());
+        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 삭제되있음, 다른 클라이언트의 뷰모델에도 삭제됨
+        // -> 캔버스에 삭제된 도형 지움(리페인트)
+
         repaint();
         return null;
     }
 
     private Void modifySilently(Shape modifiedShape) {
         // TODO: 도형 수정
-        // 서버에서 도형 변경 요청 -> 뷰모델의 맵에서 변경 전 도형을 변경 후 도형으로 수정
-        // -> 다른 컴포넌트에 전파
-        shapesViewModel.modifyByServer(modifiedShape.getId(), modifiedShape);
+        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 수정되있음, 다른 클라이언트의 뷰모델에도 수정됨
+        // -> 캔버스에 수정된 도형 반영(리페인트)
+
+        repaint();
         return null;
     }
 
