@@ -103,7 +103,7 @@ public class ShapesViewModel {
         if(id != oldId) {
             newShape = shape.copy(id);
             removeByServer(oldId);
-            if (selectedShape.getId() == oldId) {
+            if (selectedShape != null && selectedShape.getId() == oldId) {
                 selectedShape = newShape;
             }
         }
