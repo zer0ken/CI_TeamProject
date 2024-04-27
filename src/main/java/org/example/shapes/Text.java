@@ -33,12 +33,9 @@ public class Text extends Shape {
   @Override
   public Text copy() {
     Text copied = new Text(this);
-    copied.setX1(this.getX1());
-    copied.setY1(this.getY1());
-    copied.setX2(this.getX2());
-    copied.setY2(this.getY2());
-    copied.setId(this.getId());
+    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
     copied.setStyle(this.getStyle());
+    copied.setId(this.getId());
     return copied;
   }
 
