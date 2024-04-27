@@ -20,10 +20,6 @@ public class ClientsWindow extends _ComponentJPanel {
 
         clientListModel = new DefaultListModel<>();
 
-        for (int i = 0; i < 100; i++) {
-            clientListModel.addElement("tester "+i);
-        }
-
         clientList = new JList<>(clientListModel);
 
         JScrollPane scrollPane = new JScrollPane(

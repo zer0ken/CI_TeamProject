@@ -35,10 +35,6 @@ public class ShapesWindow extends _ComponentJPanel implements ListSelectionListe
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
 
-        for (int i = 0; i < 50; i++) {
-            shapeListModel.add(0, new ShapeListItem(i*11111L, "사각형"));
-        }
-
         scrollPane.setPreferredSize(new Dimension(200, 300));
 
         add(BorderLayout.CENTER, scrollPane);
