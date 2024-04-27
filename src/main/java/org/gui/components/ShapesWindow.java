@@ -1,8 +1,8 @@
-package org.example.components;
+package org.gui.components;
 
 
-import org.example.ShapesViewModel;
-import org.example.shapes.Shape;
+import org.gui.ShapesViewModel;
+import org.gui.shapes.Shape;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Map;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class ShapesWindow extends _ComponentJPanel implements ListSelectionListener {
     DefaultListModel<ShapeListItem> shapeListModel;

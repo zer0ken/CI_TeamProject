@@ -1,6 +1,6 @@
-package org.example.components;
+package org.gui.components;
 
-import org.example.ShapesViewModel;
+import org.gui.ShapesViewModel;
 
 import javax.swing.*;
 import java.awt.*;

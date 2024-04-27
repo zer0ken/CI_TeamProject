@@ -1,43 +1,43 @@
-package org.example.shapes;
+package org.gui.shapes;
 
 import java.awt.*;
 
-public class Rectangle extends Shape {
+public class Text extends Shape {
+  public TextHandle northHandle, southHandle, eastHandle, westHandle;
+  public TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
+  private int textWidth, textHeight;
+  private int centerX, centerY;
 
-  public RectHandle northHandle, southHandle, eastHandle, westHandle;
-  public RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
-
-  public Rectangle() {
-    northWestHandle = new RectHandle(x1, y1, true, "northWest");
-    southEastHandle = new RectHandle(x2, y2, true, "southEast");
-    northEastHandle = new RectHandle(x1, y2, true, "northEast");
-    southWestHandle = new RectHandle(x2, y1, true, "southWest");
-    northHandle = new RectHandle(x1, (y1 + y2) / 2, false, "north");
-    southHandle = new RectHandle(x2, (y1 + y2) / 2, false, "south");
-    eastHandle = new RectHandle((x1 + x2) / 2, y2, false, "east");
-    westHandle = new RectHandle((x1 + x2) / 2, y1, false, "west");
+  public Text() {
+    northWestHandle = new TextHandle(x1, y1, true, "northWest");
+    southEastHandle = new TextHandle(x2, y2, true, "southEast");
+    northEastHandle = new TextHandle(x1, y2, true, "northEast");
+    southWestHandle = new TextHandle(x2, y1, true, "southWest");
+    northHandle = new TextHandle(x1, (y1 + y2) / 2, false, "north");
+    southHandle = new TextHandle(x2, (y1 + y2) / 2, false, "south");
+    eastHandle = new TextHandle((x1 + x2) / 2, y2, false, "east");
+    westHandle = new TextHandle((x1 + x2) / 2, y1, false, "west");
   }
 
-  public Rectangle(Rectangle other) {
-    northWestHandle = new RectHandle(other.northWestHandle);
-    southEastHandle = new RectHandle(other.southEastHandle);
-    northEastHandle = new RectHandle(other.northEastHandle);
-    southWestHandle = new RectHandle(other.southWestHandle);
-    northHandle = new RectHandle(other.northHandle);
-    southHandle = new RectHandle(other.southHandle);
-    eastHandle = new RectHandle(other.eastHandle);
-    westHandle = new RectHandle(other.westHandle);
+  public Text(Text other) {
+    northWestHandle = new TextHandle(other.northWestHandle);
+    southEastHandle = new TextHandle(other.southEastHandle);
+    northEastHandle = new TextHandle(other.northEastHandle);
+    southWestHandle = new TextHandle(other.northWestHandle);
+    northHandle = new TextHandle(other.northHandle);
+    southHandle = new TextHandle(other.southHandle);
+    eastHandle = new TextHandle(other.eastHandle);
+    westHandle = new TextHandle(other.westHandle);
   }
 
   @Override
-  public Rectangle copy() {
-    Rectangle copied = new Rectangle(this);
+  public Text copy() {
+    Text copied = new Text(this);
     copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
     copied.setStyle(this.getStyle());
     copied.setId(this.getId());
     return copied;
   }
-
 
   @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
@@ -57,12 +57,18 @@ public class Rectangle extends Shape {
 
   @Override
   public void draw(Graphics g) {
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.setPaint(style.getFillColor());
-    g2d.fillRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
-    g2d.drawRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+    Font font = new Font(null, Font.PLAIN, style.getTextSize());
+    g.setColor(style.getTextColor());
+    g.setFont(font);
+
+    FontMetrics metrics = g.getFontMetrics(font);
+    textWidth = metrics.stringWidth(style.getTextContent());
+    textHeight = metrics.getHeight();
+
+    centerX = Math.min(x1, x2) + (Math.max(x1, x2) - Math.min(x1, x2)) / 2;
+    centerY = Math.min(y1, y2) + (Math.max(y1, y2) - Math.min(y1, y2)) / 2;
+
+    g.drawString(style.getTextContent(), centerX - textWidth / 2, centerY + textHeight / 2);
   }
 
   @Override
@@ -139,7 +145,6 @@ public class Rectangle extends Shape {
     }
   }
 
-
   public void setRectX1(int x) {
     setLocation(x, this.y1, this.x2, this.y2);
   }
@@ -155,7 +160,6 @@ public class Rectangle extends Shape {
   public void setRectY2(int y) {
     setLocation(this.x1, this.y1, this.x2, y);
   }
-
 
   public void setRectX1Y1(int x, int y) {
     setLocation(x, y, this.x2, this.y2);
@@ -174,16 +178,16 @@ public class Rectangle extends Shape {
   }
 
 
-  public class RectHandle extends Handle {
+  public class TextHandle extends Handle {
 
-    public RectHandle(int x, int y, boolean isDiagonalHandle, String direction) {
+    public TextHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;
       this.y = y;
       this.isDiagonalHandle = isDiagonalHandle;
       this.direction = direction;
     }
 
-    public RectHandle(RectHandle other) {
+    public TextHandle(TextHandle other) {
       this.x = other.getX();
       this.y = other.getY();
       this.isDiagonalHandle = other.getIsDiagonalHandle();

@@ -1,7 +1,7 @@
-package org.example.act;
+package org.gui.act;
 
-import org.example.shapes.Shape;
-import org.example.shapes.Style;
+import org.gui.shapes.Shape;
+import org.gui.shapes.Style;
 
 public class Act {
   public enum Action {

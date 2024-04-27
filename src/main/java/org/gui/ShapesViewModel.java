@@ -1,6 +1,6 @@
-package org.example;
+package org.gui;
 
-import org.example.shapes.Shape;
+import org.gui.shapes.Shape;
 
 import java.util.*;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package org.example.shapes;
+package org.gui.shapes;
 
 import java.awt.*;
 

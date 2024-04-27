@@ -1,16 +1,16 @@
-package org.example.components;
+package org.gui.components;
 
-import org.example.ShapesViewModel;
-import org.example.shapes.Rectangle;
-import org.example.shapes.Shape;
-import org.example.shapes.*;
+import org.gui.ShapesViewModel;
+import org.gui.shapes.Rectangle;
+import org.gui.shapes.Shape;
+import org.gui.shapes.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class Toolbar extends _ComponentJPanel {
     private final JLabel titleLabel;
@@ -18,7 +18,7 @@ public class Toolbar extends _ComponentJPanel {
     private final StyleWindow styleWindow;
     private long count = 0;                 // 도형 id용(임시)
 
-    Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
+    public Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
         super(TOOLBAR_SIZE, shapesViewModel);
         setLayout(new FlowLayout(FlowLayout.LEFT));
 

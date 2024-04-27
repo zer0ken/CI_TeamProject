@@ -1,16 +1,16 @@
-package org.example.components;
+package org.gui.components;
 
-import org.example.ShapesViewModel;
-import org.example.components.labeledslot.ColorInput;
-import org.example.components.labeledslot.NumberInput;
-import org.example.components.labeledslot.TextInput;
-import org.example.shapes.Style;
+import org.gui.ShapesViewModel;
+import org.gui.components.labeledslot.ColorInput;
+import org.gui.components.labeledslot.NumberInput;
+import org.gui.components.labeledslot.TextInput;
+import org.gui.shapes.Style;
 
 import javax.swing.*;
 
 import java.awt.*;
 
-import static org.example.components._Constants.*;
+import static org.gui.components._Constants.*;
 
 public class StyleWindow extends _ComponentJPanel {
     private final NumberInput lineWidth;
@@ -20,7 +20,7 @@ public class StyleWindow extends _ComponentJPanel {
     private final ColorInput textColor;
     private final TextInput textContent;
 
-    StyleWindow(ShapesViewModel shapesViewModel) {
+    public StyleWindow(ShapesViewModel shapesViewModel) {
         super(STYLE_WINDOW_SIZE, shapesViewModel);
         setBorder(BorderFactory.createTitledBorder(STYLE_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

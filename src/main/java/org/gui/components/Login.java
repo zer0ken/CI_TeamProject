@@ -1,9 +1,9 @@
-package org.example.components;
+package org.gui.components;
 
 import javax.swing.*;
 
-import static org.example.components._Constants.LOGIN_MESSAGE;
-import static org.example.components._Constants.LOGIN_TITLE;
+import static org.gui.components._Constants.LOGIN_MESSAGE;
+import static org.gui.components._Constants.LOGIN_TITLE;
 
 public class Login {
     public static String login() {
