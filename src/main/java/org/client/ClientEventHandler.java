@@ -6,8 +6,13 @@ import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.EventHandler;
 import org.gui.App;
 import org.gui.ShapesViewModel;
+import org.gui.shapes.Rectangle;
+import org.gui.shapes.Shape;
+import org.gui.shapes.Style;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
+
+import java.awt.*;
 
 public class ClientEventHandler extends EventHandler {
     private App app;
@@ -57,7 +62,24 @@ public class ClientEventHandler extends EventHandler {
 
     @Override
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
+//        shapesViewModel.createByServer(cmd.getId(), cmd.getShape());
+        Shape serverShape = new Rectangle();
+        serverShape.setId(cmd.getId());
+        serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
+        shapesViewModel.createByServer(cmd.getId(), serverShape);
+    }
 
-        super.processAddShapeEvent(de, cmd);
+    @Override
+    protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
+//        shapesViewModel.modifyByServer(cmd.getId(), cmd.getShape());
+        Shape serverShape = new Rectangle();
+        serverShape.setId(cmd.getId());
+        serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
+        shapesViewModel.modifyByServer(cmd.getId(), serverShape);
+    }
+
+    @Override
+    protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
+        shapesViewModel.removeByServer(cmd.getId());
     }
 }
