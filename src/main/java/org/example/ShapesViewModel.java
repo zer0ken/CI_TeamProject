@@ -140,10 +140,16 @@ public class ShapesViewModel {
     }
 
     private void modify(long id, Shape shape) {
-        shapes.get(id).copy(shape);
+        if (selectedShape.getId() == id) {
+            selectedShape = shape;
+        }
+        shapes.put(id, shape);
     }
 
     private Shape remove(long id) {
+        if (selectedShape.getId() == id) {
+            selectedShape = null;
+        }
         return shapes.remove(id);
     }
 
