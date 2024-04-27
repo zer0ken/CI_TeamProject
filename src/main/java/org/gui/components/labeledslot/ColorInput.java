@@ -4,25 +4,28 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ColorInput extends LabeledSlot {
-    Color color = Color.BLACK;
+    Color color;
+    JButton lineColorButton;
 
-    public ColorInput(String label, String chooserTitle) {
+    public ColorInput(String label, String chooserTitle, Color color) {
         super(label);
-        JButton lineColorButton = new JButton();
+        this.color = color;
+        lineColorButton = new JButton();
         lineColorButton.setBackground(color);
 
         lineColorButton.addActionListener(e -> {
-            changeColor(
-                    JColorChooser.showDialog(null, chooserTitle, color)
-            );
-            lineColorButton.setBackground(color);
+            Color newColor = JColorChooser.showDialog(null, chooserTitle, color);
+            if (newColor != null) {
+                setColor(newColor);
+            }
         });
 
         addSlot(lineColorButton);
     }
 
-    protected void changeColor(Color color) {
+    public void setColor(Color color) {
         this.color = color;
+        lineColorButton.setBackground(color);
     }
 
     public Color getValue() {

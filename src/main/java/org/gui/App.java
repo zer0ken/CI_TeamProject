@@ -1,32 +1,17 @@
 package org.gui;
 
-import org.client.ClientStub;
 import org.gui.components.*;
 import org.gui.components.Canvas;
 
 import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import static org.gui.components._Constants.*;
 
 public class App extends JFrame {
-    private ClientStub clientStub;
 
-    private final StyleWindow styleWindow;
-    private final EditWindow editWindow;
-    private final Toolbar toolbar;
-    private final org.gui.components.Canvas canvas;
-    private final ClientsWindow clientsWindow;
-    private final ShapesWindow shapesWindow;
-
-    public App(ClientStub clientStub) {
-        this();
-        this.clientStub = clientStub;
-    }
-
-    private App() {  // TODO: App 클래스는 .components 패키지 외부로 이동해야 함
+    public App(ShapesViewModel shapesViewModel) {
         super(APP_TITLE);
 
         // init itself
@@ -43,18 +28,20 @@ public class App extends JFrame {
         });
 
         // init inner components
-        // TODO: 각 컴포넌트에 적절한 리스너(콜백)를 부착해야 함
+        org.gui.components.Canvas canvas = new Canvas(shapesViewModel);
+        StyleWindow styleWindow = new StyleWindow(shapesViewModel);
+
         JPanel leftPanel = new VerticalJPanel();
-        leftPanel.add(styleWindow = new StyleWindow());
-        leftPanel.add(editWindow = new EditWindow());
+        leftPanel.add(styleWindow);
+        leftPanel.add(new EditWindow(shapesViewModel));
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(toolbar = new Toolbar());
-        centerPanel.add(canvas = new Canvas());
+        centerPanel.add(new Toolbar(shapesViewModel, styleWindow));
+        centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(clientsWindow = new ClientsWindow());
-        rightPanel.add(shapesWindow = new ShapesWindow());
+        rightPanel.add(new ClientsWindow(shapesViewModel));
+        rightPanel.add(new ShapesWindow(shapesViewModel));
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);

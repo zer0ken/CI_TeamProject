@@ -4,11 +4,13 @@ import javax.swing.*;
 
 public class NumberInput extends LabeledSlot {
     private JSpinner numberSpinner;
+    private SpinnerNumberModel model;
+    private int value;
 
-    private int value = 0;
-
-    public NumberInput(String label, SpinnerNumberModel model) {
+    public NumberInput(String label, int num, SpinnerNumberModel model) {
         super(label);
+        this.value = num;
+        this.model = model;
         numberSpinner = new JSpinner(model);
 
         numberSpinner.addChangeListener(e -> {
@@ -23,5 +25,10 @@ public class NumberInput extends LabeledSlot {
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+        model.setValue(value);
     }
 }

@@ -1,5 +1,7 @@
 package org.gui.components;
 
+import org.gui.ShapesViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -11,16 +13,14 @@ public class ClientsWindow extends _ComponentJPanel {
     DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
+    public ClientsWindow(ShapesViewModel shapesViewModel) {
+        super(CLIENTS_WINDOW_SIZE, shapesViewModel);
     public ClientsWindow() {
         super(CLIENTS_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
         clientListModel = new DefaultListModel<>();
-
-        for (int i = 0; i < 100; i++) {
-            clientListModel.addElement("tester "+i);
-        }
 
         clientList = new JList<>(clientListModel);
 
