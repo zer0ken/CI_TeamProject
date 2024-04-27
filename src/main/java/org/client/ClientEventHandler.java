@@ -12,8 +12,8 @@ import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
-    private App app;
-    private ShapesViewModel shapesViewModel;
+    private final App app;
+    private final ShapesViewModel shapesViewModel;
 
     public ClientEventHandler(ClientStub clientStub, App app, ShapesViewModel shapesViewModel) {
         super(ServersideProtocol::parse, clientStub);

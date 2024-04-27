@@ -12,11 +12,9 @@ import java.util.ArrayList;
 
 public class ClientStub extends CMClientStub {
     private final ArrayList<String> clients = new ArrayList<>();
-    private ShapesViewModel shapesViewModel;
 
     public ClientStub(ShapesViewModel shapesViewModel) {
         super();
-        this.shapesViewModel = shapesViewModel;
 
         shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION,
             shape -> requestAdd(Base64.encode(shape)));
@@ -71,8 +69,7 @@ public class ClientStub extends CMClientStub {
         return null;
     }
 
-    public Void requestLeave() {
+    public void requestLeave() {
         terminateCM();
-        return null;
     }
 }
