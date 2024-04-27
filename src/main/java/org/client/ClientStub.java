@@ -16,6 +16,14 @@ public class ClientStub extends CMClientStub {
     public ClientStub(ShapesViewModel shapesViewModel) {
         super();
         this.shapesViewModel = shapesViewModel;
+
+        shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION,
+            shape -> requestAdd(shape.toString()));
+        shapesViewModel.addListener(ShapesViewModel.Listener.USER_MODIFICATION,
+            shape -> requestEdit(shape.getId(), shape.toString()));
+        shapesViewModel.addListener(ShapesViewModel.Listener.USER_REMOVAL,
+            shape -> requestRemove(shape.getId()));
+
     }
 
     public void sendDummy(String message) {
@@ -44,22 +52,26 @@ public class ClientStub extends CMClientStub {
         loginCM(Login.login(invalid), "");
     }
 
-    public void requestAdd(String shape) {
+    public Void requestAdd(String shape) {
         String message = ClientsideProtocol.build(Actions.ADD, shape);
         sendDummy(message);
+        return null;
     }
 
-    public void requestEdit(long id, String shape) {
+    public Void requestEdit(long id, String shape) {
         String message = ClientsideProtocol.build(Actions.EDIT, id, shape);
         sendDummy(message);
+        return null;
     }
 
-    public void requestRemove(long id) {
+    public Void requestRemove(long id) {
         String message = ClientsideProtocol.build(Actions.REMOVE, id);
         sendDummy(message);
+        return null;
     }
 
-    public void requestLeave() {
+    public Void requestLeave() {
         terminateCM();
+        return null;
     }
 }
