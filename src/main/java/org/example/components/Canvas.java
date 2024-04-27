@@ -304,7 +304,7 @@ public class Canvas extends _ComponentJPanel {
 
     public Void createToolbar(Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
         storeUndoStack(Act.Action.CREATE, newShape, null);  // CREATE 동작 스택에 저장
-        create(newShape);
+        repaint();
         return null;
     }
 
