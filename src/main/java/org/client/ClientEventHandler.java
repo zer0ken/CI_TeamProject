@@ -3,16 +3,13 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
+import org.common.Base64;
 import org.common.EventHandler;
 import org.gui.App;
 import org.gui.ShapesViewModel;
-import org.gui.shapes.Rectangle;
 import org.gui.shapes.Shape;
-import org.gui.shapes.Style;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
-
-import java.awt.*;
 
 public class ClientEventHandler extends EventHandler {
     private App app;
@@ -62,22 +59,22 @@ public class ClientEventHandler extends EventHandler {
 
     @Override
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
-//        shapesViewModel.createByServer(cmd.getId(), cmd.getShape());
-        Shape serverShape = new Rectangle();
-        serverShape.setId(cmd.getId());
-        serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
-        serverShape.setLocation(100, 100, 200, 200);
-        shapesViewModel.createByServer(cmd.getId(), serverShape);
+        Shape decoded = (Shape) Base64.decode(cmd.getShape());
+        if (decoded == null) {
+            System.out.println("@ Decode Failed!!!");
+            return;
+        }
+        shapesViewModel.createByServer(cmd.getId(), decoded);
     }
 
     @Override
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
-//        shapesViewModel.modifyByServer(cmd.getId(), cmd.getShape());
-        Shape serverShape = new Rectangle();
-        serverShape.setId(cmd.getId());
-        serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
-        serverShape.setLocation(100, 100, 200, 200);
-        shapesViewModel.modifyByServer(cmd.getId(), serverShape);
+        Shape decoded = (Shape) Base64.decode(cmd.getShape());
+        if (decoded == null) {
+            System.out.println("@ Decode Failed!!!");
+            return;
+        }
+        shapesViewModel.modifyByServer(cmd.getId(), decoded);
     }
 
     @Override

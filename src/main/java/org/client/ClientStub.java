@@ -2,6 +2,7 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
+import org.common.Base64;
 import org.gui.ShapesViewModel;
 import org.gui.components.Login;
 import org.protocol.Actions;
@@ -18,9 +19,9 @@ public class ClientStub extends CMClientStub {
         this.shapesViewModel = shapesViewModel;
 
         shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION,
-            shape -> requestAdd(shape.toString()));
+            shape -> requestAdd(Base64.encode(shape)));
         shapesViewModel.addListener(ShapesViewModel.Listener.USER_MODIFICATION,
-            shape -> requestEdit(shape.getId(), shape.toString()));
+            shape -> requestEdit(shape.getId(), Base64.encode(shape)));
         shapesViewModel.addListener(ShapesViewModel.Listener.USER_REMOVAL,
             shape -> requestRemove(shape.getId()));
 
