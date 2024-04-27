@@ -11,6 +11,11 @@ public class ServerStub extends CMServerStub {
     public static final String DEFAULT_GROUP = "g1";
     ShapeMap shapes;
 
+    ServerStub() {
+        super();
+        shapes = new ShapeMap();
+    }
+
     public void castDummy(String message) {
         CMDummyEvent fromServer = new CMDummyEvent();
         fromServer.setHandlerSession(DEFAULT_SESSION);

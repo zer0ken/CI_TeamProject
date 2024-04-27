@@ -65,7 +65,7 @@ public class ShapesViewModel {
             case SERVER_MODIFICATION -> serverModificationListeners.add(callback);
             case REMOVAL -> {
                 userRemovalListeners.add(callback);
-                userRemovalListeners.add(callback);
+                serverRemovalListeners.add(callback);
             }
             case USER_REMOVAL -> userRemovalListeners.add(callback);
             case SERVER_REMOVAL -> serverRemovalListeners.add(callback);
@@ -133,6 +133,9 @@ public class ShapesViewModel {
 
     private void propagate(ArrayList<Function<Shape, Void>> listeners, Shape shape) {
         listeners.forEach(f -> f.apply(shape));
+        System.out.println("### 현재 뷰모델");
+        shapes.forEach((i, s) -> System.out.println("\t"+ i + ": " + s.toString()));
+        System.out.println("###");
     }
 
     private void add(Shape shape) {
@@ -140,14 +143,14 @@ public class ShapesViewModel {
     }
 
     private void modify(long id, Shape shape) {
-        if (selectedShape.getId() == id) {
+        if (selectedShape != null && selectedShape.getId() == id) {
             selectedShape = shape;
         }
         shapes.put(id, shape);
     }
 
     private Shape remove(long id) {
-        if (selectedShape.getId() == id) {
+        if (selectedShape != null && selectedShape.getId() == id) {
             selectedShape = null;
         }
         return shapes.remove(id);

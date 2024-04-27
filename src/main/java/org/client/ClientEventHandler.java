@@ -66,6 +66,7 @@ public class ClientEventHandler extends EventHandler {
         Shape serverShape = new Rectangle();
         serverShape.setId(cmd.getId());
         serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
+        serverShape.setLocation(100, 100, 200, 200);
         shapesViewModel.createByServer(cmd.getId(), serverShape);
     }
 
@@ -75,6 +76,7 @@ public class ClientEventHandler extends EventHandler {
         Shape serverShape = new Rectangle();
         serverShape.setId(cmd.getId());
         serverShape.setStyle(new Style(4, Color.black, Color.green, 4, Color.black, "server-client-test"));
+        serverShape.setLocation(100, 100, 200, 200);
         shapesViewModel.modifyByServer(cmd.getId(), serverShape);
     }
 

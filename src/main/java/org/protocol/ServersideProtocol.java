@@ -29,7 +29,7 @@ public class ServersideProtocol extends Protocol {
                     command.setShape(tokenizer.nextToken());
                 }
                 // remove $ <id: long>
-                case REMOVE -> command.setShape(tokenizer.nextToken());
+                case REMOVE -> command.setId(Long.parseLong(tokenizer.nextToken()));
             }
             return command;
         } catch (NumberFormatException e) {
