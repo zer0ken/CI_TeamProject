@@ -2,8 +2,8 @@ package org.common;
 
 import java.io.*;
 
-public class Base64 {
-    public static String encode(Object object) {
+public class Base64 implements Serializable {
+    public static String encode(Serializable object) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             ObjectOutput out = new ObjectOutputStream(bos);

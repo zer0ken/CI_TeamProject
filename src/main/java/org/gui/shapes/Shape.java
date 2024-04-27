@@ -1,12 +1,15 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import static org.gui.components._Constants.*;
 
-public abstract class Shape {
+public abstract class Shape implements Serializable {
+  private static final long serialVersionUID = 1L;
   protected int x1, y1, x2, y2;
   protected Style style;
+
   protected long id;
 
 

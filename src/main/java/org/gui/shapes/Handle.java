@@ -1,8 +1,10 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-abstract class Handle {
+abstract class Handle implements Serializable {
+  private static final long serialVersionUID = 1L;
   protected int x, y;
   protected boolean isDiagonalHandle;
   protected String direction;

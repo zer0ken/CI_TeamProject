@@ -1,9 +1,10 @@
 package org.gui.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Line extends Shape {
-
+public class Line extends Shape implements Serializable {
+  private static final long serialVersionUID = 1L;
   public LineHandle startHandle, endHandle;
 
   public Line() {
@@ -98,7 +99,8 @@ public class Line extends Shape {
   }
 
 
-  public class LineHandle extends Handle {
+  public class LineHandle extends Handle implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean isStartHandle;
 
     public LineHandle(int x, int y, boolean isStartHandle) {
