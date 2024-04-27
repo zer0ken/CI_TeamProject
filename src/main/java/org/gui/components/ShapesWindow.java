@@ -22,6 +22,9 @@ public class ShapesWindow extends _ComponentJPanel implements ListSelectionListe
         setLayout(new BorderLayout());
 
         shapesViewModel.addListener(ShapesViewModel.Listener.CANVAS_SELECTION, this::selectByCanvas);
+        shapesViewModel.addListener(ShapesViewModel.Listener.CREATION, this::update);
+        shapesViewModel.addListener(ShapesViewModel.Listener.MODIFICATION, this::update);
+        shapesViewModel.addListener(ShapesViewModel.Listener.REMOVAL, this::update);
 
         shapeListModel = new DefaultListModel<>();
 
@@ -40,6 +43,11 @@ public class ShapesWindow extends _ComponentJPanel implements ListSelectionListe
         add(BorderLayout.CENTER, scrollPane);
     }
 
+    public Void update(Shape unused) {
+        setShapes(shapesViewModel.getShapes());
+        return null;
+    }
+
     public void setShapes(Map<Long, Shape> shapes) {
         shapeListModel.removeAllElements();
         shapes.forEach((id, shape) ->
@@ -48,11 +56,17 @@ public class ShapesWindow extends _ComponentJPanel implements ListSelectionListe
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
+            return;
+        }
         ShapeListItem selectedShape;
         if (!shapeList.isSelectionEmpty()) {
-            selectedShape = shapeListModel.get(e.getFirstIndex());
-            shapesViewModel.selectByShapesWindow(selectedShape.getId());
-        } else {
+            selectedShape = shapeList.getSelectedValue();
+            if (shapesViewModel.getSelectedShape() == null
+                    || shapesViewModel.getSelectedShape().getId() != selectedShape.getId()) {
+                shapesViewModel.selectByShapesWindow(selectedShape.getId());
+            }
+        } else if (shapesViewModel.getSelectedShape() != null) {
             shapesViewModel.selectByShapesWindow(-1);
         }
     }

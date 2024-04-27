@@ -65,6 +65,7 @@ public class EditWindow extends _ComponentJPanel {
         fillColor.setColor(style.getFillColor());
         textSize.setValue(style.getTextSize());
         textColor.setColor(style.getTextColor());
+        textContent.setValue(style.getTextContent());
         return null;
     }
 

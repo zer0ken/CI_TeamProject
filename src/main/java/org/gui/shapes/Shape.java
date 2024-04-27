@@ -82,7 +82,7 @@ public abstract class Shape {
 
 
   public String getRepresentation() {
-    return switch (getClass().getName()) {
+    return switch (getClass().getSimpleName()) {
       case "Line" -> TOOLBAR_LINE;
       case "Oval" -> TOOLBAR_OVAL;
       case "Rectangle" -> TOOLBAR_RECT;
