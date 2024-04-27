@@ -2,6 +2,7 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
+import org.gui.ShapesViewModel;
 import org.gui.components.Login;
 import org.protocol.Actions;
 import org.protocol.ClientsideProtocol;
@@ -10,6 +11,12 @@ import java.util.ArrayList;
 
 public class ClientStub extends CMClientStub {
     private final ArrayList<String> clients = new ArrayList<>();
+    private ShapesViewModel shapesViewModel;
+
+    public ClientStub(ShapesViewModel shapesViewModel) {
+        super();
+        this.shapesViewModel = shapesViewModel;
+    }
 
     public void sendDummy(String message) {
         CMDummyEvent fromClient = new CMDummyEvent();

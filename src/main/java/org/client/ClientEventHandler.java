@@ -1,17 +1,22 @@
 package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.EventHandler;
 import org.gui.App;
+import org.gui.ShapesViewModel;
+import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
     private App app;
+    private ShapesViewModel shapesViewModel;
 
-    public ClientEventHandler(ClientStub clientStub, App app) {
+    public ClientEventHandler(ClientStub clientStub, App app, ShapesViewModel shapesViewModel) {
         super(ServersideProtocol::parse, clientStub);
         this.app = app;
+        this.shapesViewModel = shapesViewModel;
     }
 
     @Override
@@ -48,5 +53,11 @@ public class ClientEventHandler extends EventHandler {
         System.out.println("@ 잘가라...");
         ((ClientStub) stub).removeClient(de.getUserName());
         app.updateClientsWindow();
+    }
+
+    @Override
+    protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
+
+        super.processAddShapeEvent(de, cmd);
     }
 }

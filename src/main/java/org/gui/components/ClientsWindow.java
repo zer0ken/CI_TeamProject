@@ -15,8 +15,6 @@ public class ClientsWindow extends _ComponentJPanel {
 
     public ClientsWindow(ShapesViewModel shapesViewModel) {
         super(CLIENTS_WINDOW_SIZE, shapesViewModel);
-    public ClientsWindow() {
-        super(CLIENTS_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
