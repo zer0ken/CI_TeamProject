@@ -2,10 +2,7 @@ package org.example;
 
 import org.example.shapes.Shape;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 
 
@@ -76,13 +73,23 @@ public class ShapesViewModel {
     }
 
     public void selectByCanvas(long id) {
-        selectedShape = shapes.get(id);
-        propagate(canvasSelectionListeners, selectedShape);
+        if (id == -1) {
+            selectedShape = null;
+            propagate(canvasSelectionListeners, null);
+        } else {
+            selectedShape = shapes.get(id);
+            propagate(canvasSelectionListeners, selectedShape);
+        }
     }
 
     public void selectByShapesWindow(long id) {
-        selectedShape = shapes.get(id);
-        propagate(shapesWindowSelectionListeners, selectedShape);
+        if (id == -1) {
+            selectedShape = null;
+            propagate(shapesWindowSelectionListeners, null);
+        } else {
+            selectedShape = shapes.get(id);
+            propagate(shapesWindowSelectionListeners, selectedShape);
+        }
     }
 
     public void createByUser(Shape shape) {
@@ -124,11 +131,15 @@ public class ShapesViewModel {
     }
 
     private void modify(long id, Shape shape) {
-        shapes.put(id, shape);
+        shapes.get(id).copy(shape);
     }
 
     private Shape remove(long id) {
         return shapes.remove(id);
+    }
+
+    public Map<Long, Shape> getShapes() {
+        return shapes;
     }
 
     public Shape getSelectedShape() {

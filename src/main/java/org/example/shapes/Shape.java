@@ -14,16 +14,32 @@ public abstract class Shape {
     return x1;
   }
 
+  public void setX1(int x1) {
+    this.x1 = x1;
+  }
+
   public int getY1() {
     return y1;
+  }
+
+  public void setY1(int y1) {
+    this.y1 = y1;
   }
 
   public int getX2() {
     return x2;
   }
 
+  public void setX2(int x2) {
+    this.x2 = x2;
+  }
+
   public int getY2() {
     return y2;
+  }
+
+  public void setY2(int y2) {
+    this.y2 = y2;
   }
 
   public Style getStyle() {               // 도형의 스타일 리턴
@@ -46,12 +62,19 @@ public abstract class Shape {
     setLocation(x1 + dx, y1 + dy, x2 + dx, y2 + dy);
   }
 
-  public void copy(Shape other) {
-    this.setLocation(other.getX1(), other.getY1(), other.getX2(), other.getY2());
-    this.setStyle(new Style(other.getStyle()));
-    this.setId(other.getId());
+  public abstract Shape copy();
+
+  public Shape copy(Long id) {
+    Shape copied = this.copy();
+    copied.setId(id);
+    return copied;
   }
 
+  public Shape copy(Style style) {
+    Shape copied = this.copy();
+    copied.setStyle(style);
+    return copied;
+  }
 
   public abstract void setLocation(int x1, int y1, int x2, int y2);
 
@@ -67,11 +90,6 @@ public abstract class Shape {
 
   public abstract void DragOrMove(Point p, int dx, int dy);
 
-//  public Shape copy(Style style) {
-//    Shape copied = this.copy();
-//    copied.setStyle(style);
-//    return copied;
-//  }
 
   public String getRepresentation() {
     return switch (getClass().getName()) {

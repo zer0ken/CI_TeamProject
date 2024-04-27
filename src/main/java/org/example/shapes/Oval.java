@@ -13,6 +13,26 @@ public class Oval extends Shape {
     southWestHandle = new OvalHandle(x2, y1, "southWest");
   }
 
+  public Oval(Oval other) {
+    northWestHandle = new OvalHandle(other.northWestHandle);
+    southEastHandle = new OvalHandle(other.southEastHandle);
+    northEastHandle = new OvalHandle(other.northEastHandle);
+    southWestHandle = new OvalHandle(other.southWestHandle);
+  }
+
+  @Override
+  public Oval copy() {
+    Oval copied = new Oval(this);
+    copied.setX1(this.getX1());
+    copied.setY1(this.getY1());
+    copied.setX2(this.getX2());
+    copied.setY2(this.getY2());
+    copied.setId(this.getId());
+    copied.setStyle(this.getStyle());
+    return copied;
+  }
+
+
   @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
@@ -109,6 +129,12 @@ public class Oval extends Shape {
       this.x = x;
       this.y = y;
       this.direction = direction;
+    }
+
+    public OvalHandle(OvalHandle other) {
+      this.x = other.getX();
+      this.y = other.getY();
+      this.direction = other.getDirection();
     }
 
     @Override

@@ -11,6 +11,23 @@ public class Line extends Shape {
     endHandle = new LineHandle(x2, y2, false);
   }
 
+  public Line(Line other) {
+    startHandle = new LineHandle(other.startHandle);
+    endHandle = new LineHandle(other.endHandle);
+  }
+
+  @Override
+  public Line copy() {
+    Line copied = new Line(this);
+    copied.setX1(this.getX1());
+    copied.setY1(this.getY1());
+    copied.setX2(this.getX2());
+    copied.setY2(this.getY2());
+    copied.setId(this.getId());
+    copied.setStyle(this.getStyle());
+    return copied;
+  }
+
   @Override
   public void setLocation(int x1, int y1, int x2, int y2) {
     this.x1 = x1;
@@ -91,6 +108,12 @@ public class Line extends Shape {
       this.x = x;
       this.y = y;
       this.isStartHandle = isStartHandle;
+    }
+
+    public LineHandle(LineHandle other) {
+      this.x = other.getX();
+      this.y = other.getY();
+      this.isStartHandle = other.getIsStartHandle();
     }
 
     public boolean getIsStartHandle() {

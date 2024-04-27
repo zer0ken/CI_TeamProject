@@ -42,28 +42,28 @@ public class Toolbar extends _ComponentJPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 JButton source = (JButton) e.getSource();
-                Shape selectedShape;
+                Shape clickedShape;
                 switch (source.getText()) {
                     case TOOLBAR_LINE :
-                        selectedShape = new Line();
+                        clickedShape = new Line();
                         break;
                     case TOOLBAR_RECT:
-                        selectedShape = new Rectangle();
+                        clickedShape = new Rectangle();
                         break;
                     case TOOLBAR_OVAL:
-                        selectedShape = new Oval();
+                        clickedShape = new Oval();
                         break;
                     case TOOLBAR_TEXT:
-                        selectedShape = new Text();
+                        clickedShape = new Text();
                         break;
                     default:
                         return;
                 }
-                selectedShape.setLocation(300, 300, 400, 400);
-                selectedShape.setStyle(styleWindow.getStyle());
+                clickedShape.setLocation(300, 300, 400, 400);
+                clickedShape.setStyle(styleWindow.getStyle());
                 count++;
-                selectedShape.setId(count);
-                shapesViewModel.createByUser(selectedShape);
+                clickedShape.setId(count);
+                shapesViewModel.createByUser(clickedShape);
 //                canvas.addShape(count, selectedShape);
 //                canvas.repaint();
             }
