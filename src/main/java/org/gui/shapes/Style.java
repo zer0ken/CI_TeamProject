@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Style {
     private int lineWidth;
-    private Color lineColor;    // TODO: Change type as need.
+    private Color lineColor;
     private Color fillColor;
     private int textSize;
     private Color textColor;

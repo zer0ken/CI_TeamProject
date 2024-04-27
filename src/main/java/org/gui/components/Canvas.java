@@ -309,7 +309,6 @@ public class Canvas extends _ComponentJPanel {
     }
 
     private Void selectSilently(Shape selected) {
-        // TODO: 도형 선택
         // 2. 뷰모델의 맵에 선택된 도형이 바뀌어 있음 -> 캔버스에서 선택된 도형 변경 -> 리페인트
 
         selectedShape = shapesViewModel.getSelectedShape();
@@ -318,7 +317,6 @@ public class Canvas extends _ComponentJPanel {
     }
 
     private Void createSilently(Shape newShape) {
-        // TODO: 도형 추가
         // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 추가되있음, 다른 클라이언트의 뷰모델에도 추가됨
         // -> 캔버스에 추가된 도형 그림(리페인트)
 
@@ -327,7 +325,6 @@ public class Canvas extends _ComponentJPanel {
     }
 
     private Void removeSilently(Shape removedShape) {
-        // TODO: 도형 삭제
         // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 삭제되있음, 다른 클라이언트의 뷰모델에도 삭제됨
         // -> 캔버스에 삭제된 도형 지움(리페인트)
 
@@ -336,7 +333,6 @@ public class Canvas extends _ComponentJPanel {
     }
 
     private Void modifySilently(Shape modifiedShape) {
-        // TODO: 도형 수정
         // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 수정되있음, 다른 클라이언트의 뷰모델에도 수정됨
         // -> 캔버스에 수정된 도형 반영(리페인트)
 
