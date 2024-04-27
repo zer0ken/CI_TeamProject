@@ -97,8 +97,17 @@ public class ShapesViewModel {
         propagate(userCreationListeners, shape);
     }
 
-    public void createByServer(Shape shape) {
-        add(shape);
+    public void createByServer(long id, Shape shape) {
+        long oldId = shape.getId();
+        Shape newShape = shape;
+        if(id != oldId) {
+            newShape = shape.copy(id);
+            removeByServer(oldId);
+            if (selectedShape.getId() == oldId) {
+                selectedShape = newShape;
+            }
+        }
+        add(newShape);
         propagate(serverCreationListeners, shape);
     }
 
