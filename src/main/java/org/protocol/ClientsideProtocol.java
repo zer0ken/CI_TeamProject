@@ -3,15 +3,15 @@ package org.protocol;
 import java.util.StringTokenizer;
 
 public class ClientsideProtocol extends Protocol {
-    public static String build(Actions action, long id) {
+    public static String build(Action action, long id) {
         return action.value + "$" + id;
     }
 
-    public static String build(Actions action, String shape) {
+    public static String build(Action action, String shape) {
         return action.value + "$" + shape;
     }
 
-    public static String build(Actions action, long id, String shape) {
+    public static String build(Action action, long id, String shape) {
         return build(action, id) + "$" + shape;
     }
 
@@ -19,7 +19,7 @@ public class ClientsideProtocol extends Protocol {
         try {
             StringTokenizer tokenizer = new StringTokenizer(message, DELIM);
             Command command = new Command();
-            Actions action = Actions.valueOf(tokenizer.nextToken().toUpperCase());
+            Action action = Action.valueOf(tokenizer.nextToken().toUpperCase());
             command.setAction(action);
 
             switch (action) {

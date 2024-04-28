@@ -3,7 +3,7 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.EventHandler;
-import org.protocol.Actions;
+import org.protocol.Action;
 import org.protocol.ClientsideProtocol;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
@@ -37,7 +37,7 @@ public class ServerEventHandler extends EventHandler {
         }
         ((ServerStub) stub).putShape(id, cmd.getShape());
 
-        String message = ServersideProtocol.build(Actions.ADD, id, cmd.getShape());
+        String message = ServersideProtocol.build(Action.ADD, id, cmd.getShape());
         ((ServerStub) stub).castDummy(message);
     }
 
@@ -49,7 +49,7 @@ public class ServerEventHandler extends EventHandler {
 
         ((ServerStub) stub).putShape(cmd.getId(), cmd.getShape());
 
-        String message = ServersideProtocol.build(Actions.EDIT, cmd.getId(), cmd.getShape());
+        String message = ServersideProtocol.build(Action.EDIT, cmd.getId(), cmd.getShape());
         ((ServerStub) stub).castDummy(message);
     }
 
@@ -61,7 +61,7 @@ public class ServerEventHandler extends EventHandler {
 
         ((ServerStub) stub).removeShape(cmd.getId());
 
-        String message = ServersideProtocol.build(Actions.REMOVE, cmd.getId());
+        String message = ServersideProtocol.build(Action.REMOVE, cmd.getId());
         ((ServerStub) stub).castDummy(message);
     }
 }

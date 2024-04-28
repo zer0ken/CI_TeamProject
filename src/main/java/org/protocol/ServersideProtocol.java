@@ -5,11 +5,11 @@ import java.util.StringTokenizer;
 public class ServersideProtocol extends Protocol {
     public static final String DELIM = "$";
 
-    public static String build(Actions action, long id) {
+    public static String build(Action action, long id) {
         return action.value + "$" + id;
     }
 
-    public static String build(Actions action, long id, String shape) {
+    public static String build(Action action, long id, String shape) {
         return build(action, id) + "$" + shape;
     }
 
@@ -19,7 +19,7 @@ public class ServersideProtocol extends Protocol {
             StringTokenizer tokenizer = new StringTokenizer(message, DELIM);
             Command command = new Command();
 
-            Actions action = Actions.valueOf(tokenizer.nextToken().toUpperCase());
+            Action action = Action.valueOf(tokenizer.nextToken().toUpperCase());
             command.setAction(action);
 
             switch (action) {

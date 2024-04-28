@@ -1,15 +1,15 @@
 package org.protocol;
 
 public class Command {
-    private Actions action = null;
+    private Action action = null;
     private Long id = null;
     private String shape = null;
 
-    public Actions getAction() {
+    public Action getAction() {
         return action;
     }
 
-    public void setAction(Actions action) {
+    public void setAction(Action action) {
         this.action = action;
     }
 

@@ -5,7 +5,7 @@ import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.common.Base64;
 import org.client.gui.ShapesViewModel;
 import org.client.gui.components.Login;
-import org.protocol.Actions;
+import org.protocol.Action;
 import org.protocol.ClientsideProtocol;
 
 import java.util.ArrayList;
@@ -52,19 +52,19 @@ public class ClientStub extends CMClientStub {
     }
 
     public Void requestAdd(String shape) {
-        String message = ClientsideProtocol.build(Actions.ADD, shape);
+        String message = ClientsideProtocol.build(Action.ADD, shape);
         sendDummy(message);
         return null;
     }
 
     public Void requestEdit(long id, String shape) {
-        String message = ClientsideProtocol.build(Actions.EDIT, id, shape);
+        String message = ClientsideProtocol.build(Action.EDIT, id, shape);
         sendDummy(message);
         return null;
     }
 
     public Void requestRemove(long id) {
-        String message = ClientsideProtocol.build(Actions.REMOVE, id);
+        String message = ClientsideProtocol.build(Action.REMOVE, id);
         sendDummy(message);
         return null;
     }
