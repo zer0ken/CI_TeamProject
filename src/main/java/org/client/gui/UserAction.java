@@ -4,7 +4,7 @@ import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
 
 public class UserAction {
-  public enum Action {
+  public enum Type {
     CREATE,         // 생성
     DELETE,         // 삭제
     CHANGE,         // 이동 및 크기 변경
@@ -12,13 +12,13 @@ public class UserAction {
   }
 
   // 공통 변수
-  private Action action;
+  private Type action;
   private Shape targetShape, previousShape;
   private Style targetStyle, previousStyle;
 
 
   // 생성자
-  public UserAction(Action action, Shape targetShape, Shape previousShape,
+  public UserAction(Type action, Shape targetShape, Shape previousShape,
                     Style targetStyle, Style previousStyle) {
     this.action = action;
     this.targetShape = targetShape;
@@ -28,11 +28,11 @@ public class UserAction {
   }
 
   // get/set 메소드
-  public Action getAction() {
+  public Type getAction() {
     return action;
   }
 
-  public void setAction(Action action) {
+  public void setAction(Type action) {
     this.action = action;
   }
 

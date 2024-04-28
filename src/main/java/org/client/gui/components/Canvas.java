@@ -57,7 +57,7 @@ public class Canvas extends _ComponentJPanel {
             public void actionPerformed(ActionEvent e) {
                 if (selectedShape != null) {
                     // DELETE 동작 스택에 저장
-                    storeUndoStack(UserAction.Action.DELETE, selectedShape, null);
+                    storeUndoStack(UserAction.Type.DELETE, selectedShape, null);
                     remove(selectedShape);   // 맵에서 도형 삭제 -> 다시 그림 -> 뷰모델에 도형 삭제 전달
                     selectedShape = null;
                     select(null);    // 선택된 도형 x -> 다시 그림 -> 뷰모델에 현재 선택된 도형 없음 전달
@@ -130,7 +130,7 @@ public class Canvas extends _ComponentJPanel {
                         // 도형 변경 동작 스택에 저장
                         //changeShape(selectedShape, previousShape);
                         // CHANGE 동작 스택에 저장
-                        storeUndoStack(UserAction.Action.CHANGE, selectedShape, previousShape);
+                        storeUndoStack(UserAction.Type.CHANGE, selectedShape, previousShape);
                         modify(selectedShape);   // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
                     }
                 }
@@ -173,24 +173,24 @@ public class Canvas extends _ComponentJPanel {
 
     // 도형 추가 및 CREATE 동작 저장 (원래 툴바에서 썻던 메소드)
     public void addShape(Long id, org.client.gui.shapes.Shape shape) {
-        storeUndoStack(UserAction.Action.CREATE, shape, null);           // CREATE 동작 스택에 저장
+        storeUndoStack(UserAction.Type.CREATE, shape, null);           // CREATE 동작 스택에 저장
         shapes.put(id, shape);
     }
 
     // 도형 제거 및 DELETE 동작 저장 (원래 캔버스에서 delete 키로 도형 삭제 시 썻던 메소드)
     public void removeShape(Long id) {
-        storeUndoStack(UserAction.Action.DELETE, shapes.get(id), null);  // DELETE 동작 스택에 저장
+        storeUndoStack(UserAction.Type.DELETE, shapes.get(id), null);  // DELETE 동작 스택에 저장
         shapes.remove(id);
     }
 
     // CHANGE 동작 저장 (원래 드래그 종료 후 변경 된 도형 저장 시 썻던 메소드)
     public void changeShape(org.client.gui.shapes.Shape targetShape, org.client.gui.shapes.Shape previousShape) {
-        storeUndoStack(UserAction.Action.CHANGE, targetShape, previousShape);
+        storeUndoStack(UserAction.Type.CHANGE, targetShape, previousShape);
     }
 
 
     // CREATE, DELETE, CHANGE 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Action action, org.client.gui.shapes.Shape targetShape, org.client.gui.shapes.Shape previousShape) {
+    public void storeUndoStack(UserAction.Type action, org.client.gui.shapes.Shape targetShape, org.client.gui.shapes.Shape previousShape) {
         if (previousShape != null) {        // CHANGE
             undoStack.push(new UserAction(action, targetShape.copy(), previousShape,
                 null,null));
@@ -207,30 +207,30 @@ public class Canvas extends _ComponentJPanel {
     public void unDo() {
         if(!undoStack.isEmpty()) {
             UserAction act = undoStack.pop();
-            if(act.getAction() == UserAction.Action.CREATE) {
+            if(act.getAction() == UserAction.Type.CREATE) {
                 remove(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = null;
                     select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
                 }
 
-            } else if (act.getAction() == UserAction.Action.DELETE) {
+            } else if (act.getAction() == UserAction.Type.DELETE) {
                 create(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getTargetShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
 
-            } else if (act.getAction() == UserAction.Action.CHANGE) {
+            } else if (act.getAction() == UserAction.Type.CHANGE) {
                 modify(act.getPreviousShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
-                act = new UserAction(UserAction.Action.CHANGE, act.getPreviousShape(), act.getTargetShape(),
+                act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
 
-            } else if (act.getAction() == UserAction.Action.STYLE_CHANGE) {
+            } else if (act.getAction() == UserAction.Type.STYLE_CHANGE) {
                 // 스타일 변경된 것 되돌리기
             }
 
@@ -242,26 +242,26 @@ public class Canvas extends _ComponentJPanel {
     public void reDo() {
         if(!redoStack.isEmpty()) {
             UserAction act = redoStack.pop();
-            if (act.getAction() == UserAction.Action.CREATE) {
+            if (act.getAction() == UserAction.Type.CREATE) {
                 create(act.getTargetShape());
 
-            } else if (act.getAction() == UserAction.Action.DELETE) {
+            } else if (act.getAction() == UserAction.Type.DELETE) {
                 remove(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = null;
                     select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
                 }
 
-            } else if (act.getAction() == UserAction.Action.CHANGE) {
+            } else if (act.getAction() == UserAction.Type.CHANGE) {
                 modify(act.getTargetShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
                     shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
-                act = new UserAction(UserAction.Action.CHANGE, act.getPreviousShape(), act.getTargetShape(),
+                act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
 
-            } else if (act.getAction() == UserAction.Action.STYLE_CHANGE) {
+            } else if (act.getAction() == UserAction.Type.STYLE_CHANGE) {
                 // 스타일 변경된 것 redo
             }
 
@@ -305,7 +305,7 @@ public class Canvas extends _ComponentJPanel {
 
 
     public Void createToolbar(org.client.gui.shapes.Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
-        storeUndoStack(UserAction.Action.CREATE, newShape, null);  // CREATE 동작 스택에 저장
+        storeUndoStack(UserAction.Type.CREATE, newShape, null);  // CREATE 동작 스택에 저장
         repaint();
         return null;
     }
