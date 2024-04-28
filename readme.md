@@ -1,4 +1,3 @@
-# GUI 개발 작업
+# 브랜치 관리
 
-* `gui` 브랜치는 `cm-test` 브랜치의 분기입니다.
-* GUI 컴포넌트들은 다음의 경로에만 추가해주세요: `org.gui.components`
+* `server` 브랜치: `main` 브랜치로 rebase한 다음 `client`, `gui` 패키지 제거 후 `jar`로 export
