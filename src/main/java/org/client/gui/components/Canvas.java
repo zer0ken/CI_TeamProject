@@ -20,7 +20,7 @@ import static org.client.gui.components._Constants.CANVAS_SIZE;
 
 public class Canvas extends _ComponentJPanel {
 
-    public Map<Long, org.client.gui.shapes.Shape> shapes;
+    public Map<Long, Shape> shapes;
     private Stack<UserAction> undoStack;
     private Stack<UserAction> redoStack;
     private Point clickStartPoint;
