@@ -1,4 +1,4 @@
-package org.common;
+package org.server;
 
 import java.util.Collections;
 import java.util.Map;

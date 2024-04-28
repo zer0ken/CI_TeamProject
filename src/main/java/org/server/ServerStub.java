@@ -2,7 +2,6 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
-import org.common.ShapeMap;
 
 import java.util.Map;
 

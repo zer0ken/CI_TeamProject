@@ -1,16 +1,17 @@
-package org.gui.components;
+package org.client.gui.components;
 
-import org.gui.ShapesViewModel;
-import org.gui.shapes.Rectangle;
-import org.gui.shapes.Shape;
-import org.gui.shapes.*;
+import org.client.gui.ShapesViewModel;
+import org.client.gui.shapes.Line;
+import org.client.gui.shapes.Oval;
+import org.client.gui.shapes.Rectangle;
+import org.client.gui.shapes.Text;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static org.gui.components._Constants.*;
+import static org.client.gui.components._Constants.*;
 
 public class Toolbar extends _ComponentJPanel {
     private final JLabel titleLabel;
@@ -42,7 +43,7 @@ public class Toolbar extends _ComponentJPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 JButton source = (JButton) e.getSource();
-                Shape clickedShape;
+                org.client.gui.shapes.Shape clickedShape;
                 switch (source.getText()) {
                     case TOOLBAR_LINE :
                         clickedShape = new Line();

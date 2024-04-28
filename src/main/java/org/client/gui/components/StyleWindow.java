@@ -1,16 +1,16 @@
-package org.gui.components;
+package org.client.gui.components;
 
-import org.gui.ShapesViewModel;
-import org.gui.components.labeledslot.ColorInput;
-import org.gui.components.labeledslot.NumberInput;
-import org.gui.components.labeledslot.TextInput;
-import org.gui.shapes.Style;
+import org.client.gui.ShapesViewModel;
+import org.client.gui.components.labeledslot.ColorInput;
+import org.client.gui.components.labeledslot.NumberInput;
+import org.client.gui.components.labeledslot.TextInput;
+import org.client.gui.shapes.Style;
 
 import javax.swing.*;
 
 import java.awt.*;
 
-import static org.gui.components._Constants.*;
+import static org.client.gui.components._Constants.*;
 
 public class StyleWindow extends _ComponentJPanel {
     private final NumberInput lineWidth;

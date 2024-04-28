@@ -1,16 +1,16 @@
-package org.gui.components.labeledslot;
+package org.client.gui.components.labeledslot;
+
+import org.client.gui.components._Constants;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static org.gui.components._Constants.STYLE_DEFAULT_TEXT_CONTENT;
 
 public class TextInput extends LabeledSlot {
     JTextField textField;
 
     public TextInput(String label) {
         super(label);
-        textField = new JTextField(STYLE_DEFAULT_TEXT_CONTENT);
+        textField = new JTextField(_Constants.STYLE_DEFAULT_TEXT_CONTENT);
         addSlot(textField, BorderLayout.SOUTH);
     }
 

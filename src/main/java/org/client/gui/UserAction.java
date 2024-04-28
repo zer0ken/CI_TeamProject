@@ -1,9 +1,9 @@
-package org.gui.act;
+package org.client.gui;
 
-import org.gui.shapes.Shape;
-import org.gui.shapes.Style;
+import org.client.gui.shapes.Shape;
+import org.client.gui.shapes.Style;
 
-public class Act {
+public class UserAction {
   public enum Action {
     CREATE,         // 생성
     DELETE,         // 삭제
@@ -18,8 +18,8 @@ public class Act {
 
 
   // 생성자
-  public Act(Action action, Shape targetShape, Shape previousShape,
-             Style targetStyle, Style previousStyle) {
+  public UserAction(Action action, Shape targetShape, Shape previousShape,
+                    Style targetStyle, Style previousStyle) {
     this.action = action;
     this.targetShape = targetShape;
     this.previousShape = previousShape;

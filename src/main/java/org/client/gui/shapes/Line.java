@@ -1,4 +1,4 @@
-package org.gui.shapes;
+package org.client.gui.shapes;
 
 import java.awt.*;
 import java.io.Serializable;

@@ -1,26 +1,26 @@
-package org.gui.components.labeledslot;
+package org.client.gui.components.labeledslot;
+
+import org.client.gui.components._Constants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import static org.gui.components._Constants.*;
-
 public class LabeledSlot extends JPanel {
     public LabeledSlot(String label) {
         setLayout(new BorderLayout());
-        setMaximumSize(STYLE_ITEM_SIZE);
-        setBorder(STYLE_ITEM_BORDER);
+        setMaximumSize(_Constants.STYLE_ITEM_SIZE);
+        setBorder(_Constants.STYLE_ITEM_BORDER);
 
         add(BorderLayout.WEST, new JLabel(label));
     }
 
     protected void addSlot(Component slot, String direction) {
-        slot.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
+        slot.setPreferredSize(new Dimension(_Constants.STYLE_SLOT_WIDTH, _Constants.STYLE_ITEM_HEIGHT));
         add(direction, slot);
 
         if (!Objects.equals(direction, BorderLayout.EAST)) {
-            setMaximumSize(STYLE_LARGE_ITEM_SIZE);
+            setMaximumSize(_Constants.STYLE_LARGE_ITEM_SIZE);
         }
     }
 

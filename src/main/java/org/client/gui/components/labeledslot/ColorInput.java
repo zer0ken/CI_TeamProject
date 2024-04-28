@@ -1,4 +1,4 @@
-package org.gui.components.labeledslot;
+package org.client.gui.components.labeledslot;
 
 import javax.swing.*;
 import java.awt.*;

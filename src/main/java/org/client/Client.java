@@ -1,7 +1,7 @@
 package org.client;
 
-import org.gui.App;
-import org.gui.ShapesViewModel;
+import org.client.gui.App;
+import org.client.gui.ShapesViewModel;
 
 public class Client {
     private final ClientStub clientStub;

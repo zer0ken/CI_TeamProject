@@ -5,9 +5,9 @@ import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.Base64;
 import org.common.EventHandler;
-import org.gui.App;
-import org.gui.ShapesViewModel;
-import org.gui.shapes.Shape;
+import org.client.gui.App;
+import org.client.gui.ShapesViewModel;
+import org.client.gui.shapes.Shape;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 

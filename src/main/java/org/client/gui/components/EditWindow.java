@@ -1,16 +1,14 @@
-package org.gui.components;
+package org.client.gui.components;
 
-import org.gui.ShapesViewModel;
-import org.gui.components.labeledslot.ColorInput;
-import org.gui.components.labeledslot.NumberInput;
-import org.gui.components.labeledslot.TextInput;
-import org.gui.shapes.Shape;
-import org.gui.shapes.Style;
+import org.client.gui.ShapesViewModel;
+import org.client.gui.components.labeledslot.ColorInput;
+import org.client.gui.components.labeledslot.TextInput;
+import org.client.gui.shapes.Shape;
+import org.client.gui.shapes.Style;
+import org.client.gui.components.labeledslot.NumberInput;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static org.gui.components._Constants.*;
 
 public class EditWindow extends _ComponentJPanel {
     private final NumberInput lineWidth;
@@ -22,26 +20,26 @@ public class EditWindow extends _ComponentJPanel {
     private final JButton applyButton;
 
     public EditWindow(ShapesViewModel shapesViewModel) {
-        super(EDIT_WINDOW_SIZE, shapesViewModel);
-        setBorder(BorderFactory.createTitledBorder(EDIT_WINDOW_TITLE));
+        super(_Constants.EDIT_WINDOW_SIZE, shapesViewModel);
+        setBorder(BorderFactory.createTitledBorder(_Constants.EDIT_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        lineWidth = new NumberInput(STYLE_LABELS[0], 1,
+        lineWidth = new NumberInput(_Constants.STYLE_LABELS[0], 1,
                 new SpinnerNumberModel(1, 0, null, 1));
-        lineColor = new ColorInput(STYLE_LABELS[1], STYLE_LINE_COLOR_TITLE, Color.BLACK);
-        fillColor = new ColorInput(STYLE_LABELS[2], STYLE_FILL_COLOR_TITLE, Color.WHITE);
-        textSize = new NumberInput(STYLE_LABELS[3], 12,
+        lineColor = new ColorInput(_Constants.STYLE_LABELS[1], _Constants.STYLE_LINE_COLOR_TITLE, Color.BLACK);
+        fillColor = new ColorInput(_Constants.STYLE_LABELS[2], _Constants.STYLE_FILL_COLOR_TITLE, Color.WHITE);
+        textSize = new NumberInput(_Constants.STYLE_LABELS[3], 12,
                 new SpinnerNumberModel(12, 0, null, 1));
-        textColor = new ColorInput(STYLE_LABELS[4], STYLE_TEXT_COLOR_TITLE, Color.BLACK);
-        textContent = new TextInput(STYLE_LABELS[5]);
-        applyButton = new JButton(EDIT_APPLY_BUTTON);
+        textColor = new ColorInput(_Constants.STYLE_LABELS[4], _Constants.STYLE_TEXT_COLOR_TITLE, Color.BLACK);
+        textContent = new TextInput(_Constants.STYLE_LABELS[5]);
+        applyButton = new JButton(_Constants.EDIT_APPLY_BUTTON);
 
-        applyButton.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
+        applyButton.setPreferredSize(new Dimension(_Constants.STYLE_SLOT_WIDTH, _Constants.STYLE_ITEM_HEIGHT));
         applyButton.addActionListener(e -> {
             editStyle();
         });
 
-        add(Box.createRigidArea(new Dimension(0, H_SPACE)));
+        add(Box.createRigidArea(new Dimension(0, _Constants.H_SPACE)));
 
         add(lineWidth);
         add(lineColor);
@@ -54,7 +52,7 @@ public class EditWindow extends _ComponentJPanel {
         shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::select);
     }
 
-    private Void select(Shape shape) {
+    private Void select(org.client.gui.shapes.Shape shape) {
         if (shape == null) {
             return null;
         }
@@ -70,7 +68,7 @@ public class EditWindow extends _ComponentJPanel {
     }
 
     private void editStyle() {
-        Shape before = shapesViewModel.getSelectedShape();
+        org.client.gui.shapes.Shape before = shapesViewModel.getSelectedShape();
         Shape after = before.copy(getStyle());
         shapesViewModel.modifyByUser(after.getId(), after);
     }
@@ -90,10 +88,10 @@ public class EditWindow extends _ComponentJPanel {
 class Resized extends JPanel {
     Resized(JButton button) {
         setLayout(new BorderLayout());
-        setMaximumSize(STYLE_ITEM_SIZE);
-        setBorder(STYLE_ITEM_BORDER);
+        setMaximumSize(_Constants.STYLE_ITEM_SIZE);
+        setBorder(_Constants.STYLE_ITEM_BORDER);
 
-        button.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
+        button.setPreferredSize(new Dimension(_Constants.STYLE_SLOT_WIDTH, _Constants.STYLE_ITEM_HEIGHT));
         add(BorderLayout.CENTER, button);
     }
 }

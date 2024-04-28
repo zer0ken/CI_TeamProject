@@ -1,15 +1,15 @@
-package org.gui;
+package org.client.gui;
 
 import org.client.ClientStub;
-import org.gui.components.Canvas;
-import org.gui.components.*;
+import org.client.gui.components.*;
+import org.client.gui.components.Canvas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static org.gui.components._Constants.*;
+import static org.client.gui.components._Constants.*;
 
 public class App extends JFrame {
     private ClientStub clientStub;
@@ -34,7 +34,7 @@ public class App extends JFrame {
         });
 
         // init inner components
-        org.gui.components.Canvas canvas = new Canvas(shapesViewModel);
+        Canvas canvas = new Canvas(shapesViewModel);
         StyleWindow styleWindow = new StyleWindow(shapesViewModel);
 
         JPanel leftPanel = new VerticalJPanel();
