@@ -3,7 +3,7 @@ package org.client.gui.shapes;
 import java.awt.*;
 import java.io.Serializable;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
 public abstract class Shape implements Serializable {
   private static final long serialVersionUID = 1L;

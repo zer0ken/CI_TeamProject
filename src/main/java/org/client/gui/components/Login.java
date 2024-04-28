@@ -2,7 +2,7 @@ package org.client.gui.components;
 
 import javax.swing.*;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
 public class Login {
     public static String login(boolean invalid) {

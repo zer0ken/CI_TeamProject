@@ -1,18 +1,19 @@
 package org.client.gui.components;
 
+import org.client.gui.Constants;
 import org.client.gui.ShapesViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ClientsWindow extends _ComponentJPanel {
+public class ClientsWindow extends ComponentJPanel {
     DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
     public ClientsWindow(ShapesViewModel shapesViewModel) {
-        super(_Constants.CLIENTS_WINDOW_SIZE, shapesViewModel);
-        setBorder(BorderFactory.createTitledBorder(_Constants.CLIENTS_WINDOW_TITLE));
+        super(Constants.CLIENTS_WINDOW_SIZE, shapesViewModel);
+        setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
         clientListModel = new DefaultListModel<>();

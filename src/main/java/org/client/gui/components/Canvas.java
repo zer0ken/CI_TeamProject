@@ -16,9 +16,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-import static org.client.gui.components._Constants.CANVAS_SIZE;
+import static org.client.gui.Constants.CANVAS_SIZE;
 
-public class Canvas extends _ComponentJPanel {
+public class Canvas extends ComponentJPanel {
 
     public Map<Long, Shape> shapes;
     private Stack<UserAction> undoStack;

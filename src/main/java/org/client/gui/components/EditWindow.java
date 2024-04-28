@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.Constants;
 import org.client.gui.ShapesViewModel;
 import org.client.gui.components.labeledslot.ColorInput;
 import org.client.gui.components.labeledslot.TextInput;
@@ -10,7 +11,7 @@ import org.client.gui.components.labeledslot.NumberInput;
 import javax.swing.*;
 import java.awt.*;
 
-public class EditWindow extends _ComponentJPanel {
+public class EditWindow extends ComponentJPanel {
     private final NumberInput lineWidth;
     private final ColorInput lineColor;
     private final ColorInput fillColor;
@@ -20,26 +21,26 @@ public class EditWindow extends _ComponentJPanel {
     private final JButton applyButton;
 
     public EditWindow(ShapesViewModel shapesViewModel) {
-        super(_Constants.EDIT_WINDOW_SIZE, shapesViewModel);
-        setBorder(BorderFactory.createTitledBorder(_Constants.EDIT_WINDOW_TITLE));
+        super(Constants.EDIT_WINDOW_SIZE, shapesViewModel);
+        setBorder(BorderFactory.createTitledBorder(Constants.EDIT_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        lineWidth = new NumberInput(_Constants.STYLE_LABELS[0], 1,
+        lineWidth = new NumberInput(Constants.STYLE_LABELS[0], 1,
                 new SpinnerNumberModel(1, 0, null, 1));
-        lineColor = new ColorInput(_Constants.STYLE_LABELS[1], _Constants.STYLE_LINE_COLOR_TITLE, Color.BLACK);
-        fillColor = new ColorInput(_Constants.STYLE_LABELS[2], _Constants.STYLE_FILL_COLOR_TITLE, Color.WHITE);
-        textSize = new NumberInput(_Constants.STYLE_LABELS[3], 12,
+        lineColor = new ColorInput(Constants.STYLE_LABELS[1], Constants.STYLE_LINE_COLOR_TITLE, Color.BLACK);
+        fillColor = new ColorInput(Constants.STYLE_LABELS[2], Constants.STYLE_FILL_COLOR_TITLE, Color.WHITE);
+        textSize = new NumberInput(Constants.STYLE_LABELS[3], 12,
                 new SpinnerNumberModel(12, 0, null, 1));
-        textColor = new ColorInput(_Constants.STYLE_LABELS[4], _Constants.STYLE_TEXT_COLOR_TITLE, Color.BLACK);
-        textContent = new TextInput(_Constants.STYLE_LABELS[5]);
-        applyButton = new JButton(_Constants.EDIT_APPLY_BUTTON);
+        textColor = new ColorInput(Constants.STYLE_LABELS[4], Constants.STYLE_TEXT_COLOR_TITLE, Color.BLACK);
+        textContent = new TextInput(Constants.STYLE_LABELS[5]);
+        applyButton = new JButton(Constants.EDIT_APPLY_BUTTON);
 
-        applyButton.setPreferredSize(new Dimension(_Constants.STYLE_SLOT_WIDTH, _Constants.STYLE_ITEM_HEIGHT));
+        applyButton.setPreferredSize(new Dimension(Constants.STYLE_SLOT_WIDTH, Constants.STYLE_ITEM_HEIGHT));
         applyButton.addActionListener(e -> {
             editStyle();
         });
 
-        add(Box.createRigidArea(new Dimension(0, _Constants.H_SPACE)));
+        add(Box.createRigidArea(new Dimension(0, Constants.H_SPACE)));
 
         add(lineWidth);
         add(lineColor);
@@ -88,10 +89,10 @@ public class EditWindow extends _ComponentJPanel {
 class Resized extends JPanel {
     Resized(JButton button) {
         setLayout(new BorderLayout());
-        setMaximumSize(_Constants.STYLE_ITEM_SIZE);
-        setBorder(_Constants.STYLE_ITEM_BORDER);
+        setMaximumSize(Constants.STYLE_ITEM_SIZE);
+        setBorder(Constants.STYLE_ITEM_BORDER);
 
-        button.setPreferredSize(new Dimension(_Constants.STYLE_SLOT_WIDTH, _Constants.STYLE_ITEM_HEIGHT));
+        button.setPreferredSize(new Dimension(Constants.STYLE_SLOT_WIDTH, Constants.STYLE_ITEM_HEIGHT));
         add(BorderLayout.CENTER, button);
     }
 }

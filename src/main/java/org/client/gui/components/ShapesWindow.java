@@ -10,9 +10,9 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Map;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
-public class ShapesWindow extends _ComponentJPanel implements ListSelectionListener {
+public class ShapesWindow extends ComponentJPanel implements ListSelectionListener {
     DefaultListModel<ShapeListItem> shapeListModel;
     JList<ShapeListItem> shapeList;
 

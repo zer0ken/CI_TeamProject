@@ -11,9 +11,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
-public class Toolbar extends _ComponentJPanel {
+public class Toolbar extends ComponentJPanel {
     private final JLabel titleLabel;
     //private Canvas canvas;
     private final StyleWindow styleWindow;

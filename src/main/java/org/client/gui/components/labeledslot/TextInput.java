@@ -1,6 +1,6 @@
 package org.client.gui.components.labeledslot;
 
-import org.client.gui.components._Constants;
+import org.client.gui.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class TextInput extends LabeledSlot {
 
     public TextInput(String label) {
         super(label);
-        textField = new JTextField(_Constants.STYLE_DEFAULT_TEXT_CONTENT);
+        textField = new JTextField(Constants.STYLE_DEFAULT_TEXT_CONTENT);
         addSlot(textField, BorderLayout.SOUTH);
     }
 

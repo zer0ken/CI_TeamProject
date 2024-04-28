@@ -10,9 +10,9 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
-public class StyleWindow extends _ComponentJPanel {
+public class StyleWindow extends ComponentJPanel {
     private final NumberInput lineWidth;
     private final ColorInput lineColor;
     private final ColorInput fillColor;

@@ -1,14 +1,14 @@
-package org.client.gui.components;
+package org.client.gui;
 
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class _Constants {
-    private _Constants() {
+public class Constants {
+    private Constants() {
     }
 
     // string literal
-    public static final String APP_TITLE = "앱 이름이 여기에 들어가야 한단다~";
+    public static final String APP_TITLE = "실시간 공유 화이트보드";
     public static final String LOGIN_TITLE = "로그인";
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String LOGIN_MESSAGE_WITH_INVALID_NAME = "입력하신 이름은 이미 사용되고 있습니다.\n다른 사용자에게 표시할 이름을 입력하세요.";

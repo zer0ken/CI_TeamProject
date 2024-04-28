@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static org.client.gui.components._Constants.*;
+import static org.client.gui.Constants.*;
 
 public class App extends JFrame {
     private ClientStub clientStub;
