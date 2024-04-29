@@ -2,6 +2,7 @@ package org.client.gui.components;
 
 
 import org.client.gui.AppViewModel;
+import org.client.gui.AppViewModel.Listener;
 import org.client.gui.shapes.Shape;
 
 import javax.swing.*;
@@ -21,10 +22,8 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
         setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::select);
-        appViewModel.addListener(AppViewModel.Listener.CREATION, this::update);
-        appViewModel.addListener(AppViewModel.Listener.MODIFICATION, this::update);
-        appViewModel.addListener(AppViewModel.Listener.REMOVAL, this::update);
+        appViewModel.addListener(Listener.SELECTION, this::select);
+        appViewModel.addListener(Listener.UPDATE, this::update);
 
         shapeListModel = new DefaultListModel<>();
 

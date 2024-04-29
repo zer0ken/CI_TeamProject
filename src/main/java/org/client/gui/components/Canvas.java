@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.AppViewModel.Listener;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Shape;
@@ -43,12 +44,12 @@ public class Canvas extends ComponentJPanel {
         undoStack = new Stack<>();
         redoStack = new Stack<>();
 
-        appViewModel.addListener(AppViewModel.Listener.USER_CREATION, this::createToolbar);
+        appViewModel.addListener(Listener.USER_CREATION, this::createToolbar);
 
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::selectSilently);
-        appViewModel.addListener(AppViewModel.Listener.SERVER_CREATION, this::createSilently);
-        appViewModel.addListener(AppViewModel.Listener.SERVER_MODIFICATION, this::modifySilently);
-        appViewModel.addListener(AppViewModel.Listener.SERVER_REMOVAL, this::removeSilently);
+        appViewModel.addListener(Listener.SELECTION, this::selectSilently);
+        appViewModel.addListener(Listener.SERVER_CREATION, this::createSilently);
+        appViewModel.addListener(Listener.SERVER_MODIFICATION, this::modifySilently);
+        appViewModel.addListener(Listener.SERVER_REMOVAL, this::removeSilently);
 
         getInputMap(WHEN_IN_FOCUSED_WINDOW).
             put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");

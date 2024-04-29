@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.AppViewModel.Listener;
 import org.client.gui.Constants;
 import org.client.gui.AppViewModel;
 import org.client.gui.components.labeledslot.ColorInput;
@@ -50,7 +51,7 @@ public class EditWindow extends ComponentJPanel {
         add(textContent);
         add(new Resized(applyButton));
 
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::select);
+        appViewModel.addListener(Listener.SELECTION, this::select);
     }
 
     private Void select(org.client.gui.shapes.Shape shape) {

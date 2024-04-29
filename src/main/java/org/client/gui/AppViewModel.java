@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.client.gui.AppViewModel.Listener.*;
+
 
 public class AppViewModel {
     private final Map<Long, Shape> shapes;
@@ -18,11 +20,32 @@ public class AppViewModel {
     }
 
     public enum Listener {
-        JOIN_OR_LEAVE,
-        SELECTION,
-        CREATION, USER_CREATION, SERVER_CREATION,
-        MODIFICATION, USER_MODIFICATION, SERVER_MODIFICATION,
-        REMOVAL, USER_REMOVAL, SERVER_REMOVAL
+        SELECTION(null),
+        UPDATE(null),
+            CREATION(UPDATE),
+                USER_CREATION(CREATION),
+                SERVER_CREATION(CREATION),
+            MODIFICATION(UPDATE),
+                USER_MODIFICATION(MODIFICATION),
+                SERVER_MODIFICATION(MODIFICATION),
+            REMOVAL(UPDATE),
+                USER_REMOVAL(REMOVAL),
+                SERVER_REMOVAL(REMOVAL);
+
+        private final Listener parent;
+
+        Listener(Listener o) {
+            parent = o;
+        }
+
+        public boolean includes(Listener o) {
+            for (;  o != null;  o = o.parent) {
+                if (o == this) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     private final ArrayList<Function<Shape, Void>> selectionListeners;
@@ -53,27 +76,20 @@ public class AppViewModel {
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
-        switch (type) {
-            case SELECTION -> selectionListeners.add(callback);
-            case CREATION -> {
-                userCreationListeners.add(callback);
-                serverCreationListeners.add(callback);
-            }
-            case USER_CREATION -> userCreationListeners.add(callback);
-            case SERVER_CREATION -> serverCreationListeners.add(callback);
-            case MODIFICATION -> {
-                userModificationListeners.add(callback);
-                serverModificationListeners.add(callback);
-            }
-            case USER_MODIFICATION -> userModificationListeners.add(callback);
-            case SERVER_MODIFICATION -> serverModificationListeners.add(callback);
-            case REMOVAL -> {
-                userRemovalListeners.add(callback);
-                serverRemovalListeners.add(callback);
-            }
-            case USER_REMOVAL -> userRemovalListeners.add(callback);
-            case SERVER_REMOVAL -> serverRemovalListeners.add(callback);
-        }
+        if (type.includes(SELECTION))
+            selectionListeners.add(callback);
+        if (type.includes(USER_CREATION))
+            userCreationListeners.add(callback);
+        if (type.includes(SERVER_CREATION))
+            serverCreationListeners.add(callback);
+        if (type.includes(USER_MODIFICATION))
+            userModificationListeners.add(callback);
+        if (type.includes(SERVER_MODIFICATION))
+            serverModificationListeners.add(callback);
+        if (type.includes(USER_REMOVAL))
+            userRemovalListeners.add(callback);
+        if (type.includes(SERVER_REMOVAL))
+            serverRemovalListeners.add(callback);
     }
 
     public void select(long id) {

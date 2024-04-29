@@ -3,6 +3,7 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.client.gui.AppViewModel;
+import org.client.gui.AppViewModel.Listener;
 import org.client.gui.components.Login;
 import org.common.Base64;
 import org.protocol.Action;
@@ -12,11 +13,11 @@ public class ClientStub extends CMClientStub {
     public ClientStub(AppViewModel appViewModel) {
         super();
 
-        appViewModel.addListener(AppViewModel.Listener.USER_CREATION,
+        appViewModel.addListener(Listener.USER_CREATION,
                 shape -> requestAdd(Base64.encode(shape)));
-        appViewModel.addListener(AppViewModel.Listener.USER_MODIFICATION,
+        appViewModel.addListener(Listener.USER_MODIFICATION,
                 shape -> requestEdit(shape.getId(), Base64.encode(shape)));
-        appViewModel.addListener(AppViewModel.Listener.USER_REMOVAL,
+        appViewModel.addListener(Listener.USER_REMOVAL,
                 shape -> requestRemove(shape.getId()));
 
     }
