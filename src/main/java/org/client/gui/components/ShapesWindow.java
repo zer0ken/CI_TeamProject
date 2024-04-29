@@ -65,7 +65,7 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
         }
         ShapeListItem selected = shapeList.getSelectedValue();
         if (selected != null) {
-            if (appViewModel.getSelectedShape().getId() != selected.getId()) {
+            if (appViewModel.getSelectedShape() == null || appViewModel.getSelectedShape().getId() != selected.getId()) {
                 appViewModel.select(selected.getId());
             }
         }
