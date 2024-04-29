@@ -21,7 +21,7 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
         setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.CANVAS_SELECTION, this::selectByCanvas);
+        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::select);
         shapesViewModel.addListener(ShapesViewModel.Listener.CREATION, this::update);
         shapesViewModel.addListener(ShapesViewModel.Listener.MODIFICATION, this::update);
         shapesViewModel.addListener(ShapesViewModel.Listener.REMOVAL, this::update);
@@ -44,7 +44,11 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
     }
 
     public Void update(Shape unused) {
+        ShapeListItem selected = shapeList.getSelectedValue();
         setShapes(shapesViewModel.getShapes());
+        if (selected != null) {
+            select(shapesViewModel.getShapes().get(selected.getId()));
+        }
         return null;
     }
 
@@ -59,19 +63,15 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
         if (e.getValueIsAdjusting()) {
             return;
         }
-        ShapeListItem selectedShape;
-        if (!shapeList.isSelectionEmpty()) {
-            selectedShape = shapeList.getSelectedValue();
-            if (shapesViewModel.getSelectedShape() == null
-                    || shapesViewModel.getSelectedShape().getId() != selectedShape.getId()) {
-                shapesViewModel.selectByShapesWindow(selectedShape.getId());
+        ShapeListItem selected = shapeList.getSelectedValue();
+        if (selected != null) {
+            if (shapesViewModel.getSelectedShape().getId() != selected.getId()) {
+                shapesViewModel.select(selected.getId());
             }
-        } else if (shapesViewModel.getSelectedShape() != null) {
-            shapesViewModel.selectByShapesWindow(-1);
         }
     }
 
-    public Void selectByCanvas(Shape selectedShape) {
+    public Void select(Shape selectedShape) {
         if (selectedShape == null) {
             shapeList.clearSelection();
             return null;

@@ -26,8 +26,8 @@ public class Canvas extends ComponentJPanel {
     private Point clickStartPoint;
     private final int DRAG_THRESHOLD = 3;
     private Point mousePoint;
-    private org.client.gui.shapes.Shape selectedShape;
-    private org.client.gui.shapes.Shape previousShape;
+    private Shape selectedShape;
+    private Shape previousShape;
     //private int count = 0;
 
 
@@ -45,7 +45,7 @@ public class Canvas extends ComponentJPanel {
 
         shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION, this::createToolbar);
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.SHAPES_WINDOW_SELECTION, this::selectSilently);
+        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::selectSilently);
         shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_CREATION, this::createSilently);
         shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_MODIFICATION, this::modifySilently);
         shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_REMOVAL, this::removeSilently);
@@ -96,7 +96,7 @@ public class Canvas extends ComponentJPanel {
                         mousePoint = e.getPoint();
 
                         selectedShape = shapes.get(key);
-                        shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                        shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                         if (selectedShape instanceof Line || selectedShape instanceof org.client.gui.shapes.Rectangle
                             || selectedShape instanceof Oval || selectedShape instanceof Text) {
                             selectedShape.allHandleStopDrag();
@@ -124,14 +124,13 @@ public class Canvas extends ComponentJPanel {
                     double distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance > DRAG_THRESHOLD) {
-                        // 뷰모델에 최종 드래그 후 변경된 도형 정보 전달
-                        shapesViewModel.modifyByUser(selectedShape.getId(), selectedShape);
+                        // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
+                        modify(selectedShape);
 
                         // 도형 변경 동작 스택에 저장
                         //changeShape(selectedShape, previousShape);
                         // CHANGE 동작 스택에 저장
                         storeUndoStack(UserAction.Type.CHANGE, selectedShape, previousShape);
-                        modify(selectedShape);   // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
                     }
                 }
             }
@@ -172,7 +171,7 @@ public class Canvas extends ComponentJPanel {
     }
 
     // 도형 추가 및 CREATE 동작 저장 (원래 툴바에서 썻던 메소드)
-    public void addShape(Long id, org.client.gui.shapes.Shape shape) {
+    public void addShape(Long id, Shape shape) {
         storeUndoStack(UserAction.Type.CREATE, shape, null);           // CREATE 동작 스택에 저장
         shapes.put(id, shape);
     }
@@ -184,13 +183,13 @@ public class Canvas extends ComponentJPanel {
     }
 
     // CHANGE 동작 저장 (원래 드래그 종료 후 변경 된 도형 저장 시 썻던 메소드)
-    public void changeShape(org.client.gui.shapes.Shape targetShape, org.client.gui.shapes.Shape previousShape) {
+    public void changeShape(Shape targetShape, Shape previousShape) {
         storeUndoStack(UserAction.Type.CHANGE, targetShape, previousShape);
     }
 
 
     // CREATE, DELETE, CHANGE 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Type action, org.client.gui.shapes.Shape targetShape, org.client.gui.shapes.Shape previousShape) {
+    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
         if (previousShape != null) {        // CHANGE
             undoStack.push(new UserAction(action, targetShape.copy(), previousShape,
                 null,null));
@@ -218,14 +217,14 @@ public class Canvas extends ComponentJPanel {
                 create(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getTargetShape();
-                    shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
 
             } else if (act.getAction() == UserAction.Type.CHANGE) {
                 modify(act.getPreviousShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
-                    shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
                 act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
@@ -256,7 +255,7 @@ public class Canvas extends ComponentJPanel {
                 modify(act.getTargetShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
-                    shapesViewModel.selectByCanvas(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
                 act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
@@ -278,39 +277,39 @@ public class Canvas extends ComponentJPanel {
     }
 
 
-    public void select(org.client.gui.shapes.Shape shape) {
+    public void select(Shape shape) {
         if (shape == null) {
-            shapesViewModel.selectByCanvas(-1);
+            shapesViewModel.select(-1);
         } else {
-            shapesViewModel.selectByCanvas(shape.getId());
+            shapesViewModel.select(shape.getId());
         }
-        selectSilently(shape);
+//        selectSilently(shape);
     }
 
 
-    public void create(org.client.gui.shapes.Shape shape) {                     // 유저가 도형 생성할 때
+    public void create(Shape shape) {                     // 유저가 도형 생성할 때
         shapesViewModel.createByUser(shape);              // 맵에서 도형 생성 후 다른 컴포넌트에 전파
         createSilently(shape);                            // 캔버스에 반영
     }
 
-    public void remove(org.client.gui.shapes.Shape shape) {                     // 유저가 도형 지울 때
+    public void remove(Shape shape) {                     // 유저가 도형 지울 때
         shapesViewModel.removeByUser(shape.getId());      // 맵에서 도형 지우고 다른 컴포넌트에 전파
         removeSilently(shape);                            // 캔버스에 반영
     }
 
-    public void modify(org.client.gui.shapes.Shape modifiedShape) {                               // 유저가 도형 변경할 때
+    public void modify(Shape modifiedShape) {                               // 유저가 도형 변경할 때
         shapesViewModel.modifyByUser(modifiedShape.getId(), modifiedShape); // 맵 도형변경 후 다른 컴포넌트에 전파
         modifySilently(modifiedShape);                                      // 캔버스에 반영
     }
 
 
-    public Void createToolbar(org.client.gui.shapes.Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
+    public Void createToolbar(Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
         storeUndoStack(UserAction.Type.CREATE, newShape, null);  // CREATE 동작 스택에 저장
         repaint();
         return null;
     }
 
-    private Void selectSilently(org.client.gui.shapes.Shape selected) {
+    private Void selectSilently(Shape selected) {
         // 2. 뷰모델의 맵에 선택된 도형이 바뀌어 있음 -> 캔버스에서 선택된 도형 변경 -> 리페인트
 
         selectedShape = shapesViewModel.getSelectedShape();
@@ -318,7 +317,7 @@ public class Canvas extends ComponentJPanel {
         return null;
     }
 
-    private Void createSilently(org.client.gui.shapes.Shape newShape) {
+    private Void createSilently(Shape newShape) {
         // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 추가되있음, 다른 클라이언트의 뷰모델에도 추가됨
         // -> 캔버스에 추가된 도형 그림(리페인트)
 
@@ -326,7 +325,7 @@ public class Canvas extends ComponentJPanel {
         return null;
     }
 
-    private Void removeSilently(org.client.gui.shapes.Shape removedShape) {
+    private Void removeSilently(Shape removedShape) {
         // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 삭제되있음, 다른 클라이언트의 뷰모델에도 삭제됨
         // -> 캔버스에 삭제된 도형 지움(리페인트)
 

@@ -11,14 +11,13 @@ public class ShapesViewModel {
     private Shape selectedShape;
 
     public enum Listener {
-        SELECTION, CANVAS_SELECTION, SHAPES_WINDOW_SELECTION,
+        SELECTION,
         CREATION, USER_CREATION, SERVER_CREATION,
         MODIFICATION, USER_MODIFICATION, SERVER_MODIFICATION,
         REMOVAL, USER_REMOVAL, SERVER_REMOVAL
     }
 
-    private final ArrayList<Function<Shape, Void>> canvasSelectionListeners;
-    private final ArrayList<Function<Shape, Void>> shapesWindowSelectionListeners;
+    private final ArrayList<Function<Shape, Void>> selectionListeners;
 
     // 사용자가 도형을 생성, 수정, 제거하면 클라이언트 앱 내의 모든 컴포넌트 및 **서버**에 전파되어야 함
     private final ArrayList<Function<Shape, Void>> userCreationListeners;
@@ -31,8 +30,7 @@ public class ShapesViewModel {
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
     public ShapesViewModel() {
-        canvasSelectionListeners = new ArrayList<>();
-        shapesWindowSelectionListeners = new ArrayList<>();
+        selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
         userModificationListeners = new ArrayList<>();
         userRemovalListeners = new ArrayList<>();
@@ -45,12 +43,7 @@ public class ShapesViewModel {
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
         switch (type) {
-            case SELECTION -> {
-                canvasSelectionListeners.add(callback);
-                shapesWindowSelectionListeners.add(callback);
-            }
-            case CANVAS_SELECTION -> canvasSelectionListeners.add(callback);
-            case SHAPES_WINDOW_SELECTION -> shapesWindowSelectionListeners.add(callback);
+            case SELECTION -> selectionListeners.add(callback);
             case CREATION -> {
                 userCreationListeners.add(callback);
                 serverCreationListeners.add(callback);
@@ -72,24 +65,9 @@ public class ShapesViewModel {
         }
     }
 
-    public void selectByCanvas(long id) {
-        if (id == -1) {
-            selectedShape = null;
-            propagate(canvasSelectionListeners, null);
-        } else {
-            selectedShape = shapes.get(id);
-            propagate(canvasSelectionListeners, selectedShape);
-        }
-    }
-
-    public void selectByShapesWindow(long id) {
-        if (id == -1) {
-            selectedShape = null;
-            propagate(shapesWindowSelectionListeners, null);
-        } else {
-            selectedShape = shapes.get(id);
-            propagate(shapesWindowSelectionListeners, selectedShape);
-        }
+    public void select(long id) {
+        selectedShape = shapes.get(id);
+        propagate(selectionListeners, selectedShape);
     }
 
     public void createByUser(Shape shape) {
@@ -97,18 +75,19 @@ public class ShapesViewModel {
         propagate(userCreationListeners, shape);
     }
 
-    public void createByServer(long id, Shape shape) {
+    public void createByServer(long newId, Shape shape) {
         long oldId = shape.getId();
         Shape newShape = shape;
-        if(id != oldId) {
-            newShape = shape.copy(id);
+        Shape oldSelectedShape = selectedShape;
+        if(newId != oldId) {
+            newShape = shape.copy(newId);
             removeByServer(oldId);
-            if (selectedShape != null && selectedShape.getId() == oldId) {
-                selectedShape = newShape;
-            }
         }
         add(newShape);
         propagate(serverCreationListeners, shape);
+        if (oldSelectedShape != null && oldSelectedShape.getId() == oldId) {
+            select(newId);
+        }
     }
 
     public void modifyByUser(long id, Shape shape) {
@@ -134,6 +113,7 @@ public class ShapesViewModel {
     private void propagate(ArrayList<Function<Shape, Void>> listeners, Shape shape) {
         listeners.forEach(f -> f.apply(shape));
         System.out.println("### 현재 뷰모델");
+        System.out.println("selected: " + selectedShape);
         shapes.forEach((i, s) -> System.out.println("\t"+ i + ": " + s.toString()));
         System.out.println("###");
     }
@@ -143,17 +123,18 @@ public class ShapesViewModel {
     }
 
     private void modify(long id, Shape shape) {
-        if (selectedShape != null && selectedShape.getId() == id) {
-            selectedShape = shape;
-        }
         shapes.put(id, shape);
+        if (selectedShape != null && selectedShape.getId() == id) {
+            select(id);
+        }
     }
 
     private Shape remove(long id) {
+        Shape removed = shapes.remove(id);
         if (selectedShape != null && selectedShape.getId() == id) {
-            selectedShape = null;
+            select(id);
         }
-        return shapes.remove(id);
+        return removed;
     }
 
     public Map<Long, Shape> getShapes() {
