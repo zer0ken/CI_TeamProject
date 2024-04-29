@@ -2,26 +2,22 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
-import org.common.Base64;
 import org.client.gui.AppViewModel;
 import org.client.gui.components.Login;
+import org.common.Base64;
 import org.protocol.Action;
 import org.protocol.ClientsideProtocol;
 
-import java.util.ArrayList;
-
 public class ClientStub extends CMClientStub {
-    private final ArrayList<String> clients = new ArrayList<>();
-
     public ClientStub(AppViewModel appViewModel) {
         super();
 
         appViewModel.addListener(AppViewModel.Listener.USER_CREATION,
-            shape -> requestAdd(Base64.encode(shape)));
+                shape -> requestAdd(Base64.encode(shape)));
         appViewModel.addListener(AppViewModel.Listener.USER_MODIFICATION,
-            shape -> requestEdit(shape.getId(), Base64.encode(shape)));
+                shape -> requestEdit(shape.getId(), Base64.encode(shape)));
         appViewModel.addListener(AppViewModel.Listener.USER_REMOVAL,
-            shape -> requestRemove(shape.getId()));
+                shape -> requestRemove(shape.getId()));
 
     }
 
@@ -33,18 +29,6 @@ public class ClientStub extends CMClientStub {
 
         send(fromClient, getDefaultServerName());
         System.out.println("@ sent\n\t" + message);
-    }
-
-    public ArrayList<String> getClients() {
-        return clients;
-    }
-
-    public void addClient(String client) {
-        clients.add(client);
-    }
-
-    public void removeClient(String client) {
-        clients.remove(client);
     }
 
     public void requestLogin(boolean invalid) {
@@ -69,7 +53,8 @@ public class ClientStub extends CMClientStub {
         return null;
     }
 
-    public void requestLeave() {
+    public Void requestLeave() {
         terminateCM();
+        return null;
     }
 }

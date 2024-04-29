@@ -1,14 +1,12 @@
 package org.client.gui.components;
 
-import org.client.gui.Constants;
 import org.client.gui.AppViewModel;
+import org.client.gui.Constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class ClientsWindow extends ComponentJPanel {
-    DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
     public ClientsWindow(AppViewModel appViewModel) {
@@ -16,9 +14,9 @@ public class ClientsWindow extends ComponentJPanel {
         setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
-        clientListModel = new DefaultListModel<>();
-
-        clientList = new JList<>(clientListModel);
+        clientList = new JList<>();
+        clientList.setModel(appViewModel.getClientsModel());
+        clientList.setSelectionModel(appViewModel.getClientsSelectionModel());
 
         JScrollPane scrollPane = new JScrollPane(
                 clientList,
@@ -29,10 +27,5 @@ public class ClientsWindow extends ComponentJPanel {
         scrollPane.setPreferredSize(new Dimension(200, 300));
 
         add(BorderLayout.CENTER, scrollPane);
-    }
-
-    public void setClients(List<String> clients) {
-        clientListModel.removeAllElements();
-        clientListModel.addAll(clients);
     }
 }

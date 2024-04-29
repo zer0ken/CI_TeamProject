@@ -2,6 +2,7 @@ package org.client.gui;
 
 import org.client.gui.shapes.Shape;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.function.Function;
 
@@ -9,8 +10,15 @@ import java.util.function.Function;
 public class AppViewModel {
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
+    private final DefaultListModel<String> clientsModel;
+    private final DefaultListSelectionModel clientsSelectionModel;
+
+    public ListSelectionModel getClientsSelectionModel() {
+        return clientsSelectionModel;
+    }
 
     public enum Listener {
+        JOIN_OR_LEAVE,
         SELECTION,
         CREATION, USER_CREATION, SERVER_CREATION,
         MODIFICATION, USER_MODIFICATION, SERVER_MODIFICATION,
@@ -39,6 +47,9 @@ public class AppViewModel {
         serverRemovalListeners = new ArrayList<>();
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
+        clientsModel = new DefaultListModel<>();
+        clientsSelectionModel = new DefaultListSelectionModel();
+        clientsSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
@@ -79,7 +90,7 @@ public class AppViewModel {
         long oldId = shape.getId();
         Shape newShape = shape;
         Shape oldSelectedShape = selectedShape;
-        if(newId != oldId) {
+        if (newId != oldId) {
             newShape = shape.copy(newId);
             removeByServer(oldId);
         }
@@ -111,11 +122,38 @@ public class AppViewModel {
     }
 
     private void propagate(ArrayList<Function<Shape, Void>> listeners, Shape shape) {
-        listeners.forEach(f -> f.apply(shape));
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(shape)));
+        printDebugInfo();
+    }
+
+    private void printDebugInfo() {
         System.out.println("### 현재 뷰모델");
         System.out.println("selected: " + selectedShape);
-        shapes.forEach((i, s) -> System.out.println("\t"+ i + ": " + s.toString()));
+        shapes.forEach((i, s) -> System.out.println("\t" + i + ": " + s.toString()));
+        System.out.println("clients: " + clientsModel.size());
         System.out.println("###");
+    }
+
+    public void join(String name) {
+        SwingUtilities.invokeLater(() -> clientsModel.add(0, name));
+    }
+
+    public void leave(String name) {
+        SwingUtilities.invokeLater(() -> clientsModel.removeElement(name));
+    }
+
+    public void setMyself(String name) {
+        SwingUtilities.invokeLater(() -> {
+            clientsSelectionModel.addListSelectionListener((e) -> {
+                int index = clientsModel.indexOf(name);
+                List<Integer> indices = Arrays.stream(clientsSelectionModel.getSelectedIndices()).boxed().toList();
+                if (indices.contains(index)) {
+                    return;
+                }
+                clientsSelectionModel.setSelectionInterval(index, index);
+            });
+            clientsSelectionModel.setSelectionInterval(0, 0);
+        });
     }
 
     private void add(Shape shape) {
@@ -138,10 +176,14 @@ public class AppViewModel {
     }
 
     public Map<Long, Shape> getShapes() {
-        return shapes;
+        return Collections.unmodifiableMap(shapes);
     }
 
     public Shape getSelectedShape() {
         return selectedShape;
+    }
+
+    public DefaultListModel<String> getClientsModel() {
+        return clientsModel;
     }
 }

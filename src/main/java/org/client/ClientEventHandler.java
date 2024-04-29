@@ -12,12 +12,10 @@ import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
-    private final App app;
     private final AppViewModel appViewModel;
 
     public ClientEventHandler(ClientStub clientStub, App app, AppViewModel appViewModel) {
         super(ServersideProtocol::parse, clientStub);
-        this.app = app;
         this.appViewModel = appViewModel;
     }
 
@@ -31,30 +29,26 @@ public class ClientEventHandler extends EventHandler {
 
     @Override
     protected void processInhabitantEvent(CMDataEvent de) {
-        if (stub.getMyself().getName().equals(de.getUserName())) {
-            return;
-        }
-
-        System.out.println("@ 선임을 정확하게 알아야지요");
+        System.out.println("@ 접속 중인 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-
-        ((ClientStub) stub).addClient(de.getUserName());
+        appViewModel.join(de.getUserName());
     }
 
     @Override
     protected void processNewUserEvent(CMDataEvent de) {
-        System.out.println("@ 신병받아라");
+        if (stub.getMyself().getName().equals(de.getUserName())) {
+            appViewModel.setMyself(de.getUserName());
+            return;
+        }
+        System.out.println("@ 새로 참여한 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-        
-        ((ClientStub) stub).addClient(de.getUserName());
-        app.updateClientsWindow();
+        appViewModel.join(de.getUserName());
     }
 
     @Override
     protected void processRemoveUserEvent(CMDataEvent de) {
         System.out.println("@ 잘가라...");
-        ((ClientStub) stub).removeClient(de.getUserName());
-        app.updateClientsWindow();
+        appViewModel.leave(de.getUserName());
     }
 
     @Override

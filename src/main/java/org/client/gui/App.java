@@ -1,24 +1,19 @@
 package org.client.gui;
 
-import org.client.ClientStub;
-import org.client.gui.components.*;
 import org.client.gui.components.Canvas;
+import org.client.gui.components.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
 
 public class App extends JFrame {
-    private ClientStub clientStub;
-
-    private ClientsWindow clientsWindow;
-
-    public App(AppViewModel appViewModel, ClientStub clientStub) {
+    public App(AppViewModel appViewModel, Function<Void, Void> onWindowClosed) {
         super(APP_TITLE);
-        this.clientStub = clientStub;
 
         // init itself
         setLayout(new BorderLayout());
@@ -29,7 +24,7 @@ public class App extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                clientStub.requestLeave();
+                onWindowClosed.apply(null);
             }
         });
 
@@ -46,7 +41,7 @@ public class App extends JFrame {
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(clientsWindow = new ClientsWindow(appViewModel));
+        rightPanel.add(new ClientsWindow(appViewModel));
         rightPanel.add(new ShapesWindow(appViewModel));
 
         add(leftPanel, BorderLayout.WEST);
@@ -55,10 +50,6 @@ public class App extends JFrame {
 
         // show it
         setVisible(true);
-    }
-
-    public void updateClientsWindow() {
-        clientsWindow.setClients(clientStub.getClients());
     }
 }
 
