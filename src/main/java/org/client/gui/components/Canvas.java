@@ -5,7 +5,7 @@ import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
 import org.client.gui.shapes.Text;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.UserAction;
 
 import javax.swing.*;
@@ -31,24 +31,24 @@ public class Canvas extends ComponentJPanel {
     //private int count = 0;
 
 
-    public Canvas(ShapesViewModel shapesViewModel) {
-        super(CANVAS_SIZE, shapesViewModel);
+    public Canvas(AppViewModel appViewModel) {
+        super(CANVAS_SIZE, appViewModel);
         setLayout(new BorderLayout());
         setBackground(Color.white);
         setFocusable(true);
         requestFocusInWindow();
 
         //shapes = Collections.synchronizedMap(new TreeMap<>());   // 도형 객체들을 저장하기 위해 맵 이용
-        shapes = shapesViewModel.getShapes();
+        shapes = appViewModel.getShapes();
         undoStack = new Stack<>();
         redoStack = new Stack<>();
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION, this::createToolbar);
+        appViewModel.addListener(AppViewModel.Listener.USER_CREATION, this::createToolbar);
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::selectSilently);
-        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_CREATION, this::createSilently);
-        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_MODIFICATION, this::modifySilently);
-        shapesViewModel.addListener(ShapesViewModel.Listener.SERVER_REMOVAL, this::removeSilently);
+        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::selectSilently);
+        appViewModel.addListener(AppViewModel.Listener.SERVER_CREATION, this::createSilently);
+        appViewModel.addListener(AppViewModel.Listener.SERVER_MODIFICATION, this::modifySilently);
+        appViewModel.addListener(AppViewModel.Listener.SERVER_REMOVAL, this::removeSilently);
 
         getInputMap(WHEN_IN_FOCUSED_WINDOW).
             put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");
@@ -96,7 +96,7 @@ public class Canvas extends ComponentJPanel {
                         mousePoint = e.getPoint();
 
                         selectedShape = shapes.get(key);
-                        shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                        appViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                         if (selectedShape instanceof Line || selectedShape instanceof org.client.gui.shapes.Rectangle
                             || selectedShape instanceof Oval || selectedShape instanceof Text) {
                             selectedShape.allHandleStopDrag();
@@ -217,14 +217,14 @@ public class Canvas extends ComponentJPanel {
                 create(act.getTargetShape());
                 if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getTargetShape();
-                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    appViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
 
             } else if (act.getAction() == UserAction.Type.CHANGE) {
                 modify(act.getPreviousShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
-                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    appViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
                 act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
@@ -255,7 +255,7 @@ public class Canvas extends ComponentJPanel {
                 modify(act.getTargetShape());
                 if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
                     selectedShape = act.getPreviousShape();
-                    shapesViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
+                    appViewModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
                 }
                 act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
                     null, null);
@@ -279,26 +279,26 @@ public class Canvas extends ComponentJPanel {
 
     public void select(Shape shape) {
         if (shape == null) {
-            shapesViewModel.select(-1);
+            appViewModel.select(-1);
         } else {
-            shapesViewModel.select(shape.getId());
+            appViewModel.select(shape.getId());
         }
 //        selectSilently(shape);
     }
 
 
     public void create(Shape shape) {                     // 유저가 도형 생성할 때
-        shapesViewModel.createByUser(shape);              // 맵에서 도형 생성 후 다른 컴포넌트에 전파
+        appViewModel.createByUser(shape);              // 맵에서 도형 생성 후 다른 컴포넌트에 전파
         createSilently(shape);                            // 캔버스에 반영
     }
 
     public void remove(Shape shape) {                     // 유저가 도형 지울 때
-        shapesViewModel.removeByUser(shape.getId());      // 맵에서 도형 지우고 다른 컴포넌트에 전파
+        appViewModel.removeByUser(shape.getId());      // 맵에서 도형 지우고 다른 컴포넌트에 전파
         removeSilently(shape);                            // 캔버스에 반영
     }
 
     public void modify(Shape modifiedShape) {                               // 유저가 도형 변경할 때
-        shapesViewModel.modifyByUser(modifiedShape.getId(), modifiedShape); // 맵 도형변경 후 다른 컴포넌트에 전파
+        appViewModel.modifyByUser(modifiedShape.getId(), modifiedShape); // 맵 도형변경 후 다른 컴포넌트에 전파
         modifySilently(modifiedShape);                                      // 캔버스에 반영
     }
 
@@ -312,7 +312,7 @@ public class Canvas extends ComponentJPanel {
     private Void selectSilently(Shape selected) {
         // 2. 뷰모델의 맵에 선택된 도형이 바뀌어 있음 -> 캔버스에서 선택된 도형 변경 -> 리페인트
 
-        selectedShape = shapesViewModel.getSelectedShape();
+        selectedShape = appViewModel.getSelectedShape();
         repaint();
         return null;
     }

@@ -16,7 +16,7 @@ public class App extends JFrame {
 
     private ClientsWindow clientsWindow;
 
-    public App(ShapesViewModel shapesViewModel, ClientStub clientStub) {
+    public App(AppViewModel appViewModel, ClientStub clientStub) {
         super(APP_TITLE);
         this.clientStub = clientStub;
 
@@ -34,20 +34,20 @@ public class App extends JFrame {
         });
 
         // init inner components
-        Canvas canvas = new Canvas(shapesViewModel);
-        StyleWindow styleWindow = new StyleWindow(shapesViewModel);
+        Canvas canvas = new Canvas(appViewModel);
+        StyleWindow styleWindow = new StyleWindow(appViewModel);
 
         JPanel leftPanel = new VerticalJPanel();
         leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow(shapesViewModel));
+        leftPanel.add(new EditWindow(appViewModel));
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar(shapesViewModel, styleWindow));
+        centerPanel.add(new Toolbar(appViewModel, styleWindow));
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(clientsWindow = new ClientsWindow(shapesViewModel));
-        rightPanel.add(new ShapesWindow(shapesViewModel));
+        rightPanel.add(clientsWindow = new ClientsWindow(appViewModel));
+        rightPanel.add(new ShapesWindow(appViewModel));
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);

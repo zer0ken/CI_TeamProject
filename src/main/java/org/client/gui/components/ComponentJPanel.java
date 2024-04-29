@@ -1,16 +1,16 @@
 package org.client.gui.components;
 
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 
 import javax.swing.*;
 import java.awt.*;
 
 abstract class ComponentJPanel extends JPanel {
-    protected final ShapesViewModel shapesViewModel;
+    protected final AppViewModel appViewModel;
 
-    ComponentJPanel(Dimension size, ShapesViewModel shapesViewModel) {
+    ComponentJPanel(Dimension size, AppViewModel appViewModel) {
         super();
         setPreferredSize(size);
-        this.shapesViewModel = shapesViewModel;
+        this.appViewModel = appViewModel;
     }
 }

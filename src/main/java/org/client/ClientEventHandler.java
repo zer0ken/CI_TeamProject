@@ -6,19 +6,19 @@ import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.Base64;
 import org.common.EventHandler;
 import org.client.gui.App;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.shapes.Shape;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
     private final App app;
-    private final ShapesViewModel shapesViewModel;
+    private final AppViewModel appViewModel;
 
-    public ClientEventHandler(ClientStub clientStub, App app, ShapesViewModel shapesViewModel) {
+    public ClientEventHandler(ClientStub clientStub, App app, AppViewModel appViewModel) {
         super(ServersideProtocol::parse, clientStub);
         this.app = app;
-        this.shapesViewModel = shapesViewModel;
+        this.appViewModel = appViewModel;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        shapesViewModel.createByServer(cmd.getId(), decoded);
+        appViewModel.createByServer(cmd.getId(), decoded);
     }
 
     @Override
@@ -74,11 +74,11 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        shapesViewModel.modifyByServer(cmd.getId(), decoded);
+        appViewModel.modifyByServer(cmd.getId(), decoded);
     }
 
     @Override
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
-        shapesViewModel.removeByServer(cmd.getId());
+        appViewModel.removeByServer(cmd.getId());
     }
 }

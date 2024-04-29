@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Constants;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,8 @@ public class ClientsWindow extends ComponentJPanel {
     DefaultListModel<String> clientListModel;
     JList<String> clientList;
 
-    public ClientsWindow(ShapesViewModel shapesViewModel) {
-        super(Constants.CLIENTS_WINDOW_SIZE, shapesViewModel);
+    public ClientsWindow(AppViewModel appViewModel) {
+        super(Constants.CLIENTS_WINDOW_SIZE, appViewModel);
         setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 

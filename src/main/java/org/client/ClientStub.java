@@ -3,7 +3,7 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.common.Base64;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.components.Login;
 import org.protocol.Action;
 import org.protocol.ClientsideProtocol;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 public class ClientStub extends CMClientStub {
     private final ArrayList<String> clients = new ArrayList<>();
 
-    public ClientStub(ShapesViewModel shapesViewModel) {
+    public ClientStub(AppViewModel appViewModel) {
         super();
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.USER_CREATION,
+        appViewModel.addListener(AppViewModel.Listener.USER_CREATION,
             shape -> requestAdd(Base64.encode(shape)));
-        shapesViewModel.addListener(ShapesViewModel.Listener.USER_MODIFICATION,
+        appViewModel.addListener(AppViewModel.Listener.USER_MODIFICATION,
             shape -> requestEdit(shape.getId(), Base64.encode(shape)));
-        shapesViewModel.addListener(ShapesViewModel.Listener.USER_REMOVAL,
+        appViewModel.addListener(AppViewModel.Listener.USER_REMOVAL,
             shape -> requestRemove(shape.getId()));
 
     }

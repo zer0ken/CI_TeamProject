@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.function.Function;
 
 
-public class ShapesViewModel {
+public class AppViewModel {
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
 
@@ -29,7 +29,7 @@ public class ShapesViewModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
-    public ShapesViewModel() {
+    public AppViewModel() {
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
         userModificationListeners = new ArrayList<>();

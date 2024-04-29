@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Constants;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.components.labeledslot.ColorInput;
 import org.client.gui.components.labeledslot.TextInput;
 import org.client.gui.shapes.Shape;
@@ -20,8 +20,8 @@ public class EditWindow extends ComponentJPanel {
     private final TextInput textContent;
     private final JButton applyButton;
 
-    public EditWindow(ShapesViewModel shapesViewModel) {
-        super(Constants.EDIT_WINDOW_SIZE, shapesViewModel);
+    public EditWindow(AppViewModel appViewModel) {
+        super(Constants.EDIT_WINDOW_SIZE, appViewModel);
         setBorder(BorderFactory.createTitledBorder(Constants.EDIT_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -50,7 +50,7 @@ public class EditWindow extends ComponentJPanel {
         add(textContent);
         add(new Resized(applyButton));
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::select);
+        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::select);
     }
 
     private Void select(org.client.gui.shapes.Shape shape) {
@@ -69,9 +69,9 @@ public class EditWindow extends ComponentJPanel {
     }
 
     private void editStyle() {
-        org.client.gui.shapes.Shape before = shapesViewModel.getSelectedShape();
+        org.client.gui.shapes.Shape before = appViewModel.getSelectedShape();
         Shape after = before.copy(getStyle());
-        shapesViewModel.modifyByUser(after.getId(), after);
+        appViewModel.modifyByUser(after.getId(), after);
     }
 
     private Style getStyle() {

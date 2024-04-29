@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.shapes.Shape;
 
 import javax.swing.*;
@@ -16,15 +16,15 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
     DefaultListModel<ShapeListItem> shapeListModel;
     JList<ShapeListItem> shapeList;
 
-    public ShapesWindow(ShapesViewModel shapesViewModel) {
-        super(SHAPES_WINDOW_SIZE, shapesViewModel);
+    public ShapesWindow(AppViewModel appViewModel) {
+        super(SHAPES_WINDOW_SIZE, appViewModel);
         setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
 
-        shapesViewModel.addListener(ShapesViewModel.Listener.SELECTION, this::select);
-        shapesViewModel.addListener(ShapesViewModel.Listener.CREATION, this::update);
-        shapesViewModel.addListener(ShapesViewModel.Listener.MODIFICATION, this::update);
-        shapesViewModel.addListener(ShapesViewModel.Listener.REMOVAL, this::update);
+        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::select);
+        appViewModel.addListener(AppViewModel.Listener.CREATION, this::update);
+        appViewModel.addListener(AppViewModel.Listener.MODIFICATION, this::update);
+        appViewModel.addListener(AppViewModel.Listener.REMOVAL, this::update);
 
         shapeListModel = new DefaultListModel<>();
 
@@ -45,9 +45,9 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
 
     public Void update(Shape unused) {
         ShapeListItem selected = shapeList.getSelectedValue();
-        setShapes(shapesViewModel.getShapes());
+        setShapes(appViewModel.getShapes());
         if (selected != null) {
-            select(shapesViewModel.getShapes().get(selected.getId()));
+            select(appViewModel.getShapes().get(selected.getId()));
         }
         return null;
     }
@@ -65,8 +65,8 @@ public class ShapesWindow extends ComponentJPanel implements ListSelectionListen
         }
         ShapeListItem selected = shapeList.getSelectedValue();
         if (selected != null) {
-            if (shapesViewModel.getSelectedShape().getId() != selected.getId()) {
-                shapesViewModel.select(selected.getId());
+            if (appViewModel.getSelectedShape().getId() != selected.getId()) {
+                appViewModel.select(selected.getId());
             }
         }
     }

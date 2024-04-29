@@ -1,19 +1,19 @@
 package org.client;
 
 import org.client.gui.App;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 
 public class Client {
     private final ClientStub clientStub;
     private final ClientEventHandler eventHandler;
     private final App app;
-    private final ShapesViewModel shapesViewModel;
+    private final AppViewModel appViewModel;
 
     public Client() {
-        shapesViewModel = new ShapesViewModel();
-        clientStub = new ClientStub(shapesViewModel);
-        app = new App(shapesViewModel, clientStub);
-        eventHandler = new ClientEventHandler(clientStub, app, shapesViewModel);
+        appViewModel = new AppViewModel();
+        clientStub = new ClientStub(appViewModel);
+        app = new App(appViewModel, clientStub);
+        eventHandler = new ClientEventHandler(clientStub, app, appViewModel);
         clientStub.setAppEventHandler(eventHandler);
         clientStub.startCM();
         clientStub.requestLogin(false);

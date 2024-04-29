@@ -1,6 +1,6 @@
 package org.client.gui.components;
 
-import org.client.gui.ShapesViewModel;
+import org.client.gui.AppViewModel;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Rectangle;
@@ -19,8 +19,8 @@ public class Toolbar extends ComponentJPanel {
     private final StyleWindow styleWindow;
     private long count = 0;                 // 도형 id용(임시)
 
-    public Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
-        super(TOOLBAR_SIZE, shapesViewModel);
+    public Toolbar(AppViewModel appViewModel, StyleWindow styleWindow) {
+        super(TOOLBAR_SIZE, appViewModel);
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         this.styleWindow = styleWindow;
@@ -64,7 +64,7 @@ public class Toolbar extends ComponentJPanel {
                 clickedShape.setStyle(styleWindow.getStyle());
                 count++;
                 clickedShape.setId(count);
-                shapesViewModel.createByUser(clickedShape);
+                appViewModel.createByUser(clickedShape);
 //                canvas.addShape(count, selectedShape);
 //                canvas.repaint();
             }
