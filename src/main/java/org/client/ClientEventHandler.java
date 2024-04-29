@@ -3,18 +3,17 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.common.Base64;
-import org.common.EventHandler;
-import org.client.gui.App;
 import org.client.gui.AppViewModel;
 import org.client.gui.shapes.Shape;
+import org.common.Base64;
+import org.common.EventHandler;
 import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
     private final AppViewModel appViewModel;
 
-    public ClientEventHandler(ClientStub clientStub, App app, AppViewModel appViewModel) {
+    public ClientEventHandler(ClientStub clientStub, AppViewModel appViewModel) {
         super(ServersideProtocol::parse, clientStub);
         this.appViewModel = appViewModel;
     }

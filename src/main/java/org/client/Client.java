@@ -8,7 +8,7 @@ public class Client {
         AppViewModel appViewModel = new AppViewModel();
         ClientStub clientStub = new ClientStub(appViewModel);
         App app = new App(appViewModel, unused -> clientStub.requestLeave());
-        ClientEventHandler eventHandler = new ClientEventHandler(clientStub, app, appViewModel);
+        ClientEventHandler eventHandler = new ClientEventHandler(clientStub, appViewModel);
         clientStub.setAppEventHandler(eventHandler);
         clientStub.startCM();
         clientStub.requestLogin(false);
