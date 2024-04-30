@@ -2,6 +2,7 @@ package org.client.gui;
 
 import org.client.gui.components.Canvas;
 import org.client.gui.components.*;
+import org.client.gui.models.AppViewModel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -3,7 +3,7 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.client.gui.AppViewModel;
+import org.client.gui.models.AppViewModel;
 import org.client.gui.shapes.Shape;
 import org.common.Base64;
 import org.common.EventHandler;

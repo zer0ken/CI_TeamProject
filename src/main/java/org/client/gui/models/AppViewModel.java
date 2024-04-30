@@ -1,4 +1,4 @@
-package org.client.gui;
+package org.client.gui.models;
 
 import org.client.gui.shapes.Shape;
 
@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.*;
 import java.util.function.Function;
 
-import static org.client.gui.AppViewModel.Listener.*;
+import static org.client.gui.models.AppViewModel.Listener.*;
 
 
 public class AppViewModel {

@@ -1,6 +1,6 @@
 package org.client.gui.components;
 
-import org.client.gui.AppViewModel;
+import org.client.gui.models.AppViewModel;
 import org.client.gui.components.labeledslot.ColorInput;
 import org.client.gui.components.labeledslot.NumberInput;
 import org.client.gui.components.labeledslot.TextInput;

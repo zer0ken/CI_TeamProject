@@ -1,6 +1,6 @@
 package org.client.gui.components;
 
-import org.client.gui.AppViewModel;
+import org.client.gui.models.AppViewModel;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Rectangle;

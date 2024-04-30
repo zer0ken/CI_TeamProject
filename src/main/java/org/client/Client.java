@@ -1,7 +1,7 @@
 package org.client;
 
 import org.client.gui.App;
-import org.client.gui.AppViewModel;
+import org.client.gui.models.AppViewModel;
 
 public class Client {
     Client() {

@@ -1,12 +1,12 @@
 package org.client.gui.components;
 
-import org.client.gui.AppViewModel.Listener;
+import org.client.gui.models.AppViewModel.Listener;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
 import org.client.gui.shapes.Text;
-import org.client.gui.AppViewModel;
+import org.client.gui.models.AppViewModel;
 import org.client.gui.UserAction;
 
 import javax.swing.*;

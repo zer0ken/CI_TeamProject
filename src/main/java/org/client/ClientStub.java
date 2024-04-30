@@ -2,8 +2,8 @@ package org.client;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
-import org.client.gui.AppViewModel;
-import org.client.gui.AppViewModel.Listener;
+import org.client.gui.models.AppViewModel;
+import org.client.gui.models.AppViewModel.Listener;
 import org.client.gui.components.Login;
 import org.common.Base64;
 import org.protocol.Action;
