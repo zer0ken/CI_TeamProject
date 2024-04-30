@@ -7,7 +7,7 @@ import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
 import org.client.gui.shapes.Text;
 import org.client.gui.models.AppViewModel;
-import org.client.gui.UserAction;
+import org.client.gui.models.UserAction;
 
 import javax.swing.*;
 import java.awt.*;

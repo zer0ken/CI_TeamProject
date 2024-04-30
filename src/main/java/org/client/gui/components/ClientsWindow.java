@@ -15,8 +15,8 @@ public class ClientsWindow extends ComponentJPanel {
         setLayout(new BorderLayout());
 
         clientList = new JList<>();
-        clientList.setModel(appViewModel.getClientsModel());
-        clientList.setSelectionModel(appViewModel.getClientsSelectionModel());
+        clientList.setModel(appViewModel.getClientListModel());
+        clientList.setSelectionModel(appViewModel.getClientListSelectionModel());
 
         JScrollPane scrollPane = new JScrollPane(
                 clientList,

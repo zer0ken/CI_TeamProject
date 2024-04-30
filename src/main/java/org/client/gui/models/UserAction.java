@@ -1,4 +1,4 @@
-package org.client.gui;
+package org.client.gui.models;
 
 import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
