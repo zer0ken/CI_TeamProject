@@ -15,7 +15,7 @@ import static org.client.gui.Constants.*;
 public class Toolbar extends ComponentJPanel {
     private long count = 0;                 // 도형 id용(임시)
 
-    public Toolbar(StyleWindow styleWindow) {
+    public Toolbar() {
         super(TOOLBAR_SIZE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -24,8 +24,8 @@ public class Toolbar extends ComponentJPanel {
         add(titleLabel); // Add the title label before adding buttons
 
         // Toolbar button setting
-        for (int i = 0; i < TOOLBAR_BUTTONS.length; i++){
-            JButton button = new JButton(TOOLBAR_BUTTONS[i]);
+        for (String toolbarButton : TOOLBAR_BUTTONS) {
+            JButton button = new JButton(toolbarButton);
             button.setFocusPainted(false);
             button.addMouseListener(new DoubleClickListener());
             add(button);
@@ -39,20 +39,13 @@ public class Toolbar extends ComponentJPanel {
                 JButton source = (JButton) e.getSource();
                 org.client.gui.shapes.Shape clickedShape;
                 switch (source.getText()) {
-                    case TOOLBAR_LINE :
-                        clickedShape = new Line();
-                        break;
-                    case TOOLBAR_RECT:
-                        clickedShape = new Rectangle();
-                        break;
-                    case TOOLBAR_OVAL:
-                        clickedShape = new Oval();
-                        break;
-                    case TOOLBAR_TEXT:
-                        clickedShape = new Text();
-                        break;
-                    default:
+                    case TOOLBAR_LINE -> clickedShape = new Line();
+                    case TOOLBAR_RECT -> clickedShape = new Rectangle();
+                    case TOOLBAR_OVAL -> clickedShape = new Oval();
+                    case TOOLBAR_TEXT -> clickedShape = new Text();
+                    default -> {
                         return;
+                    }
                 }
                 clickedShape.setLocation(300, 300, 400, 400);
                 clickedShape.setStyle(appViewModel.getStyle());

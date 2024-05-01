@@ -37,7 +37,7 @@ public class App extends JFrame {
         leftPanel.add(new EditWindow());
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar(styleWindow));
+        centerPanel.add(new Toolbar());
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();

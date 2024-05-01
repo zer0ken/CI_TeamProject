@@ -37,7 +37,7 @@ public class Constants {
     public static final String LINE = "직선";
     public static final String RECT = "사각형";
     public static final String OVAL = "원";
-    public static final String TEXT = "텍스트";
+//    public static final String TEXT = "텍스트";
 
     // dimension
     public static final int APP_WIDTH = 1400;
