@@ -3,7 +3,7 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.client.gui.models.AppViewModel;
+import org.client.gui.models.AppModel;
 import org.client.gui.shapes.Shape;
 import org.common.Base64;
 import org.common.EventHandler;
@@ -11,7 +11,7 @@ import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
-    private final AppViewModel appViewModel = AppViewModel.getInstance();
+    private final AppModel appModel = AppModel.getInstance();
 
     public ClientEventHandler(ClientStub clientStub) {
         super(ServersideProtocol::parse, clientStub);
@@ -29,24 +29,24 @@ public class ClientEventHandler extends EventHandler {
     protected void processInhabitantEvent(CMDataEvent de) {
         System.out.println("@ 접속 중인 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-        appViewModel.join(de.getUserName());
+        appModel.join(de.getUserName());
     }
 
     @Override
     protected void processNewUserEvent(CMDataEvent de) {
         if (stub.getMyself().getName().equals(de.getUserName())) {
-            appViewModel.setMyself(de.getUserName());
+            appModel.setMyself(de.getUserName());
             return;
         }
         System.out.println("@ 새로 참여한 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-        appViewModel.join(de.getUserName());
+        appModel.join(de.getUserName());
     }
 
     @Override
     protected void processRemoveUserEvent(CMDataEvent de) {
         System.out.println("@ 잘가라...");
-        appViewModel.leave(de.getUserName());
+        appModel.leave(de.getUserName());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        appViewModel.createByServer(cmd.getId(), decoded);
+        appModel.createByServer(cmd.getId(), decoded);
     }
 
     @Override
@@ -66,11 +66,11 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        appViewModel.modifyByServer(cmd.getId(), decoded);
+        appModel.modifyByServer(cmd.getId(), decoded);
     }
 
     @Override
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
-        appViewModel.removeByServer(cmd.getId());
+        appModel.removeByServer(cmd.getId());
     }
 }

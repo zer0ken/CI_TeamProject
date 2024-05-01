@@ -19,7 +19,7 @@ public class EditWindowModel extends DefaultStyleWindowModel {
 
     public EditWindowModel() {
         super();
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::setStyleOf);
+        appModel.addListener(AppModel.Listener.SELECTION, this::setStyleOf);
     }
 
     public Void setStyleOf(Shape shape) {
@@ -43,11 +43,11 @@ public class EditWindowModel extends DefaultStyleWindowModel {
     private StyleSpinnerModel setSpinnerModel(JSpinner spinner, int defaultValue) {
         StyleSpinnerModel model = new StyleSpinnerModel(
                 unused -> {
-                    Shape selectedShape = appViewModel.getSelectedShape();
+                    Shape selectedShape = appModel.getSelectedShape();
                     if (selectedShape == null) {
                         return null;
                     }
-                    appViewModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
                     return null;
                 },
                 defaultValue
@@ -63,11 +63,11 @@ public class EditWindowModel extends DefaultStyleWindowModel {
                     return null;
                 },
                 unused -> {
-                    Shape selectedShape = appViewModel.getSelectedShape();
+                    Shape selectedShape = appModel.getSelectedShape();
                     if (selectedShape == null) {
                         return null;
                     }
-                    appViewModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
                     return null;
                 },
                 defaultColor,
@@ -113,16 +113,16 @@ public class EditWindowModel extends DefaultStyleWindowModel {
 
             @Override
             public void focusLost(FocusEvent e) {
-                Shape selectedShape = appViewModel.getSelectedShape();
+                Shape selectedShape = appModel.getSelectedShape();
                 if (selectedShape == null) {
                     return;
                 }
-                appViewModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
             }
         };
         textContentField.addFocusListener(focusListener);
 
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, shape -> {
+        appModel.addListener(AppModel.Listener.SELECTION, shape -> {
             if (shape == null) {
                 return  null;
             }

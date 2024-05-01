@@ -3,7 +3,7 @@ package org.client.gui.models;
 import javax.swing.*;
 
 abstract public class DefaultStyleWindowModel {
-    protected final AppViewModel appViewModel;
+    protected final AppModel appModel;
 
     protected JSpinner lineWidthSpinner;
     protected JButton lineColorButton;
@@ -13,7 +13,7 @@ abstract public class DefaultStyleWindowModel {
     protected JTextField textContentField;
 
     public DefaultStyleWindowModel() {
-        this.appViewModel = AppViewModel.getInstance();
+        this.appModel = AppModel.getInstance();
     }
 
     private void setComponents(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,

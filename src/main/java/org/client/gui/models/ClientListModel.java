@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class ClientListModel extends DefaultListModel<String> {
     public ClientListModel() {
-        AppViewModel appViewModel = AppViewModel.getInstance();
-        appViewModel.addStringListener(AppViewModel.Listener.JOIN, this::add);
-        appViewModel.addStringListener(AppViewModel.Listener.LEAVE, this::remove);
+        AppModel appModel = AppModel.getInstance();
+        appModel.addStringListener(AppModel.Listener.JOIN, this::add);
+        appModel.addStringListener(AppModel.Listener.LEAVE, this::remove);
     }
 
     private Void add(String name) {

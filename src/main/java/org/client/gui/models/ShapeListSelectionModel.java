@@ -8,13 +8,13 @@ import javax.swing.event.ListSelectionListener;
 
 public class ShapeListSelectionModel extends DefaultListSelectionModel implements ListSelectionListener {
     private final ShapeListModel shapeListModel;
-    private final AppViewModel appViewModel;
+    private final AppModel appModel;
 
     public ShapeListSelectionModel(ShapeListModel shapeListModel) {
         this.shapeListModel = shapeListModel;
-        this.appViewModel = AppViewModel.getInstance();
+        this.appModel = AppModel.getInstance();
 
-        appViewModel.addListener(AppViewModel.Listener.SELECTION, this::select);
+        appModel.addListener(AppModel.Listener.SELECTION, this::select);
 
         setSelectionMode(SINGLE_SELECTION);
         addListSelectionListener(this);
@@ -30,7 +30,7 @@ public class ShapeListSelectionModel extends DefaultListSelectionModel implement
             return;
         }
         Shape newSelectedShape = shapeListModel.get(selectedIndices[0]);
-        appViewModel.select(newSelectedShape.getId());
+        appModel.select(newSelectedShape.getId());
     }
 
     public Void select(Shape newSelectedShape) {

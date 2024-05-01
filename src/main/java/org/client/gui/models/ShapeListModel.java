@@ -7,10 +7,10 @@ import javax.swing.*;
 public class ShapeListModel extends DefaultListModel<Shape> {
 
     public ShapeListModel() {
-        AppViewModel appViewModel = AppViewModel.getInstance();
-        appViewModel.addListener(AppViewModel.Listener.CREATION, this::add);
-        appViewModel.addListener(AppViewModel.Listener.MODIFICATION, this::edit);
-        appViewModel.addListener(AppViewModel.Listener.REMOVAL, this::remove);
+        AppModel appModel = AppModel.getInstance();
+        appModel.addListener(AppModel.Listener.CREATION, this::add);
+        appModel.addListener(AppModel.Listener.MODIFICATION, this::edit);
+        appModel.addListener(AppModel.Listener.REMOVAL, this::remove);
     }
 
     public Void add(Shape shape) {

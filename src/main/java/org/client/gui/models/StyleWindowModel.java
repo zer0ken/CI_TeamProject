@@ -11,7 +11,7 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
         lineWidthSpinner.setModel(
                 new StyleSpinnerModel(
                         lineWidth -> {
-                            appViewModel.setLineWidth(lineWidth);
+                            appModel.setLineWidth(lineWidth);
                             return null;
                         },
                         DEFAULT_LINE_WIDTH
@@ -28,7 +28,7 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
                             return null;
                         },
                         lineColor -> {
-                            appViewModel.setLineColor(lineColor);
+                            appModel.setLineColor(lineColor);
                             return null;
                         },
                         DEFAULT_LINE_COLOR,
@@ -46,7 +46,7 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
                             return null;
                         },
                         fillColor -> {
-                            appViewModel.setFillColor(fillColor);
+                            appModel.setFillColor(fillColor);
                             return null;
                         },
                         DEFAULT_FILL_COLOR,
@@ -60,7 +60,7 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
         textSizeSpinner.setModel(
                 new StyleSpinnerModel(
                         textSize -> {
-                            appViewModel.setTextSize(textSize);
+                            appModel.setTextSize(textSize);
                             return null;
                         },
                         DEFAULT_TEXT_SIZE
@@ -77,7 +77,7 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
                             return null;
                         },
                         textColor -> {
-                            appViewModel.setTextColor(textColor);
+                            appModel.setTextColor(textColor);
                             return null;
                         },
                         DEFAULT_TEXT_COLOR,
@@ -92,17 +92,17 @@ public class StyleWindowModel extends DefaultStyleWindowModel {
         textContentField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                appViewModel.setTextContent(textContentField.getText());
+                appModel.setTextContent(textContentField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                appViewModel.setTextContent(textContentField.getText());
+                appModel.setTextContent(textContentField.getText());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                appViewModel.setTextContent(textContentField.getText());
+                appModel.setTextContent(textContentField.getText());
             }
         });
     }

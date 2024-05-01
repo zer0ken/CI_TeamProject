@@ -8,7 +8,7 @@ public class ClientListSelectionModel extends DefaultListSelectionModel {
     public ClientListSelectionModel(ClientListModel clientListModel) {
         this.clientListModel = clientListModel;
         setSelectionMode(SINGLE_SELECTION);
-        AppViewModel.getInstance().addStringListener(AppViewModel.Listener.SET_NAME, this::selectNameAndFix);
+        AppModel.getInstance().addStringListener(AppModel.Listener.SET_NAME, this::selectNameAndFix);
     }
 
     public Void selectNameAndFix(String name) {

@@ -48,10 +48,10 @@ public class Toolbar extends ComponentJPanel {
                     }
                 }
                 clickedShape.setLocation(300, 300, 400, 400);
-                clickedShape.setStyle(appViewModel.getStyle());
+                clickedShape.setStyle(appModel.getStyle());
                 count++;
                 clickedShape.setId(count);
-                appViewModel.createByUser(clickedShape);
+                appModel.createByUser(clickedShape);
             }
         }
     }

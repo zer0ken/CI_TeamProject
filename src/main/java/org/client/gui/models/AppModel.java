@@ -12,11 +12,11 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
-import static org.client.gui.models.AppViewModel.Listener.*;
+import static org.client.gui.models.AppModel.Listener.*;
 
 
-public class AppViewModel {
-    private static AppViewModel instance = null;
+public class AppModel {
+    private static AppModel instance = null;
 
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
@@ -76,7 +76,7 @@ public class AppViewModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
-    private AppViewModel() {
+    private AppModel() {
         joinListeners = new ArrayList<>();
         leaveListeners = new ArrayList<>();
         setNameListeners = new ArrayList<>();
@@ -94,9 +94,9 @@ public class AppViewModel {
         instance = this;
     }
 
-    public static AppViewModel getInstance() {
+    public static AppModel getInstance() {
         if (instance == null) {
-            return new AppViewModel();
+            return new AppModel();
         }
         return instance;
     }
