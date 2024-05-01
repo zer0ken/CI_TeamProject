@@ -9,8 +9,8 @@ import java.awt.*;
 public class ClientsWindow extends ComponentJPanel {
     JList<String> clientList;
 
-    public ClientsWindow(AppViewModel appViewModel) {
-        super(Constants.CLIENTS_WINDOW_SIZE, appViewModel);
+    public ClientsWindow() {
+        super(Constants.CLIENTS_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
         setLayout(new BorderLayout());
 

@@ -10,6 +10,8 @@ import static org.client.gui.models.AppViewModel.Listener.*;
 
 
 public class AppViewModel {
+    private static AppViewModel instance = null;
+
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
     private final DefaultListModel<String> clientListModel;
@@ -62,7 +64,7 @@ public class AppViewModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
-    public AppViewModel() {
+    private AppViewModel() {
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
         userModificationListeners = new ArrayList<>();
@@ -94,6 +96,14 @@ public class AppViewModel {
                 select(newSelectedShape.getId());
             }
         });
+        instance = this;
+    }
+
+    public static AppViewModel getInstance() {
+        if (instance == null) {
+            return new AppViewModel();
+        }
+        return instance;
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {

@@ -1,6 +1,5 @@
 package org.client.gui.components;
 
-import org.client.gui.models.AppViewModel;
 import org.client.gui.components.labeledslot.ColorInput;
 import org.client.gui.components.labeledslot.NumberInput;
 import org.client.gui.components.labeledslot.TextInput;
@@ -20,8 +19,8 @@ public class StyleWindow extends ComponentJPanel {
     private final ColorInput textColor;
     private final TextInput textContent;
 
-    public StyleWindow(AppViewModel appViewModel) {
-        super(STYLE_WINDOW_SIZE, appViewModel);
+    public StyleWindow() {
+        super(STYLE_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(STYLE_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

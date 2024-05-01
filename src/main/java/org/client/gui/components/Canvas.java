@@ -1,12 +1,12 @@
 package org.client.gui.components;
 
+import org.client.gui.models.AppViewModel;
 import org.client.gui.models.AppViewModel.Listener;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.Style;
 import org.client.gui.shapes.Text;
-import org.client.gui.models.AppViewModel;
 import org.client.gui.models.UserAction;
 
 import javax.swing.*;
@@ -32,8 +32,8 @@ public class Canvas extends ComponentJPanel {
     //private int count = 0;
 
 
-    public Canvas(AppViewModel appViewModel) {
-        super(CANVAS_SIZE, appViewModel);
+    public Canvas() {
+        super(CANVAS_SIZE);
         setLayout(new BorderLayout());
         setBackground(Color.white);
         setFocusable(true);

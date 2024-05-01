@@ -8,9 +8,9 @@ import java.awt.*;
 abstract class ComponentJPanel extends JPanel {
     protected final AppViewModel appViewModel;
 
-    ComponentJPanel(Dimension size, AppViewModel appViewModel) {
+    ComponentJPanel(Dimension size) {
         super();
         setPreferredSize(size);
-        this.appViewModel = appViewModel;
+        this.appViewModel = AppViewModel.getInstance();
     }
 }

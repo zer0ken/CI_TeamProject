@@ -19,8 +19,8 @@ public class Toolbar extends ComponentJPanel {
     private final StyleWindow styleWindow;
     private long count = 0;                 // 도형 id용(임시)
 
-    public Toolbar(AppViewModel appViewModel, StyleWindow styleWindow) {
-        super(TOOLBAR_SIZE, appViewModel);
+    public Toolbar(StyleWindow styleWindow) {
+        super(TOOLBAR_SIZE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         this.styleWindow = styleWindow;

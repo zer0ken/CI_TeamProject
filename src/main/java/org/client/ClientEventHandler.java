@@ -11,11 +11,10 @@ import org.protocol.Command;
 import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
-    private final AppViewModel appViewModel;
+    private final AppViewModel appViewModel = AppViewModel.getInstance();
 
-    public ClientEventHandler(ClientStub clientStub, AppViewModel appViewModel) {
+    public ClientEventHandler(ClientStub clientStub) {
         super(ServersideProtocol::parse, clientStub);
-        this.appViewModel = appViewModel;
     }
 
     @Override

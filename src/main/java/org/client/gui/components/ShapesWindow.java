@@ -1,7 +1,6 @@
 package org.client.gui.components;
 
 
-import org.client.gui.models.AppViewModel;
 import org.client.gui.shapes.Shape;
 
 import javax.swing.*;
@@ -13,8 +12,8 @@ import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
 public class ShapesWindow extends ComponentJPanel {
     JList<Shape> shapeList;
 
-    public ShapesWindow(AppViewModel appViewModel) {
-        super(SHAPES_WINDOW_SIZE, appViewModel);
+    public ShapesWindow() {
+        super(SHAPES_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
 

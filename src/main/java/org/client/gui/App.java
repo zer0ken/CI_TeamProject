@@ -2,7 +2,6 @@ package org.client.gui;
 
 import org.client.gui.components.Canvas;
 import org.client.gui.components.*;
-import org.client.gui.models.AppViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.util.function.Function;
 import static org.client.gui.Constants.*;
 
 public class App extends JFrame {
-    public App(AppViewModel appViewModel, Function<Void, Void> onWindowClosed) {
+    public App(Function<Void, Void> onWindowClosed) {
         super(APP_TITLE);
 
         // init itself
@@ -29,21 +28,21 @@ public class App extends JFrame {
             }
         });
 
+        Canvas canvas = new Canvas();
         // init inner components
-        Canvas canvas = new Canvas(appViewModel);
-        StyleWindow styleWindow = new StyleWindow(appViewModel);
+        StyleWindow styleWindow = new StyleWindow();
 
         JPanel leftPanel = new VerticalJPanel();
         leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow(appViewModel));
+        leftPanel.add(new EditWindow());
 
         JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar(appViewModel, styleWindow));
+        centerPanel.add(new Toolbar(styleWindow));
         centerPanel.add(canvas);
 
         JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(new ClientsWindow(appViewModel));
-        rightPanel.add(new ShapesWindow(appViewModel));
+        rightPanel.add(new ClientsWindow());
+        rightPanel.add(new ShapesWindow());
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);

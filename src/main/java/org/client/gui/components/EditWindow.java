@@ -21,8 +21,8 @@ public class EditWindow extends ComponentJPanel {
     private final TextInput textContent;
     private final JButton applyButton;
 
-    public EditWindow(AppViewModel appViewModel) {
-        super(Constants.EDIT_WINDOW_SIZE, appViewModel);
+    public EditWindow() {
+        super(Constants.EDIT_WINDOW_SIZE);
         setBorder(BorderFactory.createTitledBorder(Constants.EDIT_WINDOW_TITLE));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
