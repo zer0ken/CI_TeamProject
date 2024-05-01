@@ -1,11 +1,17 @@
 package org.client.gui.models;
 
 import org.client.gui.shapes.Shape;
+import org.client.gui.shapes.Style;
 
 import javax.swing.*;
-import java.util.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 
+import static org.client.gui.Constants.*;
 import static org.client.gui.models.AppViewModel.Listener.*;
 
 
@@ -15,21 +21,28 @@ public class AppViewModel {
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
 
+    private int lineWidth = DEFAULT_LINE_WIDTH;
+    private Color lineColor = DEFAULT_LINE_COLOR;
+    private Color fillColor = DEFAULT_FILL_COLOR;
+    private int textSize = DEFAULT_TEXT_SIZE;
+    private Color textColor = DEFAULT_TEXT_COLOR;
+    private String textContent = STYLE_DEFAULT_TEXT_CONTENT;
+
     public enum Listener {
         JOIN(null),
         LEAVE(null),
         SET_NAME(null),
         SELECTION(null),
         UPDATE(null),
-            CREATION(UPDATE),
-                USER_CREATION(CREATION),
-                SERVER_CREATION(CREATION),
-            MODIFICATION(UPDATE),
-                USER_MODIFICATION(MODIFICATION),
-                SERVER_MODIFICATION(MODIFICATION),
-            REMOVAL(UPDATE),
-                USER_REMOVAL(REMOVAL),
-                SERVER_REMOVAL(REMOVAL);
+        CREATION(UPDATE),
+        USER_CREATION(CREATION),
+        SERVER_CREATION(CREATION),
+        MODIFICATION(UPDATE),
+        USER_MODIFICATION(MODIFICATION),
+        SERVER_MODIFICATION(MODIFICATION),
+        REMOVAL(UPDATE),
+        USER_REMOVAL(REMOVAL),
+        SERVER_REMOVAL(REMOVAL);
 
         private final Listener parent;
 
@@ -38,13 +51,15 @@ public class AppViewModel {
         }
 
         public boolean includes(Listener o) {
-            for (;  o != null;  o = o.parent)
+            for (; o != null; o = o.parent)
                 if (o == this) return true;
             return false;
         }
     }
 
-    public static class StringListener {}
+    public static class StringListener {
+    }
+
     private final ArrayList<Function<String, Void>> joinListeners;
     private final ArrayList<Function<String, Void>> leaveListeners;
     private final ArrayList<Function<String, Void>> setNameListeners;
@@ -212,5 +227,33 @@ public class AppViewModel {
 
     public Shape getSelectedShape() {
         return selectedShape;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
+    public void setLineColor(Color lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
+
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    public Style getStyle() {
+        return new Style(lineWidth, lineColor, fillColor, textSize, textColor, textContent);
     }
 }

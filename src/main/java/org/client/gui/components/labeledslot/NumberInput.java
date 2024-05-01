@@ -3,32 +3,15 @@ package org.client.gui.components.labeledslot;
 import javax.swing.*;
 
 public class NumberInput extends LabeledSlot {
-    private JSpinner numberSpinner;
-    private SpinnerNumberModel model;
-    private int value;
+    private final JSpinner numberSpinner;
 
-    public NumberInput(String label, int num, SpinnerNumberModel model) {
+    public NumberInput(String label) {
         super(label);
-        this.value = num;
-        this.model = model;
-        numberSpinner = new JSpinner(model);
-
-        numberSpinner.addChangeListener(e -> {
-            try {
-                value = (Integer) numberSpinner.getValue();
-            } catch (ClassCastException ignored) {
-            }
-        });
-
+        numberSpinner = new JSpinner();
         addSlot(numberSpinner);
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-        model.setValue(value);
+    public JSpinner getNumberSpinner() {
+        return numberSpinner;
     }
 }

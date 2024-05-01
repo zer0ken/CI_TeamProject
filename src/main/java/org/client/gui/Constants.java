@@ -13,7 +13,7 @@ public class Constants {
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String LOGIN_MESSAGE_WITH_INVALID_NAME = "입력하신 이름은 이미 사용되고 있습니다.\n다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String[] STYLE_LABELS = {
-            "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용" };
+            "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용"};
     public static final String STYLE_WINDOW_TITLE = "스타일 지정";
     public static final String STYLE_LINE_COLOR_TITLE = "획 색상을 선택하세요.";
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
@@ -22,8 +22,8 @@ public class Constants {
 
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
-    public static final String EDIT_WINDOW_TITLE = "스타일 수정";
-    public static final String EDIT_APPLY_BUTTON = "스타일 변경";
+    public static final String EDIT_WINDOW_TITLE = "스타일 변경";
+    public static final String EDIT_APPLY = "[Tab] 키로 빠른 적용";
 
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
@@ -39,8 +39,7 @@ public class Constants {
     public static final String OVAL = "원";
     public static final String TEXT = "텍스트";
 
-
-    // size
+    // dimension
     public static final int APP_WIDTH = 1400;
     public static final int APP_HEIGHT = 900;
     public static final int APP_LEFT_WIDTH = 200;
@@ -56,7 +55,7 @@ public class Constants {
     public static final Dimension TOOLBAR_SIZE = new Dimension(APP_CENTER_WIDTH, TOOLBAR_HEIGHT);
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
-    public static final Dimension SHAPES_WINDOW_SIZE =new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
+    public static final Dimension SHAPES_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
 
     public static final int V_SPACE = 4;
     public static final int H_SPACE = 8;
@@ -65,6 +64,13 @@ public class Constants {
     public static final int STYLE_SLOT_WIDTH = 64;
     public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
     public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
-    public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT*2);
+    public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT * 2);
 
+    public static final int DEFAULT_LINE_WIDTH = 1;
+    public static final int DEFAULT_TEXT_SIZE = 12;
+
+    //others
+    public static final Color DEFAULT_LINE_COLOR = Color.black;
+    public static final Color DEFAULT_FILL_COLOR = Color.white;
+    public static final Color DEFAULT_TEXT_COLOR = Color.black;
 }

@@ -1,6 +1,5 @@
 package org.client.gui.components;
 
-import org.client.gui.models.AppViewModel;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
 import org.client.gui.shapes.Rectangle;
@@ -14,19 +13,14 @@ import java.awt.event.MouseEvent;
 import static org.client.gui.Constants.*;
 
 public class Toolbar extends ComponentJPanel {
-    private final JLabel titleLabel;
-    //private Canvas canvas;
-    private final StyleWindow styleWindow;
     private long count = 0;                 // 도형 id용(임시)
 
     public Toolbar(StyleWindow styleWindow) {
         super(TOOLBAR_SIZE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        this.styleWindow = styleWindow;
-
         // Toolbar title
-        titleLabel = new JLabel(TOOLBAR_TITLE);
+        JLabel titleLabel = new JLabel(TOOLBAR_TITLE);
         add(titleLabel); // Add the title label before adding buttons
 
         // Toolbar button setting
@@ -61,12 +55,10 @@ public class Toolbar extends ComponentJPanel {
                         return;
                 }
                 clickedShape.setLocation(300, 300, 400, 400);
-                clickedShape.setStyle(styleWindow.getStyle());
+                clickedShape.setStyle(appViewModel.getStyle());
                 count++;
                 clickedShape.setId(count);
                 appViewModel.createByUser(clickedShape);
-//                canvas.addShape(count, selectedShape);
-//                canvas.repaint();
             }
         }
     }
