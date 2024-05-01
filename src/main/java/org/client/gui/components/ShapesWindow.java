@@ -1,6 +1,8 @@
 package org.client.gui.components;
 
 
+import org.client.gui.models.ShapeListModel;
+import org.client.gui.models.ShapeListSelectionModel;
 import org.client.gui.shapes.Shape;
 
 import javax.swing.*;
@@ -18,8 +20,9 @@ public class ShapesWindow extends ComponentJPanel {
         setLayout(new BorderLayout());
 
         shapeList = new JList<>();
-        shapeList.setModel(appViewModel.getShapeListModel());
-        shapeList.setSelectionModel(appViewModel.getShapeListSelectionModel());
+        ShapeListModel shapeListModel = new ShapeListModel();
+        shapeList.setModel(shapeListModel);
+        shapeList.setSelectionModel(new ShapeListSelectionModel(shapeListModel));
 
         JScrollPane scrollPane = new JScrollPane(
                 shapeList,

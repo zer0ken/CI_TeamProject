@@ -12,6 +12,7 @@ import org.protocol.ClientsideProtocol;
 public class ClientStub extends CMClientStub {
     public ClientStub() {
         super();
+
         AppViewModel appViewModel = AppViewModel.getInstance();
 
         appViewModel.addListener(Listener.USER_CREATION,

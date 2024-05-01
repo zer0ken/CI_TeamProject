@@ -14,16 +14,11 @@ public class AppViewModel {
 
     private final Map<Long, Shape> shapes;
     private Shape selectedShape;
-    private final DefaultListModel<String> clientListModel;
-    private final DefaultListSelectionModel clientListSelectionModel;
-    private final  DefaultListModel<Shape> shapeListModel;
-    private final DefaultListSelectionModel shapeListSelectionModel;
-
-    public ListSelectionModel getClientListSelectionModel() {
-        return clientListSelectionModel;
-    }
 
     public enum Listener {
+        JOIN(null),
+        LEAVE(null),
+        SET_NAME(null),
         SELECTION(null),
         UPDATE(null),
             CREATION(UPDATE),
@@ -43,14 +38,16 @@ public class AppViewModel {
         }
 
         public boolean includes(Listener o) {
-            for (;  o != null;  o = o.parent) {
-                if (o == this) {
-                    return true;
-                }
-            }
+            for (;  o != null;  o = o.parent)
+                if (o == this) return true;
             return false;
         }
     }
+
+    public static class StringListener {}
+    private final ArrayList<Function<String, Void>> joinListeners;
+    private final ArrayList<Function<String, Void>> leaveListeners;
+    private final ArrayList<Function<String, Void>> setNameListeners;
 
     private final ArrayList<Function<Shape, Void>> selectionListeners;
 
@@ -65,6 +62,10 @@ public class AppViewModel {
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
     private AppViewModel() {
+        joinListeners = new ArrayList<>();
+        leaveListeners = new ArrayList<>();
+        setNameListeners = new ArrayList<>();
+
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
         userModificationListeners = new ArrayList<>();
@@ -75,27 +76,6 @@ public class AppViewModel {
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
 
-        clientListModel = new DefaultListModel<>();
-        clientListSelectionModel = new DefaultListSelectionModel();
-        clientListSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        shapeListModel = new DefaultListModel<>();
-        shapeListSelectionModel = new DefaultListSelectionModel();
-        shapeListSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        shapeListSelectionModel.addListSelectionListener((e) -> {
-            if (e.getValueIsAdjusting()){
-                return;
-            }
-            int[] selectedIndices = shapeListSelectionModel.getSelectedIndices();
-            if (selectedIndices.length == 0) {
-                return;
-            }
-            Shape newSelectedShape = shapeListModel.get(selectedIndices[0]);
-            if (selectedShape == null
-                    || selectedShape.getId() != newSelectedShape.getId()) {
-                select(newSelectedShape.getId());
-            }
-        });
         instance = this;
     }
 
@@ -104,6 +84,15 @@ public class AppViewModel {
             return new AppViewModel();
         }
         return instance;
+    }
+
+    public void addStringListener(Listener type, Function<String, Void> callback, StringListener... ignored) {
+        if (type.includes(JOIN))
+            joinListeners.add(callback);
+        if (type.includes(LEAVE))
+            leaveListeners.add(callback);
+        if (type.includes(SET_NAME))
+            setNameListeners.add(callback);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
@@ -123,6 +112,14 @@ public class AppViewModel {
             serverRemovalListeners.add(callback);
     }
 
+    public void join(String name) {
+        propagate(joinListeners, name);
+    }
+
+    public void leave(String name) {
+        propagate(leaveListeners, name);
+    }
+
     public void createByUser(Shape shape) {
         add(shape);
         propagate(userCreationListeners, shape);
@@ -137,7 +134,7 @@ public class AppViewModel {
             removeByServer(oldId);
         }
         add(newShape);
-        propagate(serverCreationListeners, shape);
+        propagate(serverCreationListeners, newShape);
         if (oldSelectedShape != null && oldSelectedShape.getId() == oldId) {
             select(newId);
         }
@@ -168,69 +165,36 @@ public class AppViewModel {
         printDebugInfo();
     }
 
+    private void propagate(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(string)));
+        printDebugInfo();
+    }
+
     private void printDebugInfo() {
         System.out.println("### 현재 뷰모델");
         System.out.println("selected: " + selectedShape);
         shapes.forEach((i, s) -> System.out.println("\t" + i + ": " + s.toString()));
-        System.out.println("clients: " + clientListModel.size());
         System.out.println("###");
     }
 
-    public void join(String name) {
-        SwingUtilities.invokeLater(() -> clientListModel.add(0, name));
-    }
-
-    public void leave(String name) {
-        SwingUtilities.invokeLater(() -> clientListModel.removeElement(name));
-    }
-
     public void setMyself(String name) {
-        SwingUtilities.invokeLater(() -> {
-            clientListSelectionModel.addListSelectionListener((e) -> {
-                int index = clientListModel.indexOf(name);
-                List<Integer> indices = Arrays.stream(clientListSelectionModel.getSelectedIndices()).boxed().toList();
-                if (indices.contains(index)) {
-                    return;
-                }
-                clientListSelectionModel.setSelectionInterval(index, index);
-            });
-            clientListSelectionModel.setSelectionInterval(0, 0);
-        });
+        propagate(setNameListeners, name);
     }
 
     public void select(long id) {
         selectedShape = shapes.get(id);
-
-        SwingUtilities.invokeLater(() -> {
-            if (selectedShape == null) {
-                shapeListSelectionModel.clearSelection();
-            }else {
-                int index = shapeListModel.indexOf(selectedShape);
-                shapeListSelectionModel.setSelectionInterval(index, index);
-            }
-        });
-
         propagate(selectionListeners, selectedShape);
     }
 
     private void add(Shape shape) {
         shapes.put(shape.getId(), shape);
-
-        SwingUtilities.invokeLater(() -> {
-            shapeListModel.add(0, shape);
-        });
     }
 
     private void modify(long id, Shape newShape) {
-        Shape oldShape = shapes.get(id);
         shapes.put(id, newShape);
         if (selectedShape != null && selectedShape.getId() == id) {
             select(id);
         }
-
-        SwingUtilities.invokeLater(() -> {
-            shapeListModel.set(shapeListModel.indexOf(oldShape), newShape);
-        });
     }
 
     private Shape remove(long id) {
@@ -238,10 +202,6 @@ public class AppViewModel {
         if (selectedShape != null && selectedShape.getId() == id) {
             select(id);
         }
-
-        SwingUtilities.invokeLater(() -> {
-            shapeListModel.removeElement(removedShape);
-        });
 
         return removedShape;
     }
@@ -252,17 +212,5 @@ public class AppViewModel {
 
     public Shape getSelectedShape() {
         return selectedShape;
-    }
-
-    public DefaultListModel<String> getClientListModel() {
-        return clientListModel;
-    }
-
-    public DefaultListModel<Shape> getShapeListModel() {
-        return shapeListModel;
-    }
-
-    public DefaultListSelectionModel getShapeListSelectionModel() {
-        return shapeListSelectionModel;
     }
 }

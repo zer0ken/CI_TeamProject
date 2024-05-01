@@ -1,11 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 import static org.client.gui.Constants.*;
 
 public abstract class Shape implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     protected int x1, y1, x2, y2;
     protected Style style;
@@ -92,5 +94,12 @@ public abstract class Shape implements Serializable {
             case "Text" -> "\"" + getStyle().getTextContent() + "\"";
             default -> null;
         } + "(" + id + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Shape)
+            return id == ((Shape) obj).getId();
+        return false;
     }
 }

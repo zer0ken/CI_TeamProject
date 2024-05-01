@@ -1,7 +1,8 @@
 package org.client.gui.components;
 
-import org.client.gui.models.AppViewModel;
 import org.client.gui.Constants;
+import org.client.gui.models.ClientListModel;
+import org.client.gui.models.ClientListSelectionModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +16,9 @@ public class ClientsWindow extends ComponentJPanel {
         setLayout(new BorderLayout());
 
         clientList = new JList<>();
-        clientList.setModel(appViewModel.getClientListModel());
-        clientList.setSelectionModel(appViewModel.getClientListSelectionModel());
+        ClientListModel clientListModel;
+        clientList.setModel(clientListModel = new ClientListModel());
+        clientList.setSelectionModel(new ClientListSelectionModel(clientListModel));
 
         JScrollPane scrollPane = new JScrollPane(
                 clientList,
