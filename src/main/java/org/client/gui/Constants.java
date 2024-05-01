@@ -23,7 +23,7 @@ public class Constants {
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
     public static final String EDIT_WINDOW_TITLE = "스타일 변경";
-    public static final String EDIT_APPLY = "[Tab] 키로 빠른 적용";
+    public static final String EDIT_APPLY = "[Tab] 키로 변경된 텍스트 적용";
 
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 

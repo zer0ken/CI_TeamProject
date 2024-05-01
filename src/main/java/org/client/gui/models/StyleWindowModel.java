@@ -1,89 +1,65 @@
 package org.client.gui.models;
 
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
 
 public class StyleWindowModel extends DefaultStyleWindowModel {
+
+    private void setSpinnerModel(JSpinner spinner, int defaultValue, Function<Integer, Void> notify) {
+        spinner.setModel(new StyleSpinnerModel(notify, defaultValue));
+    }
+
+    private void setColorButtonModel(JButton button, Color defaultColor, String chooserTitle,
+                                     Function<Color, Void> notify) {
+        button.setModel(new StyleColorButtonModel(lineColor -> {
+            button.setBackground(lineColor);
+            return null;
+        }, notify, defaultColor, chooserTitle));
+    }
+
     @Override
     void setLineWidthSpinnerModel() {
-        lineWidthSpinner.setModel(
-                new StyleSpinnerModel(
-                        lineWidth -> {
-                            appModel.setLineWidth(lineWidth);
-                            return null;
-                        },
-                        DEFAULT_LINE_WIDTH
-                )
-        );
+        setSpinnerModel(lineWidthSpinner, DEFAULT_LINE_WIDTH, lineWidth -> {
+            appModel.setLineWidth(lineWidth);
+            return null;
+        });
     }
 
     @Override
     void setLineColorButtonModel() {
-        lineColorButton.setModel(
-                new StyleColorButtonModel(
-                        lineColor -> {
-                            lineColorButton.setBackground(lineColor);
-                            return null;
-                        },
-                        lineColor -> {
-                            appModel.setLineColor(lineColor);
-                            return null;
-                        },
-                        DEFAULT_LINE_COLOR,
-                        STYLE_LINE_COLOR_TITLE
-                )
-        );
+        setColorButtonModel(lineColorButton, DEFAULT_LINE_COLOR, STYLE_LINE_COLOR_TITLE, lineColor -> {
+            appModel.setLineColor(lineColor);
+            return null;
+        });
     }
 
     @Override
     void setFillColorButtonModel() {
-        fillColorButton.setModel(
-                new StyleColorButtonModel(
-                        fillColor -> {
-                            fillColorButton.setBackground(fillColor);
-                            return null;
-                        },
-                        fillColor -> {
-                            appModel.setFillColor(fillColor);
-                            return null;
-                        },
-                        DEFAULT_FILL_COLOR,
-                        STYLE_FILL_COLOR_TITLE
-                )
-        );
+        setColorButtonModel(fillColorButton, DEFAULT_FILL_COLOR, STYLE_FILL_COLOR_TITLE, fillColor -> {
+            appModel.setFillColor(fillColor);
+            return null;
+        });
     }
 
     @Override
     void setTextSizeSpinnerModel() {
-        textSizeSpinner.setModel(
-                new StyleSpinnerModel(
-                        textSize -> {
-                            appModel.setTextSize(textSize);
-                            return null;
-                        },
-                        DEFAULT_TEXT_SIZE
-                )
-        );
+        setSpinnerModel(textSizeSpinner, DEFAULT_TEXT_SIZE, textSize -> {
+            appModel.setTextSize(textSize);
+            return null;
+        });
     }
 
     @Override
     void setTextColorButtonModel() {
-        textColorButton.setModel(
-                new StyleColorButtonModel(
-                        textColor -> {
-                            textColorButton.setBackground(textColor);
-                            return null;
-                        },
-                        textColor -> {
-                            appModel.setTextColor(textColor);
-                            return null;
-                        },
-                        DEFAULT_TEXT_COLOR,
-                        STYLE_TEXT_COLOR_TITLE
-                )
-        );
+        setColorButtonModel(textColorButton, DEFAULT_TEXT_COLOR, STYLE_TEXT_COLOR_TITLE, textColor -> {
+            appModel.setTextColor(textColor);
+            return null;
+        });
     }
 
     @Override
