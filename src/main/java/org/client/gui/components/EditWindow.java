@@ -12,17 +12,16 @@ public class EditWindow extends DefaultStyleWindow {
     public EditWindow() {
         super(EDIT_WINDOW_SIZE, EDIT_WINDOW_TITLE);
         setModel(new EditWindowModel());
-        add(new Resized(new JButton(EDIT_APPLY)));
+        addResized(new JButton(EDIT_APPLY));
     }
-}
 
-class Resized extends JPanel {
-    Resized(JButton button) {
-        setLayout(new BorderLayout());
-        setMaximumSize(STYLE_ITEM_SIZE);
-        setBorder(STYLE_ITEM_BORDER);
-
+    private void addResized(JButton button) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setMaximumSize(STYLE_ITEM_SIZE);
+        panel.setBorder(STYLE_ITEM_BORDER);
         button.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
-        add(BorderLayout.CENTER, button);
+        panel.add(BorderLayout.CENTER, button);
+        add(panel);
     }
 }
