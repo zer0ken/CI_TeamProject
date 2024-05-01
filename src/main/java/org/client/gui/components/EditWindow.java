@@ -12,7 +12,6 @@ public class EditWindow extends DefaultStyleWindow {
     public EditWindow() {
         super(EDIT_WINDOW_SIZE, EDIT_WINDOW_TITLE);
         setModel(new EditWindowModel());
-
         add(new Resized(new JButton(EDIT_APPLY)));
     }
 }
