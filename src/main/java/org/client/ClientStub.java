@@ -15,12 +15,9 @@ public class ClientStub extends CMClientStub {
 
         AppModel appModel = AppModel.getInstance();
 
-        appModel.addListener(Listener.USER_CREATION,
-                shape -> requestAdd(Base64.encode(shape)));
-        appModel.addListener(Listener.USER_MODIFICATION,
-                shape -> requestEdit(shape.getId(), Base64.encode(shape)));
-        appModel.addListener(Listener.USER_REMOVAL,
-                shape -> requestRemove(shape.getId()));
+        appModel.addListener(Listener.USER_CREATION, shape -> requestAdd(Base64.encode(shape)));
+        appModel.addListener(Listener.USER_MODIFICATION, shape -> requestEdit(shape.getId(), Base64.encode(shape)));
+        appModel.addListener(Listener.USER_REMOVAL, shape -> requestRemove(shape.getId()));
 
     }
 

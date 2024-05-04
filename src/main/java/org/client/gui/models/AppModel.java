@@ -34,15 +34,15 @@ public class AppModel {
         SET_NAME(null),
         SELECTION(null),
         UPDATE(null),
-        CREATION(UPDATE),
-        USER_CREATION(CREATION),
-        SERVER_CREATION(CREATION),
-        MODIFICATION(UPDATE),
-        USER_MODIFICATION(MODIFICATION),
-        SERVER_MODIFICATION(MODIFICATION),
-        REMOVAL(UPDATE),
-        USER_REMOVAL(REMOVAL),
-        SERVER_REMOVAL(REMOVAL);
+            CREATION(UPDATE),
+                USER_CREATION(CREATION),
+                SERVER_CREATION(CREATION),
+            MODIFICATION(UPDATE),
+                USER_MODIFICATION(MODIFICATION),
+                SERVER_MODIFICATION(MODIFICATION),
+            REMOVAL(UPDATE),
+                USER_REMOVAL(REMOVAL),
+                SERVER_REMOVAL(REMOVAL);
 
         private final Listener parent;
 
