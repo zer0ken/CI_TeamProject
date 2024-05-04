@@ -79,14 +79,6 @@ public class EditWindowModel extends DefaultStyleWindowModel {
             }
         };
         textContentField.addFocusListener(focusListener);
-
-        appModel.addListener(AppModel.Listener.SELECTION, shape -> {
-            if (shape == null) {
-                return null;
-            }
-            textContentField.setText(shape.getStyle().getTextContent());
-            return null;
-        });
     }
 
     private StyleSpinnerModel setSpinnerModel(JSpinner spinner, int defaultValue) {
