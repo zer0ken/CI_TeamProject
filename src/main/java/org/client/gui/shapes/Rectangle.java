@@ -81,7 +81,8 @@ public class Rectangle extends Shape implements Serializable {
 
   @Override
   public boolean contains(Point p) {                  // 포인트가 사각형 내에 있는 지 확인
-    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
+    return p.x >= (Math.min(x1, x2) - 3) && p.x <= (Math.max(x1, x2) + 3)
+        && p.y >= (Math.min(y1, y2) - 3) && p.y <= (Math.max(y1, y2) + 3);
   }
 
   @Override
