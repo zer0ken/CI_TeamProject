@@ -101,7 +101,7 @@ public class AppModel {
         return instance;
     }
 
-    public void addStringListener(Listener type, Function<String, Void> callback, StringListener... ignored) {
+    public void addStringListener(Listener type, Function<String, Void> callback) {
         if (type.includes(JOIN))
             joinListeners.add(callback);
         if (type.includes(LEAVE))
