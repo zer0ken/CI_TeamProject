@@ -55,7 +55,7 @@ public class Line extends Shape implements Serializable {
   public boolean contains(Point p) {
     double m = (double) (y2 - y1) / (x2 - x1);
     double y = m * (p.x - x1) + y1;
-    return Math.abs(p.y - y) < 3;
+    return Math.abs(p.y - y) < 20;
   }
 
   @Override
