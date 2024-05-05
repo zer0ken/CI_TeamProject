@@ -17,7 +17,7 @@ public class StyleSpinnerModel extends SpinnerNumberModel {
     public void setValue(Object value) {
         int old = getNumber().intValue();
         super.setValue(value);
-        if (getNumber().intValue() < 0) {
+        if (getNumber().intValue() < 1) {
             super.setValue(old);
         }
     }
