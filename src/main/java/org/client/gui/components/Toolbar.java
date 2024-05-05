@@ -10,18 +10,20 @@ import static org.client.gui.Constants.*;
 public class Toolbar extends ComponentJPanel {
     public Toolbar() {
         super(TOOLBAR_SIZE);
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new BorderLayout());
 
-        // Toolbar title
-        JLabel titleLabel = new JLabel(TOOLBAR_TITLE);
-        add(titleLabel); // Add the title label before adding buttons
+        JToolBar toolBar = new JToolBar(TOOLBAR_TITLE);
 
         // Toolbar button setting
-        for (String toolbarButton : TOOLBAR_BUTTONS) {
-            JButton button = new JButton(toolbarButton);
+        for (int i = 0; i < TOOLBAR_BUTTONS.length; i++) {
+            String buttonName = TOOLBAR_BUTTONS[i];
+            JButton button = new JButton(buttonName);
             button.setFocusPainted(false);
             button.addMouseListener(new ToolbarMouseAdapter());
-            add(button);
+            button.setToolTipText(buttonName + "\n" + TOOLBAR_TOOLTIPS[i]);
+            toolBar.add(button);
         }
+
+        add(toolBar, BorderLayout.CENTER);
     }
 }

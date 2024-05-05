@@ -27,12 +27,18 @@ public class Constants {
 
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
-    public static final String TOOLBAR_TITLE = "Toolbar";
-    public static final String TOOLBAR_LINE = "직선 생성";
-    public static final String TOOLBAR_RECT = "사각형 생성";
-    public static final String TOOLBAR_OVAL = "원 생성";
-    public static final String TOOLBAR_TEXT = "텍스트 생성";
+    public static final String TOOLBAR_TITLE = "도구 모음";
+    public static final String TOOLBAR_LINE = "직선 도구";
+    public static final String TOOLBAR_RECT = "사각형 도구";
+    public static final String TOOLBAR_OVAL = "원 도구";
+    public static final String TOOLBAR_TEXT = "텍스트 도구";
     public static final String[] TOOLBAR_BUTTONS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
+    public static final String[] TOOLBAR_TOOLTIPS = {
+            "캔버스에 직선을 그립니다.",
+            "캔버스에 사각형을 그립니다.",
+            "캔버스에 원을 그립니다.",
+            "캔버스에 텍스트를 그립니다."
+    };
 
     public static final String LINE = "직선";
     public static final String RECT = "사각형";
