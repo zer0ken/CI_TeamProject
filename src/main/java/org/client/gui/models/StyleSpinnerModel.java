@@ -9,7 +9,11 @@ public class StyleSpinnerModel extends SpinnerNumberModel {
 
     public StyleSpinnerModel(Function<Integer, Void> notify, int defaultValue) {
         setValue(defaultValue);
-        notifier = e -> notify.apply(getNumber().intValue());
+        notifier = e -> {
+            if (getNumber().intValue() >= 0) {
+                notify.apply(getNumber().intValue());
+            }
+        };
         addChangeListener(notifier);
     }
 
@@ -17,7 +21,7 @@ public class StyleSpinnerModel extends SpinnerNumberModel {
     public void setValue(Object value) {
         int old = getNumber().intValue();
         super.setValue(value);
-        if (getNumber().intValue() < 1) {
+        if (getNumber().intValue() < 0) {
             super.setValue(old);
         }
     }
