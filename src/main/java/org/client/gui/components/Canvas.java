@@ -9,6 +9,7 @@ import org.client.gui.shapes.Text;
 import org.client.gui.models.UserAction;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,7 @@ public class Canvas extends ComponentJPanel {
         super(CANVAS_SIZE);
         setLayout(new BorderLayout());
         setBackground(Color.white);
+        setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         setFocusable(true);
         requestFocusInWindow();
 
