@@ -12,7 +12,11 @@ public class EditWindow extends DefaultStyleWindow {
     public EditWindow() {
         super(EDIT_WINDOW_SIZE, EDIT_WINDOW_TITLE);
         setModel(new EditWindowModel());
-        addResized(new JButton(EDIT_APPLY));
+        setTooltips(EDIT_TOOL_TIPS);
+
+        JButton applyTextButton = new JButton(APPLY_TEXT_BUTTON_CONTENT);
+        applyTextButton.setToolTipText(EDIT_TOOL_TIPS[6]);
+        addResized(applyTextButton);
     }
 
     private void addResized(JButton button) {

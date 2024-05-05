@@ -8,5 +8,6 @@ public class StyleWindow extends DefaultStyleWindow {
     public StyleWindow() {
         super(STYLE_WINDOW_SIZE, STYLE_WINDOW_TITLE);
         setModel(new StyleWindowModel());
+        setTooltips(STYLE_TOOL_TIPS);
     }
 }

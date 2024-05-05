@@ -19,12 +19,28 @@ public class Constants {
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
     public static final String STYLE_TEXT_COLOR_TITLE = "텍스트 색상을 선택하세요.";
     public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
-
+    public static final String[] STYLE_TOOL_TIPS = {
+            "새로 그릴 도형의 획 두께를 설정합니다.",
+            "새로 그릴 도형의 획 색상을 설정합니다.",
+            "새로 그릴 도형의 채우기 색상을 설정합니다.",
+            "새로 그릴 텍스트의 크기를 설정합니다.",
+            "새로 그릴 텍스트의 색상을 설정합니다.",
+            "새로 그릴 텍스트의 내용을 설정합니다."
+    };
+    
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
     public static final String EDIT_WINDOW_TITLE = "스타일 변경";
-    public static final String EDIT_APPLY = "[Tab] 키로 텍스트 적용";
-
+    public static final String APPLY_TEXT_BUTTON_CONTENT = "[Tab] 키로 텍스트 적용";
+    public static final String[] EDIT_TOOL_TIPS = {
+            "도형의 획 두께를 수정합니다.",
+            "도형의 획 색상을 수정합니다.",
+            "도형의 채우기 색상을 수정합니다.",
+            "텍스트의 크기를 수정합니다.",
+            "텍스트의 색상을 수정합니다.",
+            "수정할 텍스트의 내용을 입력합니다.",
+            "수정된 텍스트를 적용합니다."
+    };
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
     public static final String TOOLBAR_TITLE = "도구 모음";

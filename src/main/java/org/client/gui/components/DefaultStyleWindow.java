@@ -50,4 +50,13 @@ public class DefaultStyleWindow extends ComponentJPanel {
                 textContent.getTextField()
         );
     }
+
+    protected void setTooltips(String[] toolTips) {
+        lineWidth.setToolTipText(toolTips[0]);
+        lineColor.setToolTipText(toolTips[1]);
+        fillColor.setToolTipText(toolTips[2]);
+        textSize.setToolTipText(toolTips[3]);
+        textColor.setToolTipText(toolTips[4]);
+        textContent.setToolTipText(toolTips[5]);
+    }
 }
