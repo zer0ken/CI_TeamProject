@@ -27,7 +27,7 @@ public class Constants {
             "새로 그릴 텍스트의 색상을 설정합니다.",
             "새로 그릴 텍스트의 내용을 설정합니다."
     };
-    
+
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
 
     public static final String EDIT_WINDOW_TITLE = "스타일 변경";
@@ -41,6 +41,7 @@ public class Constants {
             "수정할 텍스트의 내용을 입력합니다.",
             "수정된 텍스트를 적용합니다."
     };
+
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
     public static final String TOOLBAR_TITLE = "도구 모음";
@@ -48,12 +49,18 @@ public class Constants {
     public static final String TOOLBAR_RECT = "사각형 도구";
     public static final String TOOLBAR_OVAL = "원 도구";
     public static final String TOOLBAR_TEXT = "텍스트 도구";
-    public static final String[] TOOLBAR_BUTTONS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
+    public static final String[] TOOLBAR_BUTTONS = { TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT };
     public static final String[] TOOLBAR_TOOL_TIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
             "캔버스에 원을 그립니다.",
             "캔버스에 텍스트를 그립니다."
+    };
+    public static final String[] TOOLBAR_ICONS = {
+            "src/res/line_icon.png",
+            "src/res/rectangle_icon.png",
+            "src/res/oval_icon.png",
+            "src/res/text_icon.png",
     };
 
     public static final String LINE = "직선";
