@@ -1,21 +1,27 @@
 package org.client.gui.components;
 
-import org.client.gui.Constants;
 import org.client.gui.models.ClientListModel;
 import org.client.gui.models.ClientListSelectionModel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
-public class ClientsWindow extends ComponentJPanel {
+import static org.client.gui.Constants.CLIENTS_WINDOW_SIZE;
+import static org.client.gui.Constants.CLIENTS_WINDOW_TITLE;
+
+public class ClientsWindow extends TitledBorderJPanel {
     JList<String> clientList;
 
     public ClientsWindow() {
-        super(Constants.CLIENTS_WINDOW_SIZE);
-        setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
-        setLayout(new BorderLayout());
+        super(CLIENTS_WINDOW_TITLE);
+        setPreferredSize(CLIENTS_WINDOW_SIZE);
 
-        clientList = new JList<>();
+        clientList = new JList<>() {
+            @Override
+            public void setBorder(Border border) {
+            }
+        };
         ClientListModel clientListModel;
         clientList.setModel(clientListModel = new ClientListModel());
         clientList.setSelectionModel(new ClientListSelectionModel(clientListModel));
@@ -28,6 +34,6 @@ public class ClientsWindow extends ComponentJPanel {
 
         scrollPane.setPreferredSize(new Dimension(200, 300));
 
-        add(BorderLayout.CENTER, scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

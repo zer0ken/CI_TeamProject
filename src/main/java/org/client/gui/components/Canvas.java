@@ -36,7 +36,6 @@ public class Canvas extends ComponentJPanel {
         super(CANVAS_SIZE);
         setLayout(new BorderLayout());
         setBackground(Color.white);
-        setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         setFocusable(true);
         requestFocusInWindow();
 

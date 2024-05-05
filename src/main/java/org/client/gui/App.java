@@ -35,7 +35,6 @@ public class App extends JFrame {
             }
         });
 
-        Canvas canvas = new Canvas();
         // init inner components
         StyleWindow styleWindow = new StyleWindow();
 
@@ -43,16 +42,14 @@ public class App extends JFrame {
         leftPanel.add(styleWindow);
         leftPanel.add(new EditWindow());
 
-        JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar());
-        centerPanel.add(canvas);
+        add(new Toolbar(), BorderLayout.NORTH);
+        add(new Canvas(), BorderLayout.CENTER);
 
         JPanel rightPanel = new VerticalJPanel();
         rightPanel.add(new ClientsWindow());
         rightPanel.add(new ShapesWindow());
 
         add(leftPanel, BorderLayout.WEST);
-        add(centerPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.EAST);
 
         // show it

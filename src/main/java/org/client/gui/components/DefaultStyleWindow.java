@@ -1,36 +1,29 @@
 package org.client.gui.components;
 
-import org.client.gui.components.labeledslot.ColorInput;
-import org.client.gui.components.labeledslot.NumberInput;
-import org.client.gui.components.labeledslot.TextInput;
 import org.client.gui.models.DefaultStyleWindowModel;
 
-import javax.swing.*;
 import java.awt.*;
 
-import static org.client.gui.Constants.*;
+import static org.client.gui.Constants.STYLE_LABELS;
 
-public class DefaultStyleWindow extends ComponentJPanel {
-    protected final NumberInput lineWidth;
-    protected final ColorInput lineColor;
-    protected final ColorInput fillColor;
-    protected final NumberInput textSize;
-    protected final ColorInput textColor;
-    protected final TextInput textContent;
+public class DefaultStyleWindow extends TitledVerticalJPanel {
+    protected final LabeledNumberSpinner lineWidth;
+    protected final LabeledColorButton lineColor;
+    protected final LabeledColorButton fillColor;
+    protected final LabeledNumberSpinner textSize;
+    protected final LabeledColorButton textColor;
+    protected final LabeledTextField textContent;
 
     public DefaultStyleWindow(Dimension styleWindowSize, String borderTitle) {
-        super(styleWindowSize);
-        setBorder(BorderFactory.createTitledBorder(borderTitle));
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        super(borderTitle);
+        setPreferredSize(styleWindowSize);
 
-        lineWidth = new NumberInput(STYLE_LABELS[0]);
-        lineColor = new ColorInput(STYLE_LABELS[1]);
-        fillColor = new ColorInput(STYLE_LABELS[2]);
-        textSize = new NumberInput(STYLE_LABELS[3]);
-        textColor = new ColorInput(STYLE_LABELS[4]);
-        textContent = new TextInput(STYLE_LABELS[5]);
-
-        add(Box.createRigidArea(new Dimension(0, H_SPACE)));
+        lineWidth = new LabeledNumberSpinner(STYLE_LABELS[0]);
+        lineColor = new LabeledColorButton(STYLE_LABELS[1]);
+        fillColor = new LabeledColorButton(STYLE_LABELS[2]);
+        textSize = new LabeledNumberSpinner(STYLE_LABELS[3]);
+        textColor = new LabeledColorButton(STYLE_LABELS[4]);
+        textContent = new LabeledTextField(STYLE_LABELS[5]);
 
         add(lineWidth);
         add(lineColor);

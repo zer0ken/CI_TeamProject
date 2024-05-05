@@ -11,14 +11,13 @@ import java.awt.*;
 import static org.client.gui.Constants.SHAPES_WINDOW_SIZE;
 import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
 
-public class ShapesWindow extends ComponentJPanel {
+public class ShapesWindow extends TitledBorderJPanel {
     JList<Shape> shapeList;
 
     public ShapesWindow() {
-        super(SHAPES_WINDOW_SIZE);
-        setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
-        setLayout(new BorderLayout());
-
+        super(SHAPES_WINDOW_TITLE);
+        setPreferredSize(SHAPES_WINDOW_SIZE);
+//        setBorder(new MatteBorder(0, 1, 0, 0, PANEL_SEP
         shapeList = new JList<>();
         ShapeListModel shapeListModel = new ShapeListModel();
         shapeList.setModel(shapeListModel);
@@ -32,6 +31,6 @@ public class ShapesWindow extends ComponentJPanel {
 
         scrollPane.setPreferredSize(new Dimension(200, 300));
 
-        add(BorderLayout.CENTER, scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

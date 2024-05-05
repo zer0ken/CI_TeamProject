@@ -76,30 +76,31 @@ public class Constants {
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
     public static final int STYLE_WINDOW_HEIGHT = 300;
-    public static final int TOOLBAR_HEIGHT = 30;
+    public static final int TOOLBAR_HEIGHT = 40;
     public static final int CLIENTS_WINDOW_HEIGHT = 300;
 
     public static final Dimension STYLE_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_WINDOW_HEIGHT);
-    public static final Dimension EDIT_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - STYLE_WINDOW_HEIGHT);
-    public static final Dimension TOOLBAR_SIZE = new Dimension(APP_CENTER_WIDTH, TOOLBAR_HEIGHT);
+    public static final Dimension EDIT_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - STYLE_WINDOW_HEIGHT - TOOLBAR_HEIGHT);
+    public static final Dimension TOOLBAR_SIZE = new Dimension(APP_WIDTH, TOOLBAR_HEIGHT);
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
-    public static final Dimension SHAPES_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT);
-
-    public static final int V_SPACE = 4;
-    public static final int H_SPACE = 8;
-
-    public static final int STYLE_ITEM_HEIGHT = 30;
-    public static final int STYLE_SLOT_WIDTH = 64;
-    public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
-    public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
-    public static final Dimension STYLE_LARGE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT * 2);
+    public static final Dimension SHAPES_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT - TOOLBAR_HEIGHT);
 
     public static final int DEFAULT_LINE_WIDTH = 1;
     public static final int DEFAULT_TEXT_SIZE = 12;
+
+    public static final EmptyBorder TITLED_PANEL_PADDING = new EmptyBorder(8, 12, 8, 12);
+
+    public static final EmptyBorder DEFAULT_COMPONENT_PADDING = new EmptyBorder(8, 12, 0, 12);
+
+    public static final Dimension X_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 30);
+    public static final Dimension X_LABELED_COMPONENT_SIZE = new Dimension(64, 30);
+    public static final Dimension Y_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
+    public static final Dimension Y_LABELED_COMPONENT_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
 
     //others
     public static final Color DEFAULT_LINE_COLOR = Color.black;
     public static final Color DEFAULT_FILL_COLOR = Color.white;
     public static final Color DEFAULT_TEXT_COLOR = Color.black;
+    public static final Color PANEL_SEPERATOR_COLOR = Color.lightGray;
 }
