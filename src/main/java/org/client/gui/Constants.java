@@ -60,7 +60,7 @@ public class Constants {
     public static final int V_SPACE = 4;
     public static final int H_SPACE = 8;
 
-    public static final int STYLE_ITEM_HEIGHT = 26;
+    public static final int STYLE_ITEM_HEIGHT = 30;
     public static final int STYLE_SLOT_WIDTH = 64;
     public static final EmptyBorder STYLE_ITEM_BORDER = new EmptyBorder(V_SPACE, H_SPACE, V_SPACE, H_SPACE);
     public static final Dimension STYLE_ITEM_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_ITEM_HEIGHT);
