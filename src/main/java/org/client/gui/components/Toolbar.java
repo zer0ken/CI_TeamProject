@@ -20,7 +20,7 @@ public class Toolbar extends ComponentJPanel {
             JButton button = new JButton(buttonName);
             button.setFocusPainted(false);
             button.addMouseListener(new ToolbarMouseAdapter());
-            button.setToolTipText(buttonName + "\n" + TOOLBAR_TOOLTIPS[i]);
+            button.setToolTipText(buttonName + "\n" + TOOLBAR_TOOL_TIPS[i]);
             toolBar.add(button);
         }
 

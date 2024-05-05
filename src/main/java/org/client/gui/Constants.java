@@ -49,7 +49,7 @@ public class Constants {
     public static final String TOOLBAR_OVAL = "원 도구";
     public static final String TOOLBAR_TEXT = "텍스트 도구";
     public static final String[] TOOLBAR_BUTTONS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
-    public static final String[] TOOLBAR_TOOLTIPS = {
+    public static final String[] TOOLBAR_TOOL_TIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
             "캔버스에 원을 그립니다.",
