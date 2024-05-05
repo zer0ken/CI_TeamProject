@@ -1,5 +1,6 @@
 package org.client.gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import org.client.gui.components.Canvas;
 import org.client.gui.components.*;
 
@@ -14,6 +15,12 @@ import static org.client.gui.Constants.*;
 public class App extends JFrame {
     public App(Function<Void, Void> onWindowClosed) {
         super(APP_TITLE);
+
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
 
         // init itself
         setLayout(new BorderLayout());
