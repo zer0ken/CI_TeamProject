@@ -1,5 +1,7 @@
 package org.client.gui.components;
 
+import org.client.gui.Theme;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -16,7 +18,7 @@ public class TitledVerticalJPanel extends JPanel {
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
         titlePanel.setBorder(
                 BorderFactory.createCompoundBorder(
-                        new MatteBorder(0, 0, 1, 0, PANEL_SEPERATOR_COLOR),
+                        new MatteBorder(0, 0, 1, 0, Theme.getBorderColor()),
                         TITLED_PANEL_PADDING
                 )
         );

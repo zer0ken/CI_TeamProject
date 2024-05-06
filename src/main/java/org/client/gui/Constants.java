@@ -52,13 +52,13 @@ public class Constants {
     public static final String TOOLBAR_TEXT = "텍스트 도구";
 
     public static final String[] TOOLBAR_SHAPE_TOOLS = { TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT };
-    public static final String[] TOOLBAR_TOOL_TIPS = {
+    public static final String[] TOOLBAR_SHAPE_TOOL_TIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
             "캔버스에 원을 그립니다.",
             "캔버스에 텍스트를 그립니다."
     };
-    public static final String[] TOOLBAR_ICONS = {
+    public static final String[] TOOLBAR_SHAPE_ICONS = {
             "src/res/line_icon.png",
             "src/res/rectangle_icon.png",
             "src/res/oval_icon.png",
@@ -74,13 +74,13 @@ public class Constants {
     public static final int APP_WIDTH = 1200;
     public static final int APP_HEIGHT = 800;
 
-    public static final Dimension APP_MIN_SIZE = new Dimension(570, 630);
+    public static final Dimension APP_MIN_SIZE = new Dimension(550, 640);
 
     public static final int APP_LEFT_WIDTH = 200;
     public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
-    public static final int TOOLBAR_HEIGHT = 40;
+    public static final int TOOLBAR_HEIGHT = 32;
     public static final int CLIENTS_WINDOW_HEIGHT = 200;
 
     public static final Dimension TOOLBAR_SIZE = new Dimension(APP_WIDTH, TOOLBAR_HEIGHT);
@@ -92,18 +92,19 @@ public class Constants {
     public static final int DEFAULT_LINE_WIDTH = 1;
     public static final int DEFAULT_TEXT_SIZE = 12;
 
-    public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(8, 0, 8, 0);
-    public static final EmptyBorder TITLED_PANEL_PADDING = new EmptyBorder(8, 12, 8, 12);
+    public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(6, 0, 6, 0);
+    public static final EmptyBorder TITLED_PANEL_PADDING = new EmptyBorder(6, 12, 6, 12);
     public static final EmptyBorder DEFAULT_COMPONENT_PADDING = new EmptyBorder(4, 12, 4, 12);
 
-    public static final Dimension X_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 30);
-    public static final Dimension X_LABELED_COMPONENT_SIZE = new Dimension(64, 30);
+    public static final Dimension X_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 32);
+    public static final Dimension X_LABELED_COMPONENT_SIZE = new Dimension(64, 32);
     public static final Dimension Y_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
     public static final Dimension Y_LABELED_COMPONENT_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
+
+    public static final Dimension TOOLBAR_ICON_SIZE = new Dimension(TOOLBAR_HEIGHT - 10, TOOLBAR_HEIGHT - 10);
 
     //others
     public static final Color DEFAULT_LINE_COLOR = Color.black;
     public static final Color DEFAULT_FILL_COLOR = Color.white;
     public static final Color DEFAULT_TEXT_COLOR = Color.black;
-    public static final Color PANEL_SEPERATOR_COLOR = Color.lightGray;
 }

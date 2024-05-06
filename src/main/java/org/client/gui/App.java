@@ -1,6 +1,5 @@
 package org.client.gui;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import org.client.gui.components.Canvas;
 import org.client.gui.components.*;
 
@@ -17,12 +16,6 @@ public class App extends JFrame {
     public App(Function<Void, Void> onWindowClosed) {
         super(APP_TITLE);
 
-        try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-
         // init itself
         setLayout(new BorderLayout());
         setSize(APP_WIDTH, APP_HEIGHT);
@@ -38,7 +31,7 @@ public class App extends JFrame {
 
         // init inner components
         JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.setBorder(new MatteBorder(0, 0, 0, 1, PANEL_SEPERATOR_COLOR));
+        leftPanel.setBorder(new MatteBorder(0, 0, 0, 1, Theme.getBorderColor()));
         leftPanel.add(new StyleWindow(), BorderLayout.NORTH);
         leftPanel.add(new EditWindow(), BorderLayout.CENTER);
 
@@ -55,6 +48,11 @@ public class App extends JFrame {
 
         // show it
         setVisible(true);
+    }
+
+    public static void start(Function<Void, Void> onWindowClosed) {
+        Theme.setup();
+        SwingUtilities.invokeLater(() -> new App(onWindowClosed));
     }
 }
 
