@@ -16,7 +16,7 @@ public class LabeledNumberSpinner extends JPanel {
         numberSpinner = new JSpinner();
         numberSpinner.setPreferredSize(X_LABELED_COMPONENT_SIZE);
 
-        add(new JLabel(label), BorderLayout.WEST);
+        add(new JLabel(label), BorderLayout.CENTER);
         add(numberSpinner, BorderLayout.EAST);
     }
 

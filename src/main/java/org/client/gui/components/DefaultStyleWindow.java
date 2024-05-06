@@ -2,8 +2,6 @@ package org.client.gui.components;
 
 import org.client.gui.models.DefaultStyleWindowModel;
 
-import java.awt.*;
-
 import static org.client.gui.Constants.STYLE_LABELS;
 
 public class DefaultStyleWindow extends TitledVerticalJPanel {
@@ -14,9 +12,8 @@ public class DefaultStyleWindow extends TitledVerticalJPanel {
     protected final LabeledColorButton textColor;
     protected final LabeledTextField textContent;
 
-    public DefaultStyleWindow(Dimension styleWindowSize, String borderTitle) {
+    public DefaultStyleWindow(String borderTitle) {
         super(borderTitle);
-        setPreferredSize(styleWindowSize);
 
         lineWidth = new LabeledNumberSpinner(STYLE_LABELS[0]);
         lineColor = new LabeledColorButton(STYLE_LABELS[1]);

@@ -1,5 +1,7 @@
 package org.client.gui.components;
 
+import org.client.gui.App;
+import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
 import org.client.gui.shapes.Line;
 import org.client.gui.shapes.Oval;
@@ -19,7 +21,8 @@ import java.util.*;
 
 import static org.client.gui.Constants.CANVAS_SIZE;
 
-public class Canvas extends ComponentJPanel {
+public class Canvas extends JPanel {
+    private AppModel appModel = AppModel.getInstance();
 
     public Map<Long, Shape> shapes;
     private Stack<UserAction> undoStack;
@@ -33,7 +36,6 @@ public class Canvas extends ComponentJPanel {
 
 
     public Canvas() {
-        super(CANVAS_SIZE);
         setLayout(new BorderLayout());
         setBackground(Color.white);
         setFocusable(true);

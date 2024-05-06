@@ -16,8 +16,8 @@ public class Toolbar extends JPanel {
 
         JToolBar toolBar = new JToolBar(TOOLBAR_TITLE);
 
-        for (int i = 0; i < TOOLBAR_BUTTONS.length; i++) {
-            String buttonName = TOOLBAR_BUTTONS[i];
+        for (int i = 0; i < TOOLBAR_SHAPE_TOOLS.length; i++) {
+            String buttonName = TOOLBAR_SHAPE_TOOLS[i];
             JButton button = new JButton(new ImageIcon(TOOLBAR_ICONS[i]));
             button.setName(buttonName);     // 버튼을 구분할 때는 Component.getName()을 사용
             button.addMouseListener(new ToolbarMouseAdapter());

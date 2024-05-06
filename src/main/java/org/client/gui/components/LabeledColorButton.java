@@ -16,7 +16,7 @@ public class LabeledColorButton extends JPanel {
         colorButton = new JButton();
         colorButton.setPreferredSize(X_LABELED_COMPONENT_SIZE);
 
-        add(new JLabel(label), BorderLayout.WEST);
+        add(new JLabel(label), BorderLayout.CENTER);
         add(colorButton, BorderLayout.EAST);
     }
 

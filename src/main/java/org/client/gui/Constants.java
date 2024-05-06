@@ -45,11 +45,13 @@ public class Constants {
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
     public static final String TOOLBAR_TITLE = "도구 모음";
+
     public static final String TOOLBAR_LINE = "직선 도구";
     public static final String TOOLBAR_RECT = "사각형 도구";
     public static final String TOOLBAR_OVAL = "원 도구";
     public static final String TOOLBAR_TEXT = "텍스트 도구";
-    public static final String[] TOOLBAR_BUTTONS = { TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT };
+
+    public static final String[] TOOLBAR_SHAPE_TOOLS = { TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT };
     public static final String[] TOOLBAR_TOOL_TIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
@@ -70,28 +72,29 @@ public class Constants {
 
     // dimension
     public static final int APP_WIDTH = 1400;
-    public static final int APP_HEIGHT = 900;
+    public static final int APP_HEIGHT = 700;
+
+    public static final Dimension APP_MIN_SIZE = new Dimension(570, 630);
+
     public static final int APP_LEFT_WIDTH = 200;
     public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
-    public static final int STYLE_WINDOW_HEIGHT = 300;
     public static final int TOOLBAR_HEIGHT = 40;
-    public static final int CLIENTS_WINDOW_HEIGHT = 300;
+    public static final int CLIENTS_WINDOW_HEIGHT = 200;
 
-    public static final Dimension STYLE_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, STYLE_WINDOW_HEIGHT);
-    public static final Dimension EDIT_WINDOW_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - STYLE_WINDOW_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension TOOLBAR_SIZE = new Dimension(APP_WIDTH, TOOLBAR_HEIGHT);
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
-    public static final Dimension SHAPES_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - CLIENTS_WINDOW_HEIGHT - TOOLBAR_HEIGHT);
+
+    public static final Dimension APP_RIGHT_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
 
     public static final int DEFAULT_LINE_WIDTH = 1;
     public static final int DEFAULT_TEXT_SIZE = 12;
 
+    public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(8, 0, 8, 0);
     public static final EmptyBorder TITLED_PANEL_PADDING = new EmptyBorder(8, 12, 8, 12);
-
-    public static final EmptyBorder DEFAULT_COMPONENT_PADDING = new EmptyBorder(8, 12, 0, 12);
+    public static final EmptyBorder DEFAULT_COMPONENT_PADDING = new EmptyBorder(4, 12, 4, 12);
 
     public static final Dimension X_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 30);
     public static final Dimension X_LABELED_COMPONENT_SIZE = new Dimension(64, 30);

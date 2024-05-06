@@ -4,8 +4,7 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-import static org.client.gui.Constants.PANEL_SEPERATOR_COLOR;
-import static org.client.gui.Constants.TITLED_PANEL_PADDING;
+import static org.client.gui.Constants.*;
 
 public class TitledVerticalJPanel extends JPanel {
     protected JPanel innerPanel;
@@ -26,6 +25,7 @@ public class TitledVerticalJPanel extends JPanel {
 
         innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        innerPanel.setBorder(DEFAULT_PANEL_PADDING);
 
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(innerPanel, BorderLayout.NORTH);

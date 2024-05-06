@@ -12,7 +12,7 @@ public class TitledBorderJPanel extends JPanel{
         setLayout(new BorderLayout());
 
         JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+        titlePanel.setLayout(new BorderLayout());
         titlePanel.setBorder(
                 BorderFactory.createCompoundBorder(
                         new MatteBorder(0, 1, 0, 0, PANEL_SEPERATOR_COLOR),
@@ -20,7 +20,7 @@ public class TitledBorderJPanel extends JPanel{
                 )
         );
 
-        titlePanel.add(new JLabel(title), BorderLayout.CENTER);
+        titlePanel.add(new JLabel(title), BorderLayout.NORTH);
 
         add(titlePanel, BorderLayout.NORTH);
     }

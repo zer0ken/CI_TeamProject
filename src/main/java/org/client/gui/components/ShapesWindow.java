@@ -8,7 +8,6 @@ import org.client.gui.shapes.Shape;
 import javax.swing.*;
 import java.awt.*;
 
-import static org.client.gui.Constants.SHAPES_WINDOW_SIZE;
 import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
 
 public class ShapesWindow extends TitledBorderJPanel {
@@ -16,8 +15,8 @@ public class ShapesWindow extends TitledBorderJPanel {
 
     public ShapesWindow() {
         super(SHAPES_WINDOW_TITLE);
-        setPreferredSize(SHAPES_WINDOW_SIZE);
-//        setBorder(new MatteBorder(0, 1, 0, 0, PANEL_SEP
+//        setPreferredSize(SHAPES_WINDOW_SIZE);
+
         shapeList = new JList<>();
         ShapeListModel shapeListModel = new ShapeListModel();
         shapeList.setModel(shapeListModel);
@@ -28,8 +27,6 @@ public class ShapesWindow extends TitledBorderJPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
-
-        scrollPane.setPreferredSize(new Dimension(200, 300));
 
         add(scrollPane, BorderLayout.CENTER);
     }
