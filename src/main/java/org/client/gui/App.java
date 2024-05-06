@@ -29,7 +29,6 @@ public class App extends JFrame {
         setMinimumSize(APP_MIN_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-//        setResizable(false);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
