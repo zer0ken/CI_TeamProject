@@ -71,8 +71,8 @@ public class Constants {
 //    public static final String TEXT = "텍스트";
 
     // dimension
-    public static final int APP_WIDTH = 1400;
-    public static final int APP_HEIGHT = 700;
+    public static final int APP_WIDTH = 1200;
+    public static final int APP_HEIGHT = 800;
 
     public static final Dimension APP_MIN_SIZE = new Dimension(570, 630);
 
