@@ -26,7 +26,7 @@ public class Constants {
     public static final String SHAPES_WINDOW_TOOLTIP = "생성된 모든 도형의 목록을 표시합니다.";
 
     public static final String[] STYLE_LABELS = {
-            "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용"
+            "획 두께(px):", "획 색상:", "채우기 색상:", "텍스트 크기(px):", "텍스트 색상:", "텍스트 내용:"
     };
     public static final String STYLE_LINE_COLOR_TITLE = "획 색상을 선택하세요.";
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
@@ -54,7 +54,6 @@ public class Constants {
             "수정된 텍스트를 적용합니다."
     };
 
-
     public static final String TOOLBAR_TITLE = "도구 모음";
 
     public static final String TOOLBAR_LINE = "직선 도구";
@@ -79,7 +78,6 @@ public class Constants {
     public static final String LINE = "직선";
     public static final String RECT = "사각형";
     public static final String OVAL = "원";
-//    public static final String TEXT = "텍스트";
 
     public static final String[] EAST_TOOLBAR_TOOLS = {
             EDIT_WINDOW_TITLE + "창 열기",
@@ -111,8 +109,8 @@ public class Constants {
     public static final int APP_WIDTH = 1200;
     public static final int APP_HEIGHT = 800;
 
-    public static final int WEST_PANEL_WIDTH = 180;
-    public static final int EAST_PANEL_WIDTH = 180;
+    public static final int WEST_PANEL_WIDTH = 186;
+    public static final int EAST_PANEL_WIDTH = 186;
 
     public static final Dimension APP_MIN_SIZE = new Dimension(WEST_PANEL_WIDTH + EAST_PANEL_WIDTH + 300, 300);
 
