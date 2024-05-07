@@ -111,8 +111,7 @@ public class Constants {
     public static final int APP_WIDTH = 1200;
     public static final int APP_HEIGHT = 800;
 
-
-    public static final int WEST_PANEL_WIDTH = 200;
+    public static final int WEST_PANEL_WIDTH = 180;
     public static final int EAST_PANEL_WIDTH = 180;
 
     public static final Dimension APP_MIN_SIZE = new Dimension(WEST_PANEL_WIDTH + EAST_PANEL_WIDTH + 300, 300);
@@ -130,8 +129,9 @@ public class Constants {
 
     public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(6, 12, 6, 12);
 
-    public static final Insets GRID_CELL_PADDING = new Insets(4, 0, 4, 0);
-    public static final Dimension GRID_CELL_SIZE = new Dimension(0, 22);
+    public static final Insets STYLE_PANEL_LABEL_INSET = new Insets(4, 0, 4, 0);
+    public static final Dimension STYLE_PANEL_LABEL_SIZE = new Dimension(0, 22);
+    public static final Dimension STYLE_PANEL_COMPONENT_SIZE = new Dimension(60, 22);
 
     public static final Dimension TOOLBAR_ICON_SIZE = new Dimension(TOOLBAR_HEIGHT - 12, TOOLBAR_HEIGHT - 12);
 

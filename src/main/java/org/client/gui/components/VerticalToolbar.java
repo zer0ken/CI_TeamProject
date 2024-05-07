@@ -4,10 +4,13 @@ import org.client.gui.Utils;
 import org.client.gui.models.PanelVisibilityController;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.client.gui.Constants.TOOLBAR_ICON_SIZE;
 
 public class VerticalToolbar extends JToolBar {
+
     public VerticalToolbar(String[] buttonNames, String[] iconFileNames, String[] tooltips, PanelVisibilityController controller) {
         super(JToolBar.VERTICAL);
 
@@ -21,4 +24,5 @@ public class VerticalToolbar extends JToolBar {
             add(button);
         }
     }
+
 }

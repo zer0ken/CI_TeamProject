@@ -2,6 +2,7 @@ package org.client.gui.components;
 
 import org.client.gui.Theme;
 import org.client.gui.models.PanelVisibilityController;
+import org.client.gui.models.StyleToggleButtonController;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -17,7 +18,12 @@ public class WestPanel extends JPanel {
 
         StyleWindow styleWindow = new StyleWindow();
         EditWindow editWindow = new EditWindow();
-        JToolBar toolbar = buildToolbar(styleWindow, editWindow);
+        VerticalToolbar toolbar = buildToolbar(styleWindow, editWindow);
+        new StyleToggleButtonController(
+                (JToggleButton) toolbar.getComponentAtIndex(0),
+                (JToggleButton) toolbar.getComponentAtIndex(1)
+        );
+        ((JToggleButton) toolbar.getComponentAtIndex(1)).setSelected(false);
 
         styleWindow.setBorder(new MatteBorder(0, 0, 1, 1, Theme.getBorderColor()));
         editWindow.setBorder(new MatteBorder(0, 0, 0, 1, Theme.getBorderColor()));
@@ -44,8 +50,8 @@ public class WestPanel extends JPanel {
         add(toolbar, c);
     }
 
-    private static JToolBar buildToolbar(StyleWindow styleWindow, EditWindow editWindow) {
-        JToolBar toolbar = new VerticalToolbar(
+    private static VerticalToolbar buildToolbar(StyleWindow styleWindow, EditWindow editWindow) {
+        VerticalToolbar toolbar = new VerticalToolbar(
                 WEST_TOOLBAR_TOOLS,
                 WEST_TOOLBAR_ICONS,
                 WEST_TOOLBAR_TOOLTIPS,

@@ -36,7 +36,7 @@ public class StylePanel extends JPanel {
     public void initVertically(String[] tooltips) {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = GRID_CELL_PADDING;
+        constraints.insets = STYLE_PANEL_LABEL_INSET;
         constraints.gridx = 0;
         constraints.weightx = 1.0;
 
@@ -50,7 +50,7 @@ public class StylePanel extends JPanel {
             label.setToolTipText(tooltips[i]);
 
             JPanel resized = Utils.wrapWithBorderLayout(label, BorderLayout.CENTER);
-            resized.setPreferredSize(GRID_CELL_SIZE);
+            resized.setPreferredSize(STYLE_PANEL_LABEL_SIZE);
 
             add(resized, constraints);
         }
@@ -66,7 +66,9 @@ public class StylePanel extends JPanel {
                 constraints.gridy++;
                 constraints.gridwidth = 2;
             }
-            add(component, constraints);
+            JPanel resized = Utils.wrapWithBorderLayout(component, BorderLayout.CENTER);
+            resized.setPreferredSize(STYLE_PANEL_COMPONENT_SIZE);
+            add(resized, constraints);
             constraints.gridy++;
         }
     }
