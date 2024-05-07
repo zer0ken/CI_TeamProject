@@ -1,25 +1,29 @@
 package org.client.gui.components;
 
+import org.client.gui.Theme;
 import org.client.gui.models.EditWindowModel;
+import org.client.gui.utils.PanelUtils;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 import static org.client.gui.Constants.*;
 
-public class EditWindow extends DefaultStyleWindow {
+public class EditWindow extends JPanel {
     public EditWindow() {
-        super(EDIT_WINDOW_TITLE);
-        setModel(new EditWindowModel());
-        setTooltips(EDIT_TOOL_TIPS);
+        setLayout(new BorderLayout());
+        setBorder(new MatteBorder(1, 0, 0, 0, Theme.getBorderColor()));
 
-        JButton applyTextButton = new JButton(APPLY_TEXT_BUTTON_CONTENT);
+        StylePanel stylePanel = new StylePanel(new EditWindowModel(), EDIT_TOOLTIPS);
 
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.setBorder(DEFAULT_COMPONENT_PADDING);
-        wrapper.setToolTipText(EDIT_TOOL_TIPS[6]);
-        wrapper.add(applyTextButton, BorderLayout.NORTH);
+        GridBagConstraints constraints = stylePanel.getConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        constraints.gridwidth = 2;
+        stylePanel.add(new JButton(APPLY_TEXT_BUTTON_CONTENT), constraints);
 
-        add(wrapper);
+        add(new TitlePanel(EDIT_WINDOW_TITLE, EDIT_WINDOW_TOOLTIP), BorderLayout.NORTH);
+        add(PanelUtils.stick(stylePanel, BorderLayout.NORTH), BorderLayout.CENTER);
     }
 }

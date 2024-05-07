@@ -32,6 +32,7 @@ public class App extends JFrame {
         // init inner components
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setBorder(new MatteBorder(0, 0, 0, 1, Theme.getBorderColor()));
+        leftPanel.setPreferredSize(APP_LEFT_SIZE);
         leftPanel.add(new StyleWindow(), BorderLayout.NORTH);
         leftPanel.add(new EditWindow(), BorderLayout.CENTER);
 

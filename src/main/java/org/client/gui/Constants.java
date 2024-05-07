@@ -12,14 +12,28 @@ public class Constants {
     public static final String LOGIN_TITLE = "로그인";
     public static final String LOGIN_MESSAGE = "다른 사용자에게 표시할 이름을 입력하세요.";
     public static final String LOGIN_MESSAGE_WITH_INVALID_NAME = "입력하신 이름은 이미 사용되고 있습니다.\n다른 사용자에게 표시할 이름을 입력하세요.";
-    public static final String[] STYLE_LABELS = {
-            "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용"};
+
     public static final String STYLE_WINDOW_TITLE = "스타일 지정";
+    public static final String STYLE_WINDOW_TOOLTIP = "새로 생성될 도형의 스타일을 지정합니다.";
+
+    public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
+    public static final String CLIENTS_WINDOW_TOOLTIP = "접속 중인 사용자 목록을 표시합니다.";
+
+    public static final String EDIT_WINDOW_TITLE = "스타일 수정";
+    public static final String EDIT_WINDOW_TOOLTIP = "선택된 도형의 스타일을 수정합니다.";
+
+    public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
+    public static final String SHAPES_WINDOW_TOOLTIP = "생성된 모든 도형의 목록을 표시합니다.";
+
+    public static final String[] STYLE_LABELS = {
+            "획 두께(px)", "획 색상", "채우기 색상", "텍스트 크기(px)", "텍스트 색상", "텍스트 내용"
+    };
     public static final String STYLE_LINE_COLOR_TITLE = "획 색상을 선택하세요.";
     public static final String STYLE_FILL_COLOR_TITLE = "채우기 색상을 선택하세요.";
     public static final String STYLE_TEXT_COLOR_TITLE = "텍스트 색상을 선택하세요.";
     public static final String STYLE_DEFAULT_TEXT_CONTENT = "Text Content";
-    public static final String[] STYLE_TOOL_TIPS = {
+
+    public static final String[] STYLE_TOOLTIPS = {
             "새로 그릴 도형의 획 두께를 설정합니다.",
             "새로 그릴 도형의 획 색상을 설정합니다.",
             "새로 그릴 도형의 채우기 색상을 설정합니다.",
@@ -28,11 +42,9 @@ public class Constants {
             "새로 그릴 텍스트의 내용을 설정합니다."
     };
 
-    public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
-
-    public static final String EDIT_WINDOW_TITLE = "스타일 변경";
     public static final String APPLY_TEXT_BUTTON_CONTENT = "[Tab] 키로 텍스트 적용";
-    public static final String[] EDIT_TOOL_TIPS = {
+
+    public static final String[] EDIT_TOOLTIPS = {
             "도형의 획 두께를 수정합니다.",
             "도형의 획 색상을 수정합니다.",
             "도형의 채우기 색상을 수정합니다.",
@@ -42,7 +54,6 @@ public class Constants {
             "수정된 텍스트를 적용합니다."
     };
 
-    public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
 
     public static final String TOOLBAR_TITLE = "도구 모음";
 
@@ -51,8 +62,8 @@ public class Constants {
     public static final String TOOLBAR_OVAL = "원 도구";
     public static final String TOOLBAR_TEXT = "텍스트 도구";
 
-    public static final String[] TOOLBAR_SHAPE_TOOLS = { TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT };
-    public static final String[] TOOLBAR_SHAPE_TOOL_TIPS = {
+    public static final String[] TOOLBAR_SHAPE_TOOLS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
+    public static final String[] TOOLBAR_SHAPE_TOOLTIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
             "캔버스에 원을 그립니다.",
@@ -74,32 +85,30 @@ public class Constants {
     public static final int APP_WIDTH = 1200;
     public static final int APP_HEIGHT = 800;
 
-    public static final Dimension APP_MIN_SIZE = new Dimension(550, 640);
 
     public static final int APP_LEFT_WIDTH = 200;
     public static final int APP_RIGHT_WIDTH = 200;
     public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
 
+    public static final Dimension APP_MIN_SIZE = new Dimension(APP_LEFT_WIDTH + APP_RIGHT_WIDTH + 300, 640);
+
     public static final int TOOLBAR_HEIGHT = 32;
-    public static final int CLIENTS_WINDOW_HEIGHT = 200;
+    public static final int CLIENTS_WINDOW_HEIGHT = 180;
 
     public static final Dimension TOOLBAR_SIZE = new Dimension(APP_WIDTH, TOOLBAR_HEIGHT);
     public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
 
+    public static final Dimension APP_LEFT_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
     public static final Dimension APP_RIGHT_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
 
     public static final int DEFAULT_LINE_WIDTH = 1;
     public static final int DEFAULT_TEXT_SIZE = 12;
 
-    public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(6, 0, 6, 0);
-    public static final EmptyBorder TITLED_PANEL_PADDING = new EmptyBorder(6, 12, 6, 12);
-    public static final EmptyBorder DEFAULT_COMPONENT_PADDING = new EmptyBorder(4, 12, 4, 12);
+    public static final EmptyBorder DEFAULT_PANEL_PADDING = new EmptyBorder(6, 12, 6, 12);
 
-    public static final Dimension X_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 32);
-    public static final Dimension X_LABELED_COMPONENT_SIZE = new Dimension(64, 32);
-    public static final Dimension Y_LABELED_PANEL_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
-    public static final Dimension Y_LABELED_COMPONENT_SIZE = new Dimension(APP_LEFT_WIDTH, 60);
+    public static final Insets GRID_CELL_PADDING = new Insets(4, 0, 4, 0);
+    public static final Dimension GRID_CELL_SIZE = new Dimension(0, 22);
 
     public static final Dimension TOOLBAR_ICON_SIZE = new Dimension(TOOLBAR_HEIGHT - 10, TOOLBAR_HEIGHT - 10);
 

@@ -1,20 +1,24 @@
 package org.client.gui.components;
 
+import org.client.gui.Theme;
 import org.client.gui.models.ClientListModel;
 import org.client.gui.models.ClientListSelectionModel;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-import static org.client.gui.Constants.CLIENTS_WINDOW_SIZE;
-import static org.client.gui.Constants.CLIENTS_WINDOW_TITLE;
+import static org.client.gui.Constants.*;
 
-public class ClientsWindow extends TitledBorderJPanel {
+public class ClientsWindow extends JPanel {
     JList<String> clientList;
 
     public ClientsWindow() {
-        super(CLIENTS_WINDOW_TITLE);
+        setLayout(new BorderLayout());
         setPreferredSize(CLIENTS_WINDOW_SIZE);
+
+        TitlePanel titlePanel = new TitlePanel(CLIENTS_WINDOW_TITLE, CLIENTS_WINDOW_TOOLTIP);
+        titlePanel.setBorder(new MatteBorder(0, 1, 0, 0, Theme.getBorderColor()));
 
         clientList = new JList<>();
         ClientListModel clientListModel;
@@ -27,6 +31,7 @@ public class ClientsWindow extends TitledBorderJPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
 
+        add(titlePanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
 }

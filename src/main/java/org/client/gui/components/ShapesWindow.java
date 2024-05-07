@@ -1,21 +1,25 @@
 package org.client.gui.components;
 
 
+import org.client.gui.Theme;
 import org.client.gui.models.ShapeListModel;
 import org.client.gui.models.ShapeListSelectionModel;
 import org.client.gui.shapes.Shape;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
+import static org.client.gui.Constants.*;
 
-public class ShapesWindow extends TitledBorderJPanel {
+public class ShapesWindow extends JPanel {
     JList<Shape> shapeList;
 
     public ShapesWindow() {
-        super(SHAPES_WINDOW_TITLE);
-//        setPreferredSize(SHAPES_WINDOW_SIZE);
+        setLayout(new BorderLayout());
+
+        TitlePanel titlePanel = new TitlePanel(SHAPES_WINDOW_TITLE, SHAPES_WINDOW_TOOLTIP);
+        titlePanel.setBorder(new MatteBorder(0, 1, 0, 0, Theme.getBorderColor()));
 
         shapeList = new JList<>();
         ShapeListModel shapeListModel = new ShapeListModel();
@@ -28,6 +32,7 @@ public class ShapesWindow extends TitledBorderJPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
 
+        add(titlePanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
 }

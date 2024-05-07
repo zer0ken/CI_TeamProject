@@ -25,7 +25,7 @@ public class Toolbar extends JPanel {
             JButton button = new JButton(IconUtils.scaledIcon(TOOLBAR_SHAPE_ICONS[i], TOOLBAR_ICON_SIZE));
             button.setName(buttonName);
             button.addMouseListener(toolbarMouseAdapter);
-            button.setToolTipText(buttonName + "\n" + TOOLBAR_SHAPE_TOOL_TIPS[i]);
+            button.setToolTipText(buttonName + "\n" + TOOLBAR_SHAPE_TOOLTIPS[i]);
             shapeToolBar.add(button);
         }
 
