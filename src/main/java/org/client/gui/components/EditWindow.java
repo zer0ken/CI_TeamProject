@@ -1,8 +1,8 @@
 package org.client.gui.components;
 
 import org.client.gui.Theme;
+import org.client.gui.Utils;
 import org.client.gui.models.EditWindowModel;
-import org.client.gui.utils.PanelUtils;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -24,6 +24,6 @@ public class EditWindow extends JPanel {
         stylePanel.add(new JButton(APPLY_TEXT_BUTTON_CONTENT), constraints);
 
         add(new TitlePanel(EDIT_WINDOW_TITLE, EDIT_WINDOW_TOOLTIP), BorderLayout.NORTH);
-        add(PanelUtils.stick(stylePanel, BorderLayout.NORTH), BorderLayout.CENTER);
+        add(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH), BorderLayout.CENTER);
     }
 }

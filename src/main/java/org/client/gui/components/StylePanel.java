@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.Utils;
 import org.client.gui.models.DefaultStyleWindowModel;
 
 import javax.swing.*;
@@ -45,9 +46,8 @@ public class StylePanel extends JPanel {
             JLabel label = new JLabel(STYLE_LABELS[i]);
             label.setToolTipText(tooltips[i]);
 
-            JPanel resized = new JPanel(new BorderLayout());
+            JPanel resized = Utils.wrapWithBorderLayout(label, BorderLayout.CENTER);
             resized.setPreferredSize(GRID_CELL_SIZE);
-            resized.add(label, BorderLayout.CENTER);
 
             add(resized, constraints);
         }

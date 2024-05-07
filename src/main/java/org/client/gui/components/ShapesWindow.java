@@ -2,6 +2,7 @@ package org.client.gui.components;
 
 
 import org.client.gui.Theme;
+import org.client.gui.Utils;
 import org.client.gui.models.ShapeListModel;
 import org.client.gui.models.ShapeListSelectionModel;
 import org.client.gui.shapes.Shape;
@@ -10,7 +11,8 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-import static org.client.gui.Constants.*;
+import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
+import static org.client.gui.Constants.SHAPES_WINDOW_TOOLTIP;
 
 public class ShapesWindow extends JPanel {
     JList<Shape> shapeList;
@@ -26,11 +28,7 @@ public class ShapesWindow extends JPanel {
         shapeList.setModel(shapeListModel);
         shapeList.setSelectionModel(new ShapeListSelectionModel(shapeListModel));
 
-        JScrollPane scrollPane = new JScrollPane(
-                shapeList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
+        JScrollPane scrollPane = Utils.wrapWithScrollPane(shapeList);
 
         add(titlePanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);

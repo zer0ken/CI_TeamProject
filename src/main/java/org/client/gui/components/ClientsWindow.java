@@ -1,6 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Theme;
+import org.client.gui.Utils;
 import org.client.gui.models.ClientListModel;
 import org.client.gui.models.ClientListSelectionModel;
 
@@ -25,11 +26,7 @@ public class ClientsWindow extends JPanel {
         clientList.setModel(clientListModel = new ClientListModel());
         clientList.setSelectionModel(new ClientListSelectionModel(clientListModel));
 
-        JScrollPane scrollPane = new JScrollPane(
-                clientList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
+        JScrollPane scrollPane = Utils.wrapWithScrollPane(clientList);
 
         add(titlePanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
