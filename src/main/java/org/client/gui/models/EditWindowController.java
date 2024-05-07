@@ -10,14 +10,14 @@ import java.awt.event.FocusListener;
 
 import static org.client.gui.Constants.*;
 
-public class EditWindowModel extends DefaultStyleWindowModel {
+public class EditWindowController extends StylePanelController {
     StyleSpinnerModel lineWidthModel;
     StyleColorButtonModel lineColorModel;
     StyleColorButtonModel fillColorModel;
     StyleSpinnerModel textSizeModel;
     StyleColorButtonModel textColorModel;
 
-    public EditWindowModel() {
+    public EditWindowController() {
         super();
         appModel.addListener(AppModel.Listener.SELECTION, this::setStyleBy);
     }

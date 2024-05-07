@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Utils;
-import org.client.gui.models.StyleWindowModel;
+import org.client.gui.models.StyleWindowController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class StyleWindow extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(STYLE_WINDOW_SIZE);
 
-        StylePanel stylePanel = new StylePanel(new StyleWindowModel());
+        StylePanel stylePanel = new StylePanel(new StyleWindowController());
         stylePanel.initVertically(STYLE_TOOLTIPS);
 
         add(new TitlePanel(STYLE_WINDOW_TITLE, STYLE_WINDOW_TOOLTIP), BorderLayout.NORTH);

@@ -2,7 +2,7 @@ package org.client.gui.models;
 
 import javax.swing.*;
 
-abstract public class DefaultStyleWindowModel {
+abstract public class StylePanelController {
     protected final AppModel appModel;
 
     protected JSpinner lineWidthSpinner;
@@ -12,18 +12,8 @@ abstract public class DefaultStyleWindowModel {
     protected JButton textColorButton;
     protected JTextField textContentField;
 
-    public DefaultStyleWindowModel() {
+    public StylePanelController() {
         this.appModel = AppModel.getInstance();
-    }
-
-    private void setComponents(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,
-                               JSpinner textSizeSpinner, JButton textColorButton, JTextField textContentField) {
-        this.lineWidthSpinner = lineWidthSpinner;
-        this.lineColorButton = lineColorButton;
-        this.fillColorButton = fillColorButton;
-        this.textSizeSpinner = textSizeSpinner;
-        this.textColorButton = textColorButton;
-        this.textContentField = textContentField;
     }
 
     public void bind(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,
@@ -35,6 +25,16 @@ abstract public class DefaultStyleWindowModel {
         setTextSizeSpinnerModel();
         setTextColorButtonModel();
         setTextContentFieldModel();
+    }
+
+    private void setComponents(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,
+                               JSpinner textSizeSpinner, JButton textColorButton, JTextField textContentField) {
+        this.lineWidthSpinner = lineWidthSpinner;
+        this.lineColorButton = lineColorButton;
+        this.fillColorButton = fillColorButton;
+        this.textSizeSpinner = textSizeSpinner;
+        this.textColorButton = textColorButton;
+        this.textContentField = textContentField;
     }
 
     abstract void setLineWidthSpinnerModel();

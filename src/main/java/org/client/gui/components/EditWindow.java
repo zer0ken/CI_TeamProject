@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Utils;
-import org.client.gui.models.EditWindowModel;
+import org.client.gui.models.EditWindowController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class EditWindow extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(EDIT_WINDOW_SIZE);
 
-        StylePanel stylePanel = new StylePanel(new EditWindowModel());
+        StylePanel stylePanel = new StylePanel(new EditWindowController());
         stylePanel.initVertically(EDIT_TOOLTIPS);
 
         GridBagConstraints constraints = stylePanel.getConstraints();

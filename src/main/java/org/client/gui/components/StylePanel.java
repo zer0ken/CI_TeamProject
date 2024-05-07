@@ -1,7 +1,7 @@
 package org.client.gui.components;
 
 import org.client.gui.Utils;
-import org.client.gui.models.DefaultStyleWindowModel;
+import org.client.gui.models.StylePanelController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class StylePanel extends JPanel {
     protected JTextField textContent;
     private final GridBagConstraints constraints;
 
-    protected StylePanel(DefaultStyleWindowModel model) {
+    protected StylePanel(StylePanelController controller) {
         setLayout(new GridBagLayout());
         setBorder(DEFAULT_PANEL_PADDING);
 
@@ -30,7 +30,15 @@ public class StylePanel extends JPanel {
         textSize = new JSpinner();
         textColor = new JButton();
         textContent = new JTextField();
-        setModel(model);
+
+        controller.bind(
+                lineWidth,
+                lineColor,
+                fillColor,
+                textSize,
+                textColor,
+                textContent
+        );
     }
 
     public void initVertically(String[] tooltips) {
@@ -71,17 +79,6 @@ public class StylePanel extends JPanel {
             add(resized, constraints);
             constraints.gridy++;
         }
-    }
-
-    public void setModel(DefaultStyleWindowModel model) {
-        model.bind(
-                lineWidth,
-                lineColor,
-                fillColor,
-                textSize,
-                textColor,
-                textContent
-        );
     }
 
     public GridBagConstraints getConstraints() {

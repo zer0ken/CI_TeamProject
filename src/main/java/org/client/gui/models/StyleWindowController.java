@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
 
-public class StyleWindowModel extends DefaultStyleWindowModel {
+public class StyleWindowController extends StylePanelController {
 
     private void setSpinnerModel(JSpinner spinner, int defaultValue, Function<Integer, Void> notify) {
         spinner.setModel(new StyleSpinnerModel(notify, defaultValue));
