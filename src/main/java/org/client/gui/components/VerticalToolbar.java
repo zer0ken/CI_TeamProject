@@ -4,8 +4,6 @@ import org.client.gui.Utils;
 import org.client.gui.models.PanelVisibilityController;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.client.gui.Constants.TOOLBAR_ICON_SIZE;
 
