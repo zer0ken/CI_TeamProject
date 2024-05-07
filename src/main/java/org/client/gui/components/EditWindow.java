@@ -1,11 +1,9 @@
 package org.client.gui.components;
 
-import org.client.gui.Theme;
 import org.client.gui.Utils;
 import org.client.gui.models.EditWindowModel;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 import static org.client.gui.Constants.*;
@@ -13,9 +11,10 @@ import static org.client.gui.Constants.*;
 public class EditWindow extends JPanel {
     public EditWindow() {
         setLayout(new BorderLayout());
-        setBorder(new MatteBorder(1, 0, 0, 0, Theme.getBorderColor()));
+        setPreferredSize(EDIT_WINDOW_SIZE);
 
-        StylePanel stylePanel = new StylePanel(new EditWindowModel(), EDIT_TOOLTIPS);
+        StylePanel stylePanel = new StylePanel(new EditWindowModel());
+        stylePanel.initVertically(EDIT_TOOLTIPS);
 
         GridBagConstraints constraints = stylePanel.getConstraints();
         constraints.gridx = 0;
@@ -24,6 +23,9 @@ public class EditWindow extends JPanel {
         stylePanel.add(new JButton(APPLY_TEXT_BUTTON_CONTENT), constraints);
 
         add(new TitlePanel(EDIT_WINDOW_TITLE, EDIT_WINDOW_TOOLTIP), BorderLayout.NORTH);
-        add(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH), BorderLayout.CENTER);
+        add(
+                Utils.wrapWithVerticalScrollPane(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH)),
+                BorderLayout.CENTER
+        );
     }
 }

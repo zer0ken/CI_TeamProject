@@ -12,13 +12,13 @@ import static org.client.gui.Constants.*;
 
 public class Toolbar extends JPanel {
     public Toolbar() {
-        setPreferredSize(TOOLBAR_SIZE);
+//        setPreferredSize(TOOLBAR_SIZE);
         setLayout(new BorderLayout());
         setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
 
         ToolbarMouseAdapter toolbarMouseAdapter = new ToolbarMouseAdapter();
 
-        JToolBar shapeToolBar = new JToolBar(TOOLBAR_TITLE);
+        JToolBar toolbar = new JToolBar(TOOLBAR_TITLE);
 
         for (int i = 0; i < TOOLBAR_SHAPE_TOOLS.length; i++) {
             String buttonName = TOOLBAR_SHAPE_TOOLS[i];
@@ -26,7 +26,7 @@ public class Toolbar extends JPanel {
             button.setName(buttonName);
             button.addMouseListener(toolbarMouseAdapter);
             button.setToolTipText(buttonName + "\n" + TOOLBAR_SHAPE_TOOLTIPS[i]);
-            shapeToolBar.add(button);
+            toolbar.add(button);
         }
 
         // 관련 없는 버튼들 사이에는 구분선을 추가
@@ -34,7 +34,7 @@ public class Toolbar extends JPanel {
 
         Box wrapped = Box.createHorizontalBox();
         wrapped.add(Box.createGlue());
-        wrapped.add(shapeToolBar);
+        wrapped.add(toolbar);
         wrapped.add(Box.createGlue());
 
         add(wrapped, BorderLayout.CENTER);

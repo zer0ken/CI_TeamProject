@@ -18,9 +18,11 @@ public class StylePanel extends JPanel {
     protected JTextField textContent;
     private final GridBagConstraints constraints;
 
-    protected StylePanel(DefaultStyleWindowModel model, String[] tooltips) {
+    protected StylePanel(DefaultStyleWindowModel model) {
         setLayout(new GridBagLayout());
         setBorder(DEFAULT_PANEL_PADDING);
+
+        this.constraints = new GridBagConstraints();
 
         lineWidth = new JSpinner();
         lineColor = new JButton();
@@ -28,9 +30,10 @@ public class StylePanel extends JPanel {
         textSize = new JSpinner();
         textColor = new JButton();
         textContent = new JTextField();
+        setModel(model);
+    }
 
-        constraints = new GridBagConstraints();
-
+    public void initVertically(String[] tooltips) {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = GRID_CELL_PADDING;
@@ -66,7 +69,6 @@ public class StylePanel extends JPanel {
             add(component, constraints);
             constraints.gridy++;
         }
-        setModel(model);
     }
 
     public void setModel(DefaultStyleWindowModel model) {

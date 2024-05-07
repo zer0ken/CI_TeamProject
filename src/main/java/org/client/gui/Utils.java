@@ -19,6 +19,14 @@ public class Utils {
         return new JScrollPane(
                 component,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+    }
+
+    public static JScrollPane wrapWithVerticalScrollPane(JComponent component) {
+        return new JScrollPane(
+                component,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
     }

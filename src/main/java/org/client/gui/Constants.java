@@ -19,7 +19,7 @@ public class Constants {
     public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
     public static final String CLIENTS_WINDOW_TOOLTIP = "접속 중인 사용자 목록을 표시합니다.";
 
-    public static final String EDIT_WINDOW_TITLE = "스타일 수정";
+    public static final String EDIT_WINDOW_TITLE = "스타일 편집";
     public static final String EDIT_WINDOW_TOOLTIP = "선택된 도형의 스타일을 수정합니다.";
 
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
@@ -81,26 +81,49 @@ public class Constants {
     public static final String OVAL = "원";
 //    public static final String TEXT = "텍스트";
 
+    public static final String[] EAST_TOOLBAR_TOOLS = {
+            EDIT_WINDOW_TITLE + "창 열기",
+            SHAPES_WINDOW_TITLE + "창 열기"
+    };
+    public static final String[] EAST_TOOLBAR_TOOLTIPS = {
+            EDIT_WINDOW_TITLE,
+            SHAPES_WINDOW_TITLE
+    };
+    public static final String[] EAST_TOOLBAR_ICONS = {
+            "src/res/clients_icon.png",
+            "src/res/shapes_icon.png"
+    };
+
+    public static final String[] WEST_TOOLBAR_TOOLS = {
+            STYLE_WINDOW_TITLE + "창 열기",
+            EDIT_WINDOW_TITLE + "창 열기"
+    };
+    public static final String[] WEST_TOOLBAR_TOOLTIPS = {
+            STYLE_WINDOW_TITLE,
+            EDIT_WINDOW_TITLE
+    };
+    public static final String[] WEST_TOOLBAR_ICONS = {
+            "src/res/style_icon.png",
+            "src/res/edit_icon.png"
+    };
+
     // dimension
     public static final int APP_WIDTH = 1200;
     public static final int APP_HEIGHT = 800;
 
 
-    public static final int APP_LEFT_WIDTH = 200;
-    public static final int APP_RIGHT_WIDTH = 200;
-    public static final int APP_CENTER_WIDTH = APP_WIDTH - APP_LEFT_WIDTH - APP_RIGHT_WIDTH;
+    public static final int WEST_PANEL_WIDTH = 200;
+    public static final int EAST_PANEL_WIDTH = 180;
 
-    public static final Dimension APP_MIN_SIZE = new Dimension(APP_LEFT_WIDTH + APP_RIGHT_WIDTH + 300, 640);
+    public static final Dimension APP_MIN_SIZE = new Dimension(WEST_PANEL_WIDTH + EAST_PANEL_WIDTH + 300, 300);
 
     public static final int TOOLBAR_HEIGHT = 32;
-    public static final int CLIENTS_WINDOW_HEIGHT = 180;
 
-    public static final Dimension TOOLBAR_SIZE = new Dimension(APP_WIDTH, TOOLBAR_HEIGHT);
-    public static final Dimension CANVAS_SIZE = new Dimension(APP_CENTER_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
-    public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(APP_RIGHT_WIDTH, CLIENTS_WINDOW_HEIGHT);
+    public static final Dimension STYLE_WINDOW_SIZE = new Dimension(WEST_PANEL_WIDTH, 0);
+    public static final Dimension EDIT_WINDOW_SIZE = new Dimension(WEST_PANEL_WIDTH, 0);
 
-    public static final Dimension APP_LEFT_SIZE = new Dimension(APP_LEFT_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
-    public static final Dimension APP_RIGHT_SIZE = new Dimension(APP_RIGHT_WIDTH, APP_HEIGHT - TOOLBAR_HEIGHT);
+    public static final Dimension CLIENTS_WINDOW_SIZE = new Dimension(EAST_PANEL_WIDTH, 0);
+    public static final Dimension SHAPES_WINDOW_SIZE = new Dimension(EAST_PANEL_WIDTH, 0);
 
     public static final int DEFAULT_LINE_WIDTH = 1;
     public static final int DEFAULT_TEXT_SIZE = 12;
@@ -110,7 +133,7 @@ public class Constants {
     public static final Insets GRID_CELL_PADDING = new Insets(4, 0, 4, 0);
     public static final Dimension GRID_CELL_SIZE = new Dimension(0, 22);
 
-    public static final Dimension TOOLBAR_ICON_SIZE = new Dimension(TOOLBAR_HEIGHT - 10, TOOLBAR_HEIGHT - 10);
+    public static final Dimension TOOLBAR_ICON_SIZE = new Dimension(TOOLBAR_HEIGHT - 12, TOOLBAR_HEIGHT - 12);
 
     //others
     public static final Color DEFAULT_LINE_COLOR = Color.black;

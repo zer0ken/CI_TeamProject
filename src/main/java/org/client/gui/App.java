@@ -1,10 +1,11 @@
 package org.client.gui;
 
 import org.client.gui.components.Canvas;
-import org.client.gui.components.*;
+import org.client.gui.components.EastPanel;
+import org.client.gui.components.Toolbar;
+import org.client.gui.components.WestPanel;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,22 +31,11 @@ public class App extends JFrame {
         });
 
         // init inner components
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.setBorder(new MatteBorder(0, 0, 0, 1, Theme.getBorderColor()));
-        leftPanel.setPreferredSize(APP_LEFT_SIZE);
-        leftPanel.add(new StyleWindow(), BorderLayout.NORTH);
-        leftPanel.add(new EditWindow(), BorderLayout.CENTER);
-
         add(new Toolbar(), BorderLayout.NORTH);
         add(new Canvas(), BorderLayout.CENTER);
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setPreferredSize(APP_RIGHT_SIZE);
-        rightPanel.add(new ClientsWindow(), BorderLayout.NORTH);
-        rightPanel.add(new ShapesWindow(), BorderLayout.CENTER);
-
-        add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+        add(new WestPanel(), BorderLayout.WEST);
+        add(new EastPanel(), BorderLayout.EAST);
 
         // show it
         setVisible(true);

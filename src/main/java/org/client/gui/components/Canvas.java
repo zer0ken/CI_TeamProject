@@ -19,8 +19,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-import static org.client.gui.Constants.CANVAS_SIZE;
-
 public class Canvas extends JPanel {
     private AppModel appModel = AppModel.getInstance();
 

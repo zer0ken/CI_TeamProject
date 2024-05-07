@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.Utils;
 import org.client.gui.models.StyleWindowModel;
 
 import javax.swing.*;
@@ -10,8 +11,15 @@ import static org.client.gui.Constants.*;
 public class StyleWindow extends JPanel {
     public StyleWindow() {
         setLayout(new BorderLayout());
+        setPreferredSize(STYLE_WINDOW_SIZE);
+
+        StylePanel stylePanel = new StylePanel(new StyleWindowModel());
+        stylePanel.initVertically(STYLE_TOOLTIPS);
 
         add(new TitlePanel(STYLE_WINDOW_TITLE, STYLE_WINDOW_TOOLTIP), BorderLayout.NORTH);
-        add(new StylePanel(new StyleWindowModel(), STYLE_TOOLTIPS), BorderLayout.CENTER);
+        add(
+                Utils.wrapWithVerticalScrollPane(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH)),
+                BorderLayout.CENTER
+        );
     }
 }
