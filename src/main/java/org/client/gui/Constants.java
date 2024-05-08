@@ -69,10 +69,10 @@ public class Constants {
             "캔버스에 텍스트를 그립니다."
     };
     public static final String[] TOOLBAR_SHAPE_ICONS = {
-            "src/res/line_icon.png",
-            "src/res/rectangle_icon.png",
-            "src/res/oval_icon.png",
-            "src/res/text_icon.png",
+            "src/main/res/line_icon.png",
+            "src/main/res/rectangle_icon.png",
+            "src/main/res/oval_icon.png",
+            "src/main/res/text_icon.png",
     };
 
     public static final String LINE = "직선";
@@ -88,8 +88,8 @@ public class Constants {
             SHAPES_WINDOW_TITLE
     };
     public static final String[] EAST_TOOLBAR_ICONS = {
-            "src/res/clients_icon.png",
-            "src/res/shapes_icon.png"
+            "src/main/res/clients_icon.png",
+            "src/main/res/shapes_icon.png"
     };
 
     public static final String[] WEST_TOOLBAR_TOOLS = {
@@ -101,8 +101,8 @@ public class Constants {
             EDIT_WINDOW_TITLE
     };
     public static final String[] WEST_TOOLBAR_ICONS = {
-            "src/res/style_icon.png",
-            "src/res/edit_icon.png"
+            "src/main/res/style_icon.png",
+            "src/main/res/edit_icon.png"
     };
 
     // dimension
