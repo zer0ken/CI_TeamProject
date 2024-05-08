@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CI_Server">
+    <output-path>$PROJECT_DIR$/out/artifacts/CI_Server</output-path>
+    <root id="archive" name="CI_Server.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="CI_TeamProject" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/kr/ac/konkuk/ccslab/CM/2.6.7/CM-2.6.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf/3.1.1/flatlaf-3.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf-intellij-themes/3.4.1/flatlaf-intellij-themes-3.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.5/commons-math3-3.5.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
