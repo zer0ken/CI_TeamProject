@@ -16,7 +16,7 @@ public class Constants {
     public static final String STYLE_WINDOW_TITLE = "스타일 지정";
     public static final String STYLE_WINDOW_TOOLTIP = "새로 생성될 도형의 스타일을 지정합니다.";
 
-    public static final String CLIENTS_WINDOW_TITLE = "동시 접속자 명단";
+    public static final String CLIENTS_WINDOW_TITLE = "접속 중인 사용자 목록";
     public static final String CLIENTS_WINDOW_TOOLTIP = "접속 중인 사용자 목록을 표시합니다.";
 
     public static final String EDIT_WINDOW_TITLE = "스타일 편집";
