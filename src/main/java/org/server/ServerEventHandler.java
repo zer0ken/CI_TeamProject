@@ -32,10 +32,10 @@ public class ServerEventHandler extends EventHandler {
     @Override
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
         long id = System.currentTimeMillis();
-        while (((ServerStub) stub).getShape(id) != null) {
+        while (id == ((ServerStub) stub).getLastId()) {
             id++;   // id 중복을 회피
         }
-        ((ServerStub) stub).putShape(id, cmd.getShape());
+        ((ServerStub) stub).setLastId(id);
 
         String message = ServersideProtocol.build(Action.ADD, id, cmd.getShape());
         ((ServerStub) stub).castDummy(message);
@@ -43,24 +43,12 @@ public class ServerEventHandler extends EventHandler {
 
     @Override
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
-        if (((ServerStub) stub).getShape(cmd.getId()) == null) {
-            return;
-        }
-
-        ((ServerStub) stub).putShape(cmd.getId(), cmd.getShape());
-
         String message = ServersideProtocol.build(Action.EDIT, cmd.getId(), cmd.getShape());
         ((ServerStub) stub).castDummy(message);
     }
 
     @Override
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
-        if (((ServerStub) stub).getShape(cmd.getId()) == null) {
-            return;
-        }
-
-        ((ServerStub) stub).removeShape(cmd.getId());
-
         String message = ServersideProtocol.build(Action.REMOVE, cmd.getId());
         ((ServerStub) stub).castDummy(message);
     }
