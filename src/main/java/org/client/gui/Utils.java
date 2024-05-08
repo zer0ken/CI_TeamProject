@@ -2,10 +2,11 @@ package org.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class Utils {
-    public static ImageIcon scaleIcon(String fileName, Dimension size) {
-        return new ImageIcon((new ImageIcon(fileName)).getImage().getScaledInstance(
+    public static ImageIcon scaleIcon(URL iconURL, Dimension size) {
+        return new ImageIcon((new ImageIcon(iconURL)).getImage().getScaledInstance(
                 (int) size.getWidth(), (int) size.getHeight(), Image.SCALE_SMOOTH));
     }
 

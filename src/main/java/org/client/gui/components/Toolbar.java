@@ -22,7 +22,7 @@ public class Toolbar extends JPanel {
 
         for (int i = 0; i < TOOLBAR_SHAPE_TOOLS.length; i++) {
             String buttonName = TOOLBAR_SHAPE_TOOLS[i];
-            JButton button = new JButton(Utils.scaleIcon(TOOLBAR_SHAPE_ICONS[i], TOOLBAR_ICON_SIZE));
+            JButton button = new JButton(Utils.scaleIcon(getClass().getResource(TOOLBAR_SHAPE_ICONS[i]), TOOLBAR_ICON_SIZE));
             button.setName(buttonName);
             button.addMouseListener(toolbarMouseAdapter);
             button.setToolTipText(TOOLBAR_SHAPE_TOOLTIPS[i]);
