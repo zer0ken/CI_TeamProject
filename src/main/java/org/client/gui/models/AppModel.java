@@ -61,9 +61,6 @@ public class AppModel {
         }
     }
 
-    public static class StringListener {}
-    public static class VoidListener {}
-
     private final ArrayList<Function<String, Void>> joinListeners;
     private final ArrayList<Function<String, Void>> leaveListeners;
     private final ArrayList<Function<String, Void>> setNameListeners;
@@ -193,7 +190,7 @@ public class AppModel {
         printDebugInfo();
     }
 
-    private void notify(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
+    private void notify(ArrayList<Function<String, Void>> listeners, String string) {
         listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(string)));
         printDebugInfo();
     }

@@ -1,5 +1,6 @@
 package org.client.gui.components;
 
+import org.client.gui.Utils;
 import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
 import org.client.gui.models.UserAction;
@@ -33,13 +34,19 @@ public class Canvas extends JPanel {
         requestFocusInWindow();
 
         shapes = appModel.getShapes();
-        appModel.addListener(Listener.USER_CREATION, this::createSilently);
-        appModel.addListener(Listener.USER_REMOVAL, this::removeSilently);
-
-        appModel.addListener(Listener.SELECTION, this::selectSilently);
-        appModel.addListener(Listener.SERVER_CREATION, this::createSilently);
-        appModel.addListener(Listener.SERVER_MODIFICATION, this::modifySilently);
-        appModel.addListener(Listener.SERVER_REMOVAL, this::removeSilently);
+        appModel.addListener(Listener.UPDATE, unused -> {
+            repaint();
+            return null;
+        });
+        appModel.addListener(Listener.SELECTION, selected -> {
+            selectedShape = selected;
+            repaint();
+            return null;
+        });
+        appModel.addVoidListener(Listener.CLEAR, unused -> {
+            repaint();
+            return null;
+        });
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -112,7 +119,7 @@ public class Canvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.WHITE);
-        for(String key : shapes.keySet()) {
+        for(String key : Utils.sortedByValue(shapes).keySet()) {
             shapes.get(key).draw(g);
         }
         if (selectedShape != null) {

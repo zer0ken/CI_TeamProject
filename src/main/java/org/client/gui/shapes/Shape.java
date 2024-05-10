@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import static org.client.gui.Constants.*;
 
-public abstract class Shape implements Serializable {
+public abstract class Shape implements Serializable, Comparable<Shape> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -93,5 +93,14 @@ public abstract class Shape implements Serializable {
         if (obj instanceof Shape)
             return ((Shape)obj).getId().equals(getId());
         return false;
+    }
+
+    @Override
+    public int compareTo(Shape o) {
+        int diff = (int) (timestamp - o.timestamp);
+        if (diff != 0) {
+            return diff;
+        }
+        return author.compareTo(o.author);
     }
 }

@@ -5,12 +5,17 @@ import org.client.gui.shapes.Shape;
 import javax.swing.*;
 
 public class ShapeListModel extends DefaultListModel<Shape> {
-
     public ShapeListModel() {
         AppModel appModel = AppModel.getInstance();
         appModel.addListener(AppModel.Listener.CREATION, this::add);
         appModel.addListener(AppModel.Listener.MODIFICATION, this::edit);
         appModel.addListener(AppModel.Listener.REMOVAL, this::remove);
+        appModel.addVoidListener(AppModel.Listener.CLEAR, this::clear);
+    }
+
+    private Void clear(Void unused) {
+        clear();
+        return null;
     }
 
     public Void add(Shape shape) {
