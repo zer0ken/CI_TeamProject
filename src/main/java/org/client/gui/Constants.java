@@ -19,8 +19,8 @@ public class Constants {
     public static final String CLIENTS_WINDOW_TITLE = "접속 중인 사용자 목록";
     public static final String CLIENTS_WINDOW_TOOLTIP = "접속 중인 사용자 목록을 표시합니다.";
 
-    public static final String EDIT_WINDOW_TITLE = "스타일 편집";
-    public static final String EDIT_WINDOW_TOOLTIP = "선택된 도형의 스타일을 수정합니다.";
+    public static final String EDIT_WINDOW_TITLE = "도형 편집";
+    public static final String EDIT_WINDOW_TOOLTIP = "선택된 도형을 수정합니다.";
 
     public static final String SHAPES_WINDOW_TITLE = "생성된 도형 목록";
     public static final String SHAPES_WINDOW_TOOLTIP = "생성된 모든 도형의 목록을 표시합니다.";
@@ -42,7 +42,8 @@ public class Constants {
             "새로 그릴 텍스트의 내용을 설정합니다."
     };
 
-    public static final String APPLY_TEXT_BUTTON_CONTENT = "[Tab] 키로 텍스트 적용";
+    public static final String REMOVE_BUTTON_CONTENT = "도형 삭제";
+    public static final String REMOVE_BUTTON_TOOLTIP = "선택된 도형을 삭제합니다.";
 
     public static final String[] EDIT_TOOLTIPS = {
             "도형의 획 두께를 수정합니다.",
@@ -50,9 +51,10 @@ public class Constants {
             "도형의 채우기 색상을 수정합니다.",
             "텍스트의 크기를 수정합니다.",
             "텍스트의 색상을 수정합니다.",
-            "수정할 텍스트의 내용을 입력합니다.",
-            "수정된 텍스트를 적용합니다."
+            "수정할 텍스트의 내용을 입력합니다.\n입력 후 [Tab] 키를 눌러 수정된 텍스트를 적용할 수 있습니다.",
     };
+
+    public static final String APPLY_TEXT_TOOLTIP = "[Tab]키로 텍스트 적용";
 
     public static final String TOOLBAR_TITLE = "도구 모음";
 
@@ -60,7 +62,6 @@ public class Constants {
     public static final String TOOLBAR_RECT = "사각형 도구";
     public static final String TOOLBAR_OVAL = "원 도구";
     public static final String TOOLBAR_TEXT = "텍스트 도구";
-    public static final String TOOLBAR_DELETE = "삭제";
     public static final String TOOLBAR_UNDO = "undo";
     public static final String TOOLBAR_REDO = "redo";
 
@@ -83,21 +84,18 @@ public class Constants {
             TOOLBAR_RECT,
             TOOLBAR_OVAL,
             TOOLBAR_TEXT,
-            TOOLBAR_DELETE,
     };
     public static final String[] TOOLBAR_SHAPE_TOOLTIPS = {
             "캔버스에 직선을 그립니다.",
             "캔버스에 사각형을 그립니다.",
             "캔버스에 원을 그립니다.",
             "캔버스에 텍스트를 그립니다.",
-            "캔버스에서 도형을 삭제합니다.",
     };
     public static final String[] TOOLBAR_SHAPE_ICONS = {
             "icon/line_icon.png",
             "icon/rectangle_icon.png",
             "icon/oval_icon.png",
             "icon/text_icon.png",
-            "icon/remove_icon.png",
     };
 
     public static final String LINE = "직선";

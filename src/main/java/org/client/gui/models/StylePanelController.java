@@ -16,25 +16,20 @@ abstract public class StylePanelController {
         this.appModel = AppModel.getInstance();
     }
 
-    public void bind(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,
-                     JSpinner textSizeSpinner, JButton textColorButton, JTextField textContentField) {
-        setComponents(lineWidthSpinner, lineColorButton, fillColorButton, textSizeSpinner, textColorButton, textContentField);
+    public void bind(JComponent... components) {
+        this.lineWidthSpinner = (JSpinner) components[0];
+        this.lineColorButton = (JButton) components[1];
+        this.fillColorButton = (JButton) components[2];
+        this.textSizeSpinner = (JSpinner) components[3];
+        this.textColorButton = (JButton) components[4];
+        this.textContentField = (JTextField) components[5];
+
         setLineWidthSpinnerModel();
         setLineColorButtonModel();
         setFillColorButtonModel();
         setTextSizeSpinnerModel();
         setTextColorButtonModel();
         setTextContentFieldModel();
-    }
-
-    private void setComponents(JSpinner lineWidthSpinner, JButton lineColorButton, JButton fillColorButton,
-                               JSpinner textSizeSpinner, JButton textColorButton, JTextField textContentField) {
-        this.lineWidthSpinner = lineWidthSpinner;
-        this.lineColorButton = lineColorButton;
-        this.fillColorButton = fillColorButton;
-        this.textSizeSpinner = textSizeSpinner;
-        this.textColorButton = textColorButton;
-        this.textContentField = textContentField;
     }
 
     abstract void setLineWidthSpinnerModel();

@@ -23,7 +23,6 @@ public class Toolbar extends JPanel {
         toolbar.addSeparator();
         addButtons(toolbar, TOOLBAR_SHAPE_TOOLS, TOOLBAR_SHAPE_TOOLTIPS, TOOLBAR_SHAPE_ICONS, toolbarMouseAdapter);
 
-
         Box wrapped = Box.createHorizontalBox();
         wrapped.add(Box.createGlue());
         wrapped.add(toolbar);

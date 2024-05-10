@@ -5,12 +5,13 @@ import org.client.gui.shapes.Style;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 
 import static org.client.gui.Constants.*;
 
 public class EditWindowController extends StylePanelController {
+    private JLabel applyLabel;
+
     StyleSpinnerModel lineWidthModel;
     StyleColorButtonModel lineColorModel;
     StyleColorButtonModel fillColorModel;
@@ -21,6 +22,16 @@ public class EditWindowController extends StylePanelController {
         super();
         appModel.addListener(AppModel.Listener.SELECTION, this::setStyleBy);
         appModel.addListener(AppModel.Listener.USER_MODIFICATION, this::setModifiedStyleBy);
+    }
+
+    @Override
+    public void bind(JComponent... components) {
+        super.bind(components);
+
+        applyLabel = (JLabel) components[6];
+        JButton removeButton = (JButton) components[7];
+
+        removeButton.addActionListener(new RemoveActionListener());
     }
 
     public Void setStyleBy(Shape shape) {
@@ -38,7 +49,7 @@ public class EditWindowController extends StylePanelController {
     }
 
     public Void setModifiedStyleBy(Shape shape) {
-        if (appModel.getSelectedShape().getId() != shape.getId()) {
+        if (!appModel.getSelectedShape().equals(shape)) {
             return null;
         }
         setStyleBy(shape);
@@ -76,10 +87,12 @@ public class EditWindowController extends StylePanelController {
         FocusListener focusListener = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
+                applyLabel.setVisible(true);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
+                applyLabel.setVisible(false);
                 Shape selectedShape = appModel.getSelectedShape();
                 if (selectedShape == null) {
                     return;
@@ -94,16 +107,7 @@ public class EditWindowController extends StylePanelController {
 
     private StyleSpinnerModel setSpinnerModel(JSpinner spinner, int defaultValue) {
         StyleSpinnerModel model = new StyleSpinnerModel(
-                unused -> {
-                    Shape selectedShape = appModel.getSelectedShape();
-                    if (selectedShape == null) {
-                        return null;
-                    }
-                    appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
-                    appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
-                        selectedShape.copy(getModifiedStyle()), selectedShape);
-                    return null;
-                },
+                this::spinnerNotify,
                 defaultValue
         );
         spinner.setModel(model);
@@ -142,5 +146,16 @@ public class EditWindowController extends StylePanelController {
                 textColorModel.getColor(),
                 textContentField.getText()
         );
+    }
+
+    private Void spinnerNotify(Integer unused) {
+        Shape selectedShape = appModel.getSelectedShape();
+        if (selectedShape == null) {
+            return null;
+        }
+        appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
+        appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
+                selectedShape.copy(getModifiedStyle()), selectedShape);
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package org.client.gui.components;
 
 import org.client.gui.Utils;
-import org.client.gui.models.StylePanelController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class StylePanel extends JPanel {
     protected JTextField textContent;
     private final GridBagConstraints constraints;
 
-    protected StylePanel(StylePanelController controller) {
+    protected StylePanel() {
         setLayout(new GridBagLayout());
         setBorder(DEFAULT_PANEL_PADDING);
 
@@ -30,18 +29,9 @@ public class StylePanel extends JPanel {
         textSize = new JSpinner();
         textColor = new JButton();
         textContent = new JTextField();
-
-        controller.bind(
-                lineWidth,
-                lineColor,
-                fillColor,
-                textSize,
-                textColor,
-                textContent
-        );
     }
 
-    public void initVertically(String[] tooltips) {
+    public void composite(String[] tooltips) {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = STYLE_PANEL_LABEL_INSET;
@@ -83,5 +73,29 @@ public class StylePanel extends JPanel {
 
     public GridBagConstraints getConstraints() {
         return constraints;
+    }
+
+    public JSpinner getLineWidth() {
+        return lineWidth;
+    }
+
+    public JButton getLineColor() {
+        return lineColor;
+    }
+
+    public JButton getFillColor() {
+        return fillColor;
+    }
+
+    public JSpinner getTextSize() {
+        return textSize;
+    }
+
+    public JButton getTextColor() {
+        return textColor;
+    }
+
+    public JTextField getTextContent() {
+        return textContent;
     }
 }

@@ -13,8 +13,17 @@ public class StyleWindow extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(STYLE_WINDOW_SIZE);
 
-        StylePanel stylePanel = new StylePanel(new StyleWindowController());
-        stylePanel.initVertically(STYLE_TOOLTIPS);
+        StylePanel stylePanel = new StylePanel();
+        stylePanel.composite(STYLE_TOOLTIPS);
+
+        (new StyleWindowController()).bind(
+                stylePanel.getLineWidth(),
+                stylePanel.getLineColor(),
+                stylePanel.getFillColor(),
+                stylePanel.getTextSize(),
+                stylePanel.getTextColor(),
+                stylePanel.getTextContent()
+        );
 
         add(new TitlePanel(STYLE_WINDOW_TITLE, STYLE_WINDOW_TOOLTIP), BorderLayout.NORTH);
         add(
