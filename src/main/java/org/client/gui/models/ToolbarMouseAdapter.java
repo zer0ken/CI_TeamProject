@@ -33,15 +33,15 @@ public class ToolbarMouseAdapter extends MouseAdapter {
             return;
         }
 
-        if (source.getText().equals(TOOLBAR_DELETE)) {
+        if (source.getName().equals(TOOLBAR_DELETE)) {
             if (appModel.getSelectedShape() != null) {
                 appModel.storeUndoStack(UserAction.Type.DELETE, appModel.getSelectedShape(), null);
                 appModel.removeByUser(appModel.getSelectedShape().getId());
                 appModel.select(0);
             }
-        } else if (source.getText().equals(TOOLBAR_UNDO)) {
+        } else if (source.getName().equals(TOOLBAR_UNDO)) {
             appModel.unDo();
-        } else if (source.getText().equals(TOOLBAR_REDO)) {
+        } else if (source.getName().equals(TOOLBAR_REDO)) {
             appModel.reDo();
         }
 

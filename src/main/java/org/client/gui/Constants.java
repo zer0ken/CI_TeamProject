@@ -64,14 +64,26 @@ public class Constants {
     public static final String TOOLBAR_UNDO = "undo";
     public static final String TOOLBAR_REDO = "redo";
 
+
+    public static final String[] TOOLBAR_ACTION_TOOLS = {
+            TOOLBAR_UNDO,
+            TOOLBAR_REDO,
+    };
+    public static final String[] TOOLBAR_ACTION_TOOLTIPS = {
+            "이전 행동을 되돌립니다.",
+            "이전에 되돌린 행동을 다시 수행합니다.",
+    };
+    public static final String[] TOOLBAR_ACTION_ICONS = {
+            "icon/undo_icon.png",
+            "icon/redo_icon.png",
+    };
+
     public static final String[] TOOLBAR_SHAPE_TOOLS = {
             TOOLBAR_LINE,
             TOOLBAR_RECT,
             TOOLBAR_OVAL,
             TOOLBAR_TEXT,
             TOOLBAR_DELETE,
-            TOOLBAR_UNDO,
-            TOOLBAR_REDO
     };
     public static final String[] TOOLBAR_SHAPE_TOOLTIPS = {
             "캔버스에 직선을 그립니다.",
@@ -79,8 +91,6 @@ public class Constants {
             "캔버스에 원을 그립니다.",
             "캔버스에 텍스트를 그립니다.",
             "캔버스에서 도형을 삭제합니다.",
-            "이전 행동을 되돌립니다.",
-            "이전에 되돌린 행동을 다시 수행합니다."
     };
     public static final String[] TOOLBAR_SHAPE_ICONS = {
             "icon/line_icon.png",
@@ -88,8 +98,6 @@ public class Constants {
             "icon/oval_icon.png",
             "icon/text_icon.png",
             "icon/remove_icon.png",
-            "icon/undo_icon.png",
-            "icon/redo_icon.png",
     };
 
     public static final String LINE = "직선";

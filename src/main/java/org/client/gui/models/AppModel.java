@@ -170,12 +170,12 @@ public class AppModel {
 
     public void reCreateByUser(Shape shape) {
         add(shape);
-        propagate(userReCreationListeners, shape);
+        notify(userReCreationListeners, shape);
     }
 
     public void reCreateByServer(Shape shape) {
         add(shape);
-        propagate(serverReCreationListeners, shape);
+        notify(serverReCreationListeners, shape);
     }
 
     public void modifyByUser(long id, Shape shape) {
@@ -221,8 +221,7 @@ public class AppModel {
 
     public void select(long id) {
         if (id == 0) {
-            selectedShape = null;
-            propagate(selectionListeners, selectedShape);
+            notify(selectionListeners, null);
             return;
         }
         selectedShape = shapes.get(id);

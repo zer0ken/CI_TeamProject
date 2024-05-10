@@ -12,7 +12,6 @@ import static org.client.gui.Constants.*;
 
 public class Toolbar extends JPanel {
     public Toolbar() {
-//        setPreferredSize(TOOLBAR_SIZE);
         setLayout(new BorderLayout());
         setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
 
@@ -20,17 +19,10 @@ public class Toolbar extends JPanel {
 
         JToolBar toolbar = new JToolBar(TOOLBAR_TITLE);
 
-        for (int i = 0; i < TOOLBAR_SHAPE_TOOLS.length; i++) {
-            String buttonName = TOOLBAR_SHAPE_TOOLS[i];
-            JButton button = new JButton(Utils.scaleIcon(getClass().getResource(TOOLBAR_SHAPE_ICONS[i]), TOOLBAR_ICON_SIZE));
-            button.setName(buttonName);
-            button.addMouseListener(toolbarMouseAdapter);
-            button.setToolTipText(TOOLBAR_SHAPE_TOOLTIPS[i]);
-            toolbar.add(button);
-        }
+        addButtons(toolbar, TOOLBAR_ACTION_TOOLS, TOOLBAR_ACTION_TOOLTIPS, TOOLBAR_ACTION_ICONS, toolbarMouseAdapter);
+        toolbar.addSeparator();
+        addButtons(toolbar, TOOLBAR_SHAPE_TOOLS, TOOLBAR_SHAPE_TOOLTIPS, TOOLBAR_SHAPE_ICONS, toolbarMouseAdapter);
 
-        // 관련 없는 버튼들 사이에는 구분선을 추가
-        // toolBar.addSeparator();
 
         Box wrapped = Box.createHorizontalBox();
         wrapped.add(Box.createGlue());
@@ -38,5 +30,17 @@ public class Toolbar extends JPanel {
         wrapped.add(Box.createGlue());
 
         add(wrapped, BorderLayout.CENTER);
+    }
+
+    private void addButtons(JToolBar toolbar, String[] buttonNames, String[] tooltips, String[] icons,
+                              ToolbarMouseAdapter adapter) {
+        for (int i = 0; i < buttonNames.length; i++) {
+            String buttonName = buttonNames[i];
+            JButton button = new JButton(Utils.scaleIcon(getClass().getResource(icons[i]), TOOLBAR_ICON_SIZE));
+            button.setName(buttonName);
+            button.addMouseListener(adapter);
+            button.setToolTipText(tooltips[i]);
+            toolbar.add(button);
+        }
     }
 }
