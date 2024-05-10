@@ -1,6 +1,7 @@
 package org.client.gui.components;
 
 
+import org.client.gui.Utils;
 import org.client.gui.models.ShapeListModel;
 import org.client.gui.models.ShapeListSelectionModel;
 import org.client.gui.shapes.Shape;
@@ -8,30 +9,23 @@ import org.client.gui.shapes.Shape;
 import javax.swing.*;
 import java.awt.*;
 
-import static org.client.gui.Constants.SHAPES_WINDOW_SIZE;
-import static org.client.gui.Constants.SHAPES_WINDOW_TITLE;
+import static org.client.gui.Constants.*;
 
-public class ShapesWindow extends ComponentJPanel {
+public class ShapesWindow extends JPanel {
     JList<Shape> shapeList;
 
     public ShapesWindow() {
-        super(SHAPES_WINDOW_SIZE);
-        setBorder(BorderFactory.createTitledBorder(SHAPES_WINDOW_TITLE));
         setLayout(new BorderLayout());
+        setPreferredSize(SHAPES_WINDOW_SIZE);
 
         shapeList = new JList<>();
         ShapeListModel shapeListModel = new ShapeListModel();
         shapeList.setModel(shapeListModel);
         shapeList.setSelectionModel(new ShapeListSelectionModel(shapeListModel));
 
-        JScrollPane scrollPane = new JScrollPane(
-                shapeList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
+        JScrollPane scrollPane = Utils.wrapWithScrollPane(shapeList);
 
-        scrollPane.setPreferredSize(new Dimension(200, 300));
-
-        add(BorderLayout.CENTER, scrollPane);
+        add(new TitlePanel(SHAPES_WINDOW_TITLE, SHAPES_WINDOW_TOOLTIP), BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

@@ -1,27 +1,42 @@
 package org.client.gui.components;
 
+import org.client.gui.Theme;
+import org.client.gui.Utils;
 import org.client.gui.models.ToolbarMouseAdapter;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 import static org.client.gui.Constants.*;
 
-public class Toolbar extends ComponentJPanel {
+public class Toolbar extends JPanel {
     public Toolbar() {
-        super(TOOLBAR_SIZE);
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+//        setPreferredSize(TOOLBAR_SIZE);
+        setLayout(new BorderLayout());
+        setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
 
-        // Toolbar title
-        JLabel titleLabel = new JLabel(TOOLBAR_TITLE);
-        add(titleLabel); // Add the title label before adding buttons
+        ToolbarMouseAdapter toolbarMouseAdapter = new ToolbarMouseAdapter();
 
-        // Toolbar button setting
-        for (String toolbarButton : TOOLBAR_BUTTONS) {
-            JButton button = new JButton(toolbarButton);
-            button.setFocusPainted(false);
-            button.addMouseListener(new ToolbarMouseAdapter());
-            add(button);
+        JToolBar toolbar = new JToolBar(TOOLBAR_TITLE);
+
+        for (int i = 0; i < TOOLBAR_SHAPE_TOOLS.length; i++) {
+            String buttonName = TOOLBAR_SHAPE_TOOLS[i];
+            JButton button = new JButton(Utils.scaleIcon(getClass().getResource(TOOLBAR_SHAPE_ICONS[i]), TOOLBAR_ICON_SIZE));
+            button.setName(buttonName);
+            button.addMouseListener(toolbarMouseAdapter);
+            button.setToolTipText(TOOLBAR_SHAPE_TOOLTIPS[i]);
+            toolbar.add(button);
         }
+
+        // 관련 없는 버튼들 사이에는 구분선을 추가
+        // toolBar.addSeparator();
+
+        Box wrapped = Box.createHorizontalBox();
+        wrapped.add(Box.createGlue());
+        wrapped.add(toolbar);
+        wrapped.add(Box.createGlue());
+
+        add(wrapped, BorderLayout.CENTER);
     }
 }

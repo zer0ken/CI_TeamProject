@@ -1,21 +1,20 @@
 package org.client.gui.components;
 
+import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
-import org.client.gui.shapes.Line;
-import org.client.gui.shapes.Oval;
-import org.client.gui.shapes.Shape;
-import org.client.gui.shapes.Style;
-import org.client.gui.shapes.Text;
 import org.client.gui.models.UserAction;
+import org.client.gui.shapes.Shape;
+import org.client.gui.shapes.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
-import static org.client.gui.Constants.CANVAS_SIZE;
-
-public class Canvas extends ComponentJPanel {
+public class Canvas extends JPanel {
+    private AppModel appModel = AppModel.getInstance();
 
     public Map<Long, Shape> shapes;
     private Point clickStartPoint;
@@ -27,7 +26,6 @@ public class Canvas extends ComponentJPanel {
 
 
     public Canvas() {
-        super(CANVAS_SIZE);
         setLayout(new BorderLayout());
         setBackground(Color.white);
         setFocusable(true);

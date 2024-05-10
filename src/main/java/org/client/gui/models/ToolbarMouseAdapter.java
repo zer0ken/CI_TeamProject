@@ -16,7 +16,7 @@ public class ToolbarMouseAdapter extends MouseAdapter {
         JButton source = (JButton) e.getSource();
         if (e.getClickCount() == 2) {
             Shape clickedShape;
-            switch (source.getText()) {
+            switch (source.getName()) {
                 case TOOLBAR_LINE -> clickedShape = new Line();
                 case TOOLBAR_RECT -> clickedShape = new Rectangle();
                 case TOOLBAR_OVAL -> clickedShape = new Oval();

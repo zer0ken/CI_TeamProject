@@ -1,7 +1,9 @@
 package org.client.gui;
 
 import org.client.gui.components.Canvas;
-import org.client.gui.components.*;
+import org.client.gui.components.EastPanel;
+import org.client.gui.components.Toolbar;
+import org.client.gui.components.WestPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +20,9 @@ public class App extends JFrame {
         // init itself
         setLayout(new BorderLayout());
         setSize(APP_WIDTH, APP_HEIGHT);
+        setMinimumSize(APP_MIN_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -29,26 +31,19 @@ public class App extends JFrame {
         });
 
         // init inner components
-        StyleWindow styleWindow = new StyleWindow();
+        add(new Toolbar(), BorderLayout.NORTH);
+        add(new Canvas(), BorderLayout.CENTER);
 
-        JPanel leftPanel = new VerticalJPanel();
-        leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow());
-
-        JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar());
-        centerPanel.add(new Canvas());
-
-        JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(new ClientsWindow());
-        rightPanel.add(new ShapesWindow());
-
-        add(leftPanel, BorderLayout.WEST);
-        add(centerPanel, BorderLayout.CENTER);
-        add(rightPanel, BorderLayout.EAST);
+        add(new WestPanel(), BorderLayout.WEST);
+        add(new EastPanel(), BorderLayout.EAST);
 
         // show it
         setVisible(true);
+    }
+
+    public static void start(Function<Void, Void> onWindowClosed) {
+        Theme.setup();
+        SwingUtilities.invokeLater(() -> new App(onWindowClosed));
     }
 }
 

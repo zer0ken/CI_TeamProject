@@ -140,16 +140,16 @@ public class AppModel {
     }
 
     public void join(String name) {
-        propagate(joinListeners, name);
+        notify(joinListeners, name);
     }
 
     public void leave(String name) {
-        propagate(leaveListeners, name);
+        notify(leaveListeners, name);
     }
 
     public void createByUser(Shape shape) {
         add(shape);
-        propagate(userCreationListeners, shape);
+        notify(userCreationListeners, shape);
     }
 
     public void createByServer(long newId, Shape shape) {
@@ -162,7 +162,7 @@ public class AppModel {
             removeByServer(oldId);
         }
         add(newShape);
-        propagate(serverCreationListeners, newShape);
+        notify(serverCreationListeners, newShape);
         if (oldSelectedShape != null && oldSelectedShape.getId() == oldId) {
             select(newId);
         }
@@ -180,30 +180,30 @@ public class AppModel {
 
     public void modifyByUser(long id, Shape shape) {
         modify(id, shape);
-        propagate(userModificationListeners, shape);
+        notify(userModificationListeners, shape);
     }
 
     public void modifyByServer(long id, Shape shape) {
         modify(id, shape);
-        propagate(serverModificationListeners, shape);
+        notify(serverModificationListeners, shape);
     }
 
     public void removeByUser(long id) {
         Shape removed = remove(id);
-        propagate(userRemovalListeners, removed);
+        notify(userRemovalListeners, removed);
     }
 
     public void removeByServer(long id) {
         Shape removed = remove(id);
-        propagate(serverRemovalListeners, removed);
+        notify(serverRemovalListeners, removed);
     }
 
-    private void propagate(ArrayList<Function<Shape, Void>> listeners, Shape shape) {
+    private void notify(ArrayList<Function<Shape, Void>> listeners, Shape shape) {
         listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(shape)));
         printDebugInfo();
     }
 
-    private void propagate(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
+    private void notify(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
         listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(string)));
         printDebugInfo();
     }
@@ -216,7 +216,7 @@ public class AppModel {
     }
 
     public void setMyself(String name) {
-        propagate(setNameListeners, name);
+        notify(setNameListeners, name);
     }
 
     public void select(long id) {
@@ -226,7 +226,7 @@ public class AppModel {
             return;
         }
         selectedShape = shapes.get(id);
-        propagate(selectionListeners, selectedShape);
+        notify(selectionListeners, selectedShape);
     }
 
     private void add(Shape shape) {

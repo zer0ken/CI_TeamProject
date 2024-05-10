@@ -1,12 +1,25 @@
 package org.client.gui.components;
 
-import org.client.gui.models.StyleWindowModel;
+import org.client.gui.Utils;
+import org.client.gui.models.StyleWindowController;
+
+import javax.swing.*;
+import java.awt.*;
 
 import static org.client.gui.Constants.*;
 
-public class StyleWindow extends DefaultStyleWindow {
+public class StyleWindow extends JPanel {
     public StyleWindow() {
-        super(STYLE_WINDOW_SIZE, STYLE_WINDOW_TITLE);
-        setModel(new StyleWindowModel());
+        setLayout(new BorderLayout());
+        setPreferredSize(STYLE_WINDOW_SIZE);
+
+        StylePanel stylePanel = new StylePanel(new StyleWindowController());
+        stylePanel.initVertically(STYLE_TOOLTIPS);
+
+        add(new TitlePanel(STYLE_WINDOW_TITLE, STYLE_WINDOW_TOOLTIP), BorderLayout.NORTH);
+        add(
+                Utils.wrapWithVerticalScrollPane(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH)),
+                BorderLayout.CENTER
+        );
     }
 }

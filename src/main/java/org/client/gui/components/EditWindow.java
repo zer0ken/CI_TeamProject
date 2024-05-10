@@ -1,27 +1,31 @@
 package org.client.gui.components;
 
-import org.client.gui.models.EditWindowModel;
+import org.client.gui.Utils;
+import org.client.gui.models.EditWindowController;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 import static org.client.gui.Constants.*;
 
-public class EditWindow extends DefaultStyleWindow {
+public class EditWindow extends JPanel {
     public EditWindow() {
-        super(EDIT_WINDOW_SIZE, EDIT_WINDOW_TITLE);
-        setModel(new EditWindowModel());
-        addResized(new JButton(EDIT_APPLY));
-    }
+        setLayout(new BorderLayout());
+        setPreferredSize(EDIT_WINDOW_SIZE);
 
-    private void addResized(JButton button) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setMaximumSize(STYLE_ITEM_SIZE);
-        panel.setBorder(STYLE_ITEM_BORDER);
-        button.setPreferredSize(new Dimension(STYLE_SLOT_WIDTH, STYLE_ITEM_HEIGHT));
-        panel.add(BorderLayout.CENTER, button);
-        add(panel);
+        StylePanel stylePanel = new StylePanel(new EditWindowController());
+        stylePanel.initVertically(EDIT_TOOLTIPS);
+
+        GridBagConstraints constraints = stylePanel.getConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        constraints.gridwidth = 2;
+        stylePanel.add(new JButton(APPLY_TEXT_BUTTON_CONTENT), constraints);
+
+        add(new TitlePanel(EDIT_WINDOW_TITLE, EDIT_WINDOW_TOOLTIP), BorderLayout.NORTH);
+        add(
+                Utils.wrapWithVerticalScrollPane(Utils.wrapWithBorderLayout(stylePanel, BorderLayout.NORTH)),
+                BorderLayout.CENTER
+        );
     }
 }

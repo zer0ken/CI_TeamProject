@@ -5,7 +5,7 @@ import org.client.gui.App;
 public class Client {
     Client() {
         ClientStub clientStub = new ClientStub();
-        new App(unused -> clientStub.requestLeave());
+        App.start(unused -> clientStub.requestLeave());
         ClientEventHandler eventHandler = new ClientEventHandler(clientStub);
         clientStub.setAppEventHandler(eventHandler);
         clientStub.startCM();
