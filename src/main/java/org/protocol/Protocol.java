@@ -5,6 +5,10 @@ import java.util.StringTokenizer;
 public class Protocol {
     public static final String DELIM = "$";
 
+    public static String build(Action action) {
+        return action.value;
+    }
+
     public static String build(Action action, String param1) {
         return action.value + "$" + param1;
     }
@@ -28,6 +32,8 @@ public class Protocol {
                 }
                 // remove $ <id: long>
                 case REMOVE -> command.setId(tokenizer.nextToken());
+                // clear
+                case CLEAR -> {}
             }
             return command;
         } catch (NumberFormatException e) {

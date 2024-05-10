@@ -59,4 +59,12 @@ public class ServerEventHandler extends EventHandler {
         String message = Protocol.build(Action.REMOVE, cmd.getId());
         ((ServerStub) stub).castDummy(message);
     }
+
+    @Override
+    synchronized protected void processClearShapeEvent(CMDummyEvent de, Command cmd) {
+        ((ServerStub) stub).getShapes().clear();
+
+        String message = Protocol.build(Action.CLEAR);
+        ((ServerStub) stub).castDummy(message);
+    }
 }

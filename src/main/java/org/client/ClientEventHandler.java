@@ -72,4 +72,9 @@ public class ClientEventHandler extends EventHandler {
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
         appModel.removeByServer(cmd.getId());
     }
+
+    @Override
+    protected void processClearShapeEvent(CMDummyEvent de, Command cmd) {
+        appModel.clear();
+    }
 }

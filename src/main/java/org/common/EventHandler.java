@@ -58,6 +58,7 @@ public abstract class EventHandler implements CMAppEventHandler {
                     case ADD -> processAddShapeEvent(de, cmd);
                     case EDIT -> processEditShapeEvent(de, cmd);
                     case REMOVE -> processRemoveShapeEvent(de, cmd);
+                    case CLEAR -> processClearShapeEvent(de, cmd);
                 }
             }
         }
@@ -80,4 +81,6 @@ public abstract class EventHandler implements CMAppEventHandler {
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {}
 
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {}
+
+    protected void processClearShapeEvent(CMDummyEvent de, Command cmd) {}
 }

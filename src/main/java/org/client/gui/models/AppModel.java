@@ -44,7 +44,9 @@ public class AppModel {
                 SERVER_MODIFICATION(MODIFICATION),
             REMOVAL(UPDATE),
                 USER_REMOVAL(REMOVAL),
-                SERVER_REMOVAL(REMOVAL);
+                SERVER_REMOVAL(REMOVAL),
+        CLEAR(null);
+
 
         private final Listener parent;
 
@@ -59,8 +61,8 @@ public class AppModel {
         }
     }
 
-    public static class StringListener {
-    }
+    public static class StringListener {}
+    public static class VoidListener {}
 
     private final ArrayList<Function<String, Void>> joinListeners;
     private final ArrayList<Function<String, Void>> leaveListeners;
@@ -78,6 +80,8 @@ public class AppModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
+    private final ArrayList<Function<Void, Void>> clearListeners;
+
     private AppModel() {
         joinListeners = new ArrayList<>();
         leaveListeners = new ArrayList<>();
@@ -90,6 +94,8 @@ public class AppModel {
         serverCreationListeners = new ArrayList<>();
         serverModificationListeners = new ArrayList<>();
         serverRemovalListeners = new ArrayList<>();
+
+        clearListeners = new ArrayList<>();
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
         undoStack = new Stack<>();
@@ -112,6 +118,11 @@ public class AppModel {
             leaveListeners.add(callback);
         if (type.includes(SET_NAME))
             setNameListeners.add(callback);
+    }
+
+    public void addVoidListener(Listener type, Function<Void, Void> callback) {
+        if (type.includes(CLEAR))
+            clearListeners.add(callback);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
@@ -177,6 +188,11 @@ public class AppModel {
         printDebugInfo();
     }
 
+    private void notify(ArrayList<Function<Void, Void>> listeners) {
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(null)));
+        printDebugInfo();
+    }
+
     private void notify(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
         listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(string)));
         printDebugInfo();
@@ -197,6 +213,12 @@ public class AppModel {
     public void select(Shape shape) {
         selectedShape = shape;
         notify(selectionListeners, selectedShape);
+    }
+
+    public void clear() {
+        shapes.clear();
+        select(null);
+        notify(clearListeners);
     }
 
     private void add(Shape shape) {
