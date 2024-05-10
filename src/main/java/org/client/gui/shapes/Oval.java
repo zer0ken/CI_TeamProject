@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Oval extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Oval() {
@@ -15,6 +18,7 @@ public class Oval extends Shape implements Serializable {
   }
 
   public Oval(Oval other) {
+    super(other);
     northWestHandle = new OvalHandle(other.northWestHandle);
     southEastHandle = new OvalHandle(other.southEastHandle);
     northEastHandle = new OvalHandle(other.northEastHandle);
@@ -23,11 +27,7 @@ public class Oval extends Shape implements Serializable {
 
   @Override
   public Oval copy() {
-    Oval copied = new Oval(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Oval(this);
   }
 
 
@@ -46,10 +46,10 @@ public class Oval extends Shape implements Serializable {
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setPaint(style.getFillColor());
+    g2d.setPaint(style.fillColor());
     g2d.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
+    g2d.setStroke(new BasicStroke(style.lineWidth()));
+    g2d.setColor(style.lineColor());
     g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
   }
 

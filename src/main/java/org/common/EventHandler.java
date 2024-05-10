@@ -1,19 +1,19 @@
 package org.common;
 
-import kr.ac.konkuk.ccslab.cm.event.*;
+import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
 import org.protocol.Command;
-
-import java.util.function.Function;
+import org.protocol.Protocol;
 
 public abstract class EventHandler implements CMAppEventHandler {
-    Function<String, Command> parse;
     protected CMStub stub;
 
-    public EventHandler(Function<String, Command> parse, CMStub stub) {
-        this.parse = parse;
+    public EventHandler(CMStub stub) {
         this.stub = stub;
     }
 
@@ -45,13 +45,17 @@ public abstract class EventHandler implements CMAppEventHandler {
             }
             case CMInfo.CM_DUMMY_EVENT -> {
                 CMDummyEvent de = (CMDummyEvent) cme;
-                Command cmd = parse.apply(de.getDummyInfo());
+                Command cmd = Protocol.parse(de.getDummyInfo());
+
+                if(cmd == null) {
+                    System.err.println("@ invalid command: " + de.getDummyInfo());
+                    return;
+                }
 
                 System.out.println("@ incoming request\n\t" + cmd);
 
                 switch (cmd.getAction()) {
                     case ADD -> processAddShapeEvent(de, cmd);
-                    case READD -> processReAddShapeEvent(de, cmd);
                     case EDIT -> processEditShapeEvent(de, cmd);
                     case REMOVE -> processRemoveShapeEvent(de, cmd);
                 }
@@ -72,8 +76,6 @@ public abstract class EventHandler implements CMAppEventHandler {
     protected void processRemoveUserEvent(CMDataEvent de) {}
 
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {}
-
-    protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {}
 
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {}
 

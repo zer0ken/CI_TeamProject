@@ -8,13 +8,12 @@ import org.client.gui.shapes.Shape;
 import org.common.Base64;
 import org.common.EventHandler;
 import org.protocol.Command;
-import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
     private final AppModel appModel = AppModel.getInstance();
 
     public ClientEventHandler(ClientStub clientStub) {
-        super(ServersideProtocol::parse, clientStub);
+        super(clientStub);
     }
 
     @Override
@@ -56,17 +55,7 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        appModel.createByServer(cmd.getId(), decoded);
-    }
-
-    @Override
-    protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {
-        Shape decoded = (Shape) Base64.decode(cmd.getShape());
-        if (decoded == null) {
-            System.out.println("@ Decode Failed!!!");
-            return;
-        }
-        appModel.reCreateByServer(decoded);
+        appModel.createByServer(decoded);
     }
 
     @Override
@@ -76,7 +65,7 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        appModel.modifyByServer(cmd.getId(), decoded);
+        appModel.modifyByServer(decoded);
     }
 
     @Override

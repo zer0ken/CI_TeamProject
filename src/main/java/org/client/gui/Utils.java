@@ -3,6 +3,7 @@ package org.client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 
 public class Utils {
     public static ImageIcon scaleIcon(URL iconURL, Dimension size) {
@@ -30,5 +31,9 @@ public class Utils {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
+    }
+
+    public static String formatTime(long time) {
+        return (new SimpleDateFormat("a h시 m분 s초")).format(time);
     }
 }

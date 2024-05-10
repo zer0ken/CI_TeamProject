@@ -1,5 +1,7 @@
 package org.client.gui.shapes;
 
+import org.client.gui.Utils;
+
 import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -9,11 +11,25 @@ import static org.client.gui.Constants.*;
 public abstract class Shape implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     protected int x1, y1, x2, y2;
     protected Style style;
 
-    protected long id;
+    protected String author;
+    protected long timestamp;
 
+    public Shape() {
+    }
+
+    public Shape(Shape other) {
+        this.author = other.author;
+        this.timestamp = other.timestamp;
+        this.style = other.style;
+        this.x1 = other.x1;
+        this.y1 = other.y1;
+        this.x2 = other.x2;
+        this.y2 = other.y2;
+    }
 
     public int getX1() {
         return x1;
@@ -39,12 +55,20 @@ public abstract class Shape implements Serializable {
         this.style = style;
     }
 
-    public long getId() {                   // 도형의 id 리턴
-        return id;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getId() {                   // 도형의 id 리턴
+        return author + "-" + timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public void move(int dx, int dy) {      // 도형 전체 이동
@@ -53,21 +77,9 @@ public abstract class Shape implements Serializable {
 
     public abstract Shape copy();
 
-    public Shape copy(int x1, int y1, int x2, int y2) {   // 위치 복사
-        Shape copied = this.copy();
-        copied.setLocation(x1, y1, x2, y2);
-        return copied;
-    }
-
-    public Shape copy(Style style) {                      // 스타일 복사
-        Shape copied = this.copy();
-        copied.setStyle(style);
-        return copied;
-    }
-
-    public Shape copy(Long id) {                          // id 복사
-        Shape copied = this.copy();
-        copied.setId(id);
+    public Shape copy(Style newStyle) {                      // 스타일 복사
+        Shape copied = copy();
+        copied.setStyle(newStyle);
         return copied;
     }
 
@@ -91,15 +103,15 @@ public abstract class Shape implements Serializable {
             case "Line" -> LINE;
             case "Oval" -> OVAL;
             case "Rectangle" -> RECT;
-            case "Text" -> "\"" + getStyle().getTextContent() + "\"";
+            case "Text" -> "\"" + getStyle().textContent() + "\"";
             default -> null;
-        } + "(" + id + ")";
+        } + "(" + Utils.formatTime(timestamp)+ ", " + author + " 작성)";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Shape)
-            return id == ((Shape) obj).getId();
+            return ((Shape)obj).getId().equals(getId());
         return false;
     }
 }

@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 abstract class Handle implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   protected int x, y;
   protected boolean isDiagonalHandle;
   protected String direction;
@@ -21,7 +24,7 @@ abstract class Handle implements Serializable {
     return y;
   }
 
-  public boolean getIsDiagonalHandle() {
+  public boolean isDiagonalHandle() {
     return isDiagonalHandle;
   }
 

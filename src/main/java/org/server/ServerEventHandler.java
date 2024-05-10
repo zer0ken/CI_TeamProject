@@ -4,13 +4,12 @@ import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.common.EventHandler;
 import org.protocol.Action;
-import org.protocol.ClientsideProtocol;
 import org.protocol.Command;
-import org.protocol.ServersideProtocol;
+import org.protocol.Protocol;
 
 public class ServerEventHandler extends EventHandler {
     public ServerEventHandler(ServerStub serverStub) {
-        super(ClientsideProtocol::parse, serverStub);
+        super(serverStub);
     }
 
     @Override
@@ -31,23 +30,9 @@ public class ServerEventHandler extends EventHandler {
 
     @Override
     synchronized protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {
-        long id = System.currentTimeMillis();
-
-        ((ServerStub) stub).getShapes().put(id, cmd.getShape());
-
-        String message = ServersideProtocol.build(Action.ADD, id, cmd.getShape());
-        ((ServerStub) stub).castDummy(message);
-    }
-
-    @Override
-    synchronized protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {
-        if (((ServerStub) stub).getShapes().get(cmd.getId()) == null) {
-            return;
-        }
-
         ((ServerStub) stub).getShapes().put(cmd.getId(), cmd.getShape());
 
-        String message = ServersideProtocol.build(Action.READD, cmd.getId(), cmd.getShape());
+        String message = Protocol.build(Action.ADD, cmd.getId(), cmd.getShape());
         ((ServerStub) stub).castDummy(message);
     }
 
@@ -59,7 +44,7 @@ public class ServerEventHandler extends EventHandler {
 
         ((ServerStub) stub).getShapes().put(cmd.getId(), cmd.getShape());
 
-        String message = ServersideProtocol.build(Action.EDIT, cmd.getId(), cmd.getShape());
+        String message = Protocol.build(Action.EDIT, cmd.getId(), cmd.getShape());
         ((ServerStub) stub).castDummy(message);
     }
 
@@ -71,7 +56,7 @@ public class ServerEventHandler extends EventHandler {
 
         ((ServerStub) stub).getShapes().remove(cmd.getId());
 
-        String message = ServersideProtocol.build(Action.REMOVE, cmd.getId());
+        String message = Protocol.build(Action.REMOVE, cmd.getId());
         ((ServerStub) stub).castDummy(message);
     }
 }

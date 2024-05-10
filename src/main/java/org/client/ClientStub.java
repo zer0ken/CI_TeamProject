@@ -7,7 +7,7 @@ import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
 import org.common.Base64;
 import org.protocol.Action;
-import org.protocol.ClientsideProtocol;
+import org.protocol.Protocol;
 
 public class ClientStub extends CMClientStub {
     public ClientStub() {
@@ -15,8 +15,7 @@ public class ClientStub extends CMClientStub {
 
         AppModel appModel = AppModel.getInstance();
 
-        appModel.addListener(Listener.USER_CREATION, shape -> requestAdd(Base64.encode(shape)));
-        appModel.addListener(Listener.USER_RECREATION, shape -> requestReAdd(shape.getId(), Base64.encode(shape)));
+        appModel.addListener(Listener.USER_CREATION, shape -> requestAdd(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_MODIFICATION, shape -> requestEdit(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_REMOVAL, shape -> requestRemove(shape.getId()));
 
@@ -36,26 +35,20 @@ public class ClientStub extends CMClientStub {
         loginCM(Login.login(invalid), "");
     }
 
-    public Void requestAdd(String shape) {
-        String message = ClientsideProtocol.build(Action.ADD, shape);
+    public Void requestAdd(String id, String shape) {
+        String message = Protocol.build(Action.ADD, id, shape);
         sendDummy(message);
         return null;
     }
 
-    public Void requestReAdd(long id, String shape) {
-        String message = ClientsideProtocol.build(Action.READD, id, shape);
+    public Void requestEdit(String id, String shape) {
+        String message = Protocol.build(Action.EDIT, id, shape);
         sendDummy(message);
         return null;
     }
 
-    public Void requestEdit(long id, String shape) {
-        String message = ClientsideProtocol.build(Action.EDIT, id, shape);
-        sendDummy(message);
-        return null;
-    }
-
-    public Void requestRemove(long id) {
-        String message = ClientsideProtocol.build(Action.REMOVE, id);
+    public Void requestRemove(String id) {
+        String message = Protocol.build(Action.REMOVE, id);
         sendDummy(message);
         return null;
     }

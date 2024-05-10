@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Line extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public LineHandle startHandle, endHandle;
 
   public Line() {
@@ -13,17 +16,14 @@ public class Line extends Shape implements Serializable {
   }
 
   public Line(Line other) {
+    super(other);
     startHandle = new LineHandle(other.startHandle);
     endHandle = new LineHandle(other.endHandle);
   }
 
   @Override
   public Line copy() {
-    Line copied = new Line(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Line(this);
   }
 
   @Override
@@ -39,8 +39,8 @@ public class Line extends Shape implements Serializable {
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
+    g2d.setStroke(new BasicStroke(style.lineWidth()));
+    g2d.setColor(style.lineColor());
     g2d.drawLine(x1, y1, x2, y2);
   }
 

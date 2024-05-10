@@ -2,7 +2,7 @@ package org.protocol;
 
 public class Command {
     private Action action = null;
-    private Long id = null;
+    private String id = null;
     private String shape = null;
 
     public Action getAction() {
@@ -13,11 +13,11 @@ public class Command {
         this.action = action;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

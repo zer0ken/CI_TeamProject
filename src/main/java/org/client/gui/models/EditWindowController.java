@@ -28,12 +28,12 @@ public class EditWindowController extends StylePanelController {
             return null;
         }
         Style style = shape.getStyle();
-        lineWidthModel.setNumber(style.getLineWidth());
-        lineColorModel.setColor(style.getLineColor());
-        fillColorModel.setColor(style.getFillColor());
-        textSizeModel.setNumber(style.getTextSize());
-        textColorModel.setColor(style.getTextColor());
-        textContentField.setText(style.getTextContent());
+        lineWidthModel.setNumber(style.lineWidth());
+        lineColorModel.setColor(style.lineColor());
+        fillColorModel.setColor(style.fillColor());
+        textSizeModel.setNumber(style.textSize());
+        textColorModel.setColor(style.textColor());
+        textContentField.setText(style.textContent());
         return null;
     }
 
@@ -84,7 +84,7 @@ public class EditWindowController extends StylePanelController {
                 if (selectedShape == null) {
                     return;
                 }
-                appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
                 appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
                     selectedShape.copy(getModifiedStyle()), selectedShape);
             }
@@ -99,7 +99,7 @@ public class EditWindowController extends StylePanelController {
                     if (selectedShape == null) {
                         return null;
                     }
-                    appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
                     appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
                         selectedShape.copy(getModifiedStyle()), selectedShape);
                     return null;
@@ -121,7 +121,7 @@ public class EditWindowController extends StylePanelController {
                     if (selectedShape == null) {
                         return null;
                     }
-                    appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
                     appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
                         selectedShape.copy(getModifiedStyle()), selectedShape);
                     return null;

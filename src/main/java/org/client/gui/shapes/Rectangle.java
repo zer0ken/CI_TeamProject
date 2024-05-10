@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Rectangle extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public RectHandle northHandle, southHandle, eastHandle, westHandle;
   public RectHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
@@ -20,6 +23,7 @@ public class Rectangle extends Shape implements Serializable {
   }
 
   public Rectangle(Rectangle other) {
+    super(other);
     northWestHandle = new RectHandle(other.northWestHandle);
     southEastHandle = new RectHandle(other.southEastHandle);
     northEastHandle = new RectHandle(other.northEastHandle);
@@ -32,11 +36,7 @@ public class Rectangle extends Shape implements Serializable {
 
   @Override
   public Rectangle copy() {
-    Rectangle copied = new Rectangle(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Rectangle(this);
   }
 
 
@@ -59,10 +59,10 @@ public class Rectangle extends Shape implements Serializable {
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setPaint(style.getFillColor());
+    g2d.setPaint(style.fillColor());
     g2d.fillRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
+    g2d.setStroke(new BasicStroke(style.lineWidth()));
+    g2d.setColor(style.lineColor());
     g2d.drawRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
   }
 
@@ -188,7 +188,7 @@ public class Rectangle extends Shape implements Serializable {
     public RectHandle(RectHandle other) {
       this.x = other.getX();
       this.y = other.getY();
-      this.isDiagonalHandle = other.getIsDiagonalHandle();
+      this.isDiagonalHandle = other.isDiagonalHandle();
       this.direction = other.getDirection();
     }
 

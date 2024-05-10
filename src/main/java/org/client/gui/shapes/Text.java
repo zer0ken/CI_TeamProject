@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Text extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public TextHandle northHandle, southHandle, eastHandle, westHandle;
   public TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
   private int textWidth, textHeight;
@@ -22,6 +25,12 @@ public class Text extends Shape implements Serializable {
   }
 
   public Text(Text other) {
+    super(other);
+    this.textWidth = other.textWidth;
+    this.textHeight = other.textHeight;
+    this.centerX = other.centerX;
+    this.centerY = other.centerY;
+
     northWestHandle = new TextHandle(other.northWestHandle);
     southEastHandle = new TextHandle(other.southEastHandle);
     northEastHandle = new TextHandle(other.northEastHandle);
@@ -34,11 +43,7 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public Text copy() {
-    Text copied = new Text(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Text(this);
   }
 
   @Override
@@ -59,18 +64,18 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public void draw(Graphics g) {
-    Font font = new Font(null, Font.PLAIN, style.getTextSize());
-    g.setColor(style.getTextColor());
+    Font font = new Font(null, Font.PLAIN, style.textSize());
+    g.setColor(style.textColor());
     g.setFont(font);
 
     FontMetrics metrics = g.getFontMetrics(font);
-    textWidth = metrics.stringWidth(style.getTextContent());
+    textWidth = metrics.stringWidth(style.textContent());
     textHeight = metrics.getHeight();
 
     centerX = Math.min(x1, x2) + (Math.max(x1, x2) - Math.min(x1, x2)) / 2;
     centerY = Math.min(y1, y2) + (Math.max(y1, y2) - Math.min(y1, y2)) / 2;
 
-    g.drawString(style.getTextContent(), centerX - textWidth / 2, centerY + textHeight / 2);
+    g.drawString(style.textContent(), centerX - textWidth / 2, centerY + textHeight / 2);
   }
 
   @Override
@@ -193,7 +198,7 @@ public class Text extends Shape implements Serializable {
     public TextHandle(TextHandle other) {
       this.x = other.getX();
       this.y = other.getY();
-      this.isDiagonalHandle = other.getIsDiagonalHandle();
+      this.isDiagonalHandle = other.isDiagonalHandle();
       this.direction = other.getDirection();
     }
 

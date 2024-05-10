@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public class ServerStub extends CMServerStub {
     public static final String DEFAULT_SESSION = "session1";
     public static final String DEFAULT_GROUP = "g1";
-    Map<Long, String> shapes;
+    Map<String, String> shapes;
 
     ServerStub() {
         super();
@@ -27,7 +27,7 @@ public class ServerStub extends CMServerStub {
         System.out.println("@ server casted\n\t" + message);
     }
 
-    public Map<Long, String> getShapes() {
+    public Map<String, String> getShapes() {
         return shapes;
     }
 }

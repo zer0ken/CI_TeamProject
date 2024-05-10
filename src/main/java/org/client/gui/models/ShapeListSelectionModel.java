@@ -30,7 +30,7 @@ public class ShapeListSelectionModel extends DefaultListSelectionModel implement
             return;
         }
         Shape newSelectedShape = shapeListModel.get(selectedIndices[0]);
-        appModel.select(newSelectedShape.getId());
+        appModel.select(newSelectedShape);
     }
 
     public Void select(Shape newSelectedShape) {
