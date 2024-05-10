@@ -224,7 +224,7 @@ public class AppModel {
 
     private void modify(Shape shape) {
         shapes.put(shape.getId(), shape);
-        if (selectedShape != null && selectedShape.equals(shape)) {
+        if (shape.equals(selectedShape)) {
             select(shape);
         }
     }
@@ -234,7 +234,7 @@ public class AppModel {
             return null;
         }
         Shape removedShape = shapes.remove(id);
-        if (selectedShape.equals(removedShape)) {
+        if (removedShape.equals(selectedShape)) {
             select(null);
         }
         return removedShape;
