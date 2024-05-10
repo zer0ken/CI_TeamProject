@@ -16,6 +16,7 @@ public class ClientStub extends CMClientStub {
         AppModel appModel = AppModel.getInstance();
 
         appModel.addListener(Listener.USER_CREATION, shape -> requestAdd(Base64.encode(shape)));
+        appModel.addListener(Listener.USER_RECREATION, shape -> requestReAdd(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_MODIFICATION, shape -> requestEdit(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_REMOVAL, shape -> requestRemove(shape.getId()));
 
@@ -37,6 +38,12 @@ public class ClientStub extends CMClientStub {
 
     public Void requestAdd(String shape) {
         String message = ClientsideProtocol.build(Action.ADD, shape);
+        sendDummy(message);
+        return null;
+    }
+
+    public Void requestReAdd(long id, String shape) {
+        String message = ClientsideProtocol.build(Action.READD, id, shape);
         sendDummy(message);
         return null;
     }

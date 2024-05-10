@@ -5,10 +5,7 @@ import org.client.gui.shapes.Style;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
@@ -19,7 +16,9 @@ public class AppModel {
     private static AppModel instance = null;
 
     private final Map<Long, Shape> shapes;
-    private Shape selectedShape;
+    private Shape selectedShape = null;
+    private Stack<UserAction> undoStack;
+    private Stack<UserAction> redoStack;
 
     private int lineWidth = DEFAULT_LINE_WIDTH;
     private Color lineColor = DEFAULT_LINE_COLOR;
@@ -36,7 +35,9 @@ public class AppModel {
         UPDATE(null),
             CREATION(UPDATE),
                 USER_CREATION(CREATION),
+                USER_RECREATION(CREATION),
                 SERVER_CREATION(CREATION),
+                SERVER_RECREATION(CREATION),
             MODIFICATION(UPDATE),
                 USER_MODIFICATION(MODIFICATION),
                 SERVER_MODIFICATION(MODIFICATION),
@@ -68,11 +69,14 @@ public class AppModel {
 
     // 사용자가 도형을 생성, 수정, 제거하면 클라이언트 앱 내의 모든 컴포넌트 및 **서버**에 전파되어야 함
     private final ArrayList<Function<Shape, Void>> userCreationListeners;
+    private final ArrayList<Function<Shape, Void>> userReCreationListeners;
     private final ArrayList<Function<Shape, Void>> userModificationListeners;
     private final ArrayList<Function<Shape, Void>> userRemovalListeners;
 
     // 서버에서 도형을 생성, 수정 제거하도록 요청하면 클라이언트 앱 내의 모든 컴포넌트에 전파되어야 함.
     private final ArrayList<Function<Shape, Void>> serverCreationListeners;
+    private final ArrayList<Function<Shape, Void>> serverReCreationListeners;
+
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
@@ -83,13 +87,17 @@ public class AppModel {
 
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
+        userReCreationListeners = new ArrayList<>();
         userModificationListeners = new ArrayList<>();
         userRemovalListeners = new ArrayList<>();
         serverCreationListeners = new ArrayList<>();
+        serverReCreationListeners = new ArrayList<>();
         serverModificationListeners = new ArrayList<>();
         serverRemovalListeners = new ArrayList<>();
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
 
         instance = this;
     }
@@ -115,8 +123,12 @@ public class AppModel {
             selectionListeners.add(callback);
         if (type.includes(USER_CREATION))
             userCreationListeners.add(callback);
+        if (type.includes(USER_RECREATION))
+            userReCreationListeners.add(callback);
         if (type.includes(SERVER_CREATION))
             serverCreationListeners.add(callback);
+        if (type.includes(SERVER_RECREATION))
+            serverReCreationListeners.add(callback);
         if (type.includes(USER_MODIFICATION))
             userModificationListeners.add(callback);
         if (type.includes(SERVER_MODIFICATION))
@@ -146,6 +158,7 @@ public class AppModel {
         Shape oldSelectedShape = selectedShape;
         if (newId != oldId) {
             newShape = shape.copy(newId);
+            storeUndoStack(UserAction.Type.CREATE, newShape, null);
             removeByServer(oldId);
         }
         add(newShape);
@@ -153,6 +166,16 @@ public class AppModel {
         if (oldSelectedShape != null && oldSelectedShape.getId() == oldId) {
             select(newId);
         }
+    }
+
+    public void reCreateByUser(Shape shape) {
+        add(shape);
+        propagate(userReCreationListeners, shape);
+    }
+
+    public void reCreateByServer(Shape shape) {
+        add(shape);
+        propagate(serverReCreationListeners, shape);
     }
 
     public void modifyByUser(long id, Shape shape) {
@@ -197,6 +220,11 @@ public class AppModel {
     }
 
     public void select(long id) {
+        if (id == 0) {
+            selectedShape = null;
+            propagate(selectionListeners, selectedShape);
+            return;
+        }
         selectedShape = shapes.get(id);
         propagate(selectionListeners, selectedShape);
     }
@@ -219,6 +247,79 @@ public class AppModel {
         }
 
         return removedShape;
+    }
+
+    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
+    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
+        if (previousShape != null) {        // CHANGE
+            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
+        } else {                            // CREATE, DELETE
+            undoStack.push(new UserAction(action, targetShape.copy(), null));
+        }
+        redoStackEmptying();
+    }
+
+    // undo 메소드
+    public void unDo() {
+        if (!undoStack.isEmpty()) {
+            UserAction act = undoStack.pop();
+            if(act.getAction() == UserAction.Type.CREATE) {
+                removeByUser(act.getTargetShape().getId());
+                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
+                    select(0);
+                }
+
+            } else if (act.getAction() == UserAction.Type.DELETE) {
+                reCreateByUser(act.getTargetShape());
+                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
+                    select(act.getTargetShape().getId());
+                }
+
+            } else if (act.getAction() == UserAction.Type.MODIFY
+                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+                modifyByUser(act.getPreviousShape().getId(), act.getPreviousShape());
+                if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
+                    select(act.getPreviousShape().getId());     // 변경전 도형 선택
+                }
+                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+
+            }
+
+            redoStack.push(act);
+        }
+    }
+
+    // redo 메소드
+    public void reDo() {
+        if (!redoStack.isEmpty()) {
+            UserAction act = redoStack.pop();
+            if (act.getAction() == UserAction.Type.CREATE) {
+                reCreateByUser(act.getTargetShape());
+
+            } else if (act.getAction() == UserAction.Type.DELETE) {
+                removeByUser(act.getTargetShape().getId());
+                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
+                    select(0);
+                }
+
+            } else if (act.getAction() == UserAction.Type.MODIFY
+                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+                modifyByUser(act.getPreviousShape().getId(), act.getPreviousShape());
+                if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
+                    select(act.getPreviousShape().getId());     // 변경전 도형 선택
+                }
+                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+
+            }
+
+            undoStack.push(act);
+        }
+    }
+
+    public void redoStackEmptying() {
+        while (!redoStack.isEmpty()) {
+            redoStack.pop();
+        }
     }
 
     public Map<Long, Shape> getShapes() {

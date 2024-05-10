@@ -10,11 +10,11 @@ import static org.client.gui.Constants.*;
 
 public class ToolbarMouseAdapter extends MouseAdapter {
     private final AppModel appModel = AppModel.getInstance();
-    private long count = 0;                 // 도형 id용(임시)
+    private long count = -1;                 // 도형 id용(임시)
 
     public void mouseClicked(MouseEvent e) {
+        JButton source = (JButton) e.getSource();
         if (e.getClickCount() == 2) {
-            JButton source = (JButton) e.getSource();
             Shape clickedShape;
             switch (source.getText()) {
                 case TOOLBAR_LINE -> clickedShape = new Line();
@@ -27,9 +27,24 @@ public class ToolbarMouseAdapter extends MouseAdapter {
             }
             clickedShape.setLocation(300, 300, 400, 400);
             clickedShape.setStyle(appModel.getStyle());
-            clickedShape.setId(count++);
+            clickedShape.setId(count);
+            count--;
             appModel.createByUser(clickedShape);
+            return;
         }
+
+        if (source.getText().equals(TOOLBAR_DELETE)) {
+            if (appModel.getSelectedShape() != null) {
+                appModel.storeUndoStack(UserAction.Type.DELETE, appModel.getSelectedShape(), null);
+                appModel.removeByUser(appModel.getSelectedShape().getId());
+                appModel.select(0);
+            }
+        } else if (source.getText().equals(TOOLBAR_UNDO)) {
+            appModel.unDo();
+        } else if (source.getText().equals(TOOLBAR_REDO)) {
+            appModel.reDo();
+        }
+
     }
 }
 

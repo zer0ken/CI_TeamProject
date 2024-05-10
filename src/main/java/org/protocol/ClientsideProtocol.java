@@ -25,8 +25,8 @@ public class ClientsideProtocol extends Protocol {
             switch (action) {
                 // add $ <shape: json string>
                 case ADD -> command.setShape(tokenizer.nextToken());
-                // edit $ <id: long> $ <shape: json string>
-                case EDIT -> {
+                // readd|edit $ <id: long> $ <shape: json string>
+                case READD, EDIT -> {
                     command.setId(Long.parseLong(tokenizer.nextToken()));
                     command.setShape(tokenizer.nextToken());
                 }

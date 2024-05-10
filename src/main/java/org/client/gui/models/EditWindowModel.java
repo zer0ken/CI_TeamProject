@@ -20,6 +20,7 @@ public class EditWindowModel extends DefaultStyleWindowModel {
     public EditWindowModel() {
         super();
         appModel.addListener(AppModel.Listener.SELECTION, this::setStyleBy);
+        appModel.addListener(AppModel.Listener.USER_MODIFICATION, this::setModifiedStyleBy);
     }
 
     public Void setStyleBy(Shape shape) {
@@ -33,6 +34,14 @@ public class EditWindowModel extends DefaultStyleWindowModel {
         textSizeModel.setNumber(style.getTextSize());
         textColorModel.setColor(style.getTextColor());
         textContentField.setText(style.getTextContent());
+        return null;
+    }
+
+    public Void setModifiedStyleBy(Shape shape) {
+        if (appModel.getSelectedShape().getId() != shape.getId()) {
+            return null;
+        }
+        setStyleBy(shape);
         return null;
     }
 
@@ -76,6 +85,8 @@ public class EditWindowModel extends DefaultStyleWindowModel {
                     return;
                 }
                 appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
+                    selectedShape.copy(getModifiedStyle()), selectedShape);
             }
         };
         textContentField.addFocusListener(focusListener);
@@ -89,6 +100,8 @@ public class EditWindowModel extends DefaultStyleWindowModel {
                         return null;
                     }
                     appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
+                        selectedShape.copy(getModifiedStyle()), selectedShape);
                     return null;
                 },
                 defaultValue
@@ -109,6 +122,8 @@ public class EditWindowModel extends DefaultStyleWindowModel {
                         return null;
                     }
                     appModel.modifyByUser(selectedShape.getId(), selectedShape.copy(getModifiedStyle()));
+                    appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
+                        selectedShape.copy(getModifiedStyle()), selectedShape);
                     return null;
                 },
                 defaultColor,

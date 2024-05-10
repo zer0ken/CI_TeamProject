@@ -42,6 +42,18 @@ public class ServerEventHandler extends EventHandler {
     }
 
     @Override
+    protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {
+        if (((ServerStub) stub).getShape(cmd.getId()) == null) {
+            return;
+        }
+
+        ((ServerStub) stub).putShape(cmd.getId(), cmd.getShape());
+
+        String message = ServersideProtocol.build(Action.READD, cmd.getId(), cmd.getShape());
+        ((ServerStub) stub).castDummy(message);
+    }
+
+    @Override
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
         if (((ServerStub) stub).getShape(cmd.getId()) == null) {
             return;

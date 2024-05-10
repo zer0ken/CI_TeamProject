@@ -28,7 +28,6 @@ public class App extends JFrame {
             }
         });
 
-        Canvas canvas = new Canvas();
         // init inner components
         StyleWindow styleWindow = new StyleWindow();
 
@@ -38,7 +37,7 @@ public class App extends JFrame {
 
         JPanel centerPanel = new VerticalJPanel();
         centerPanel.add(new Toolbar());
-        centerPanel.add(canvas);
+        centerPanel.add(new Canvas());
 
         JPanel rightPanel = new VerticalJPanel();
         rightPanel.add(new ClientsWindow());

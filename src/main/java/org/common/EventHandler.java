@@ -51,6 +51,7 @@ public abstract class EventHandler implements CMAppEventHandler {
 
                 switch (cmd.getAction()) {
                     case ADD -> processAddShapeEvent(de, cmd);
+                    case READD -> processReAddShapeEvent(de, cmd);
                     case EDIT -> processEditShapeEvent(de, cmd);
                     case REMOVE -> processRemoveShapeEvent(de, cmd);
                 }
@@ -71,6 +72,8 @@ public abstract class EventHandler implements CMAppEventHandler {
     protected void processRemoveUserEvent(CMDataEvent de) {}
 
     protected void processAddShapeEvent(CMDummyEvent de, Command cmd) {}
+
+    protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {}
 
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {}
 

@@ -60,6 +60,16 @@ public class ClientEventHandler extends EventHandler {
     }
 
     @Override
+    protected void processReAddShapeEvent(CMDummyEvent de, Command cmd) {
+        Shape decoded = (Shape) Base64.decode(cmd.getShape());
+        if (decoded == null) {
+            System.out.println("@ Decode Failed!!!");
+            return;
+        }
+        appModel.reCreateByServer(decoded);
+    }
+
+    @Override
     protected void processEditShapeEvent(CMDummyEvent de, Command cmd) {
         Shape decoded = (Shape) Base64.decode(cmd.getShape());
         if (decoded == null) {

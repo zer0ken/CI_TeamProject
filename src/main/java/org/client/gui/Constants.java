@@ -32,7 +32,12 @@ public class Constants {
     public static final String TOOLBAR_RECT = "사각형 생성";
     public static final String TOOLBAR_OVAL = "원 생성";
     public static final String TOOLBAR_TEXT = "텍스트 생성";
-    public static final String[] TOOLBAR_BUTTONS = {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT};
+    public static final String TOOLBAR_DELETE = "삭제";
+    public static final String TOOLBAR_UNDO = "undo";
+    public static final String TOOLBAR_REDO = "redo";
+    public static final String[] TOOLBAR_BUTTONS =
+        {TOOLBAR_LINE, TOOLBAR_RECT, TOOLBAR_OVAL, TOOLBAR_TEXT,
+        TOOLBAR_DELETE, TOOLBAR_UNDO, TOOLBAR_REDO};
 
     public static final String LINE = "직선";
     public static final String RECT = "사각형";

@@ -23,8 +23,8 @@ public class ServersideProtocol extends Protocol {
             command.setAction(action);
 
             switch (action) {
-                // add|edit $ <id> $ <shape: json string>
-                case ADD, EDIT -> {
+                // add|reAdd|edit $ <id> $ <shape: json string>
+                case ADD, READD, EDIT -> {
                     command.setId(Long.parseLong(tokenizer.nextToken()));
                     command.setShape(tokenizer.nextToken());
                 }

@@ -8,10 +8,7 @@ import org.client.gui.shapes.Style;
 import org.client.gui.shapes.Text;
 import org.client.gui.models.UserAction;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -21,8 +18,6 @@ import static org.client.gui.Constants.CANVAS_SIZE;
 public class Canvas extends ComponentJPanel {
 
     public Map<Long, Shape> shapes;
-    private Stack<UserAction> undoStack;
-    private Stack<UserAction> redoStack;
     private Point clickStartPoint;
     private final int DRAG_THRESHOLD = 3;
     private Point mousePoint;
@@ -38,54 +33,16 @@ public class Canvas extends ComponentJPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        //shapes = Collections.synchronizedMap(new TreeMap<>());   // 도형 객체들을 저장하기 위해 맵 이용
         shapes = appModel.getShapes();
-        undoStack = new Stack<>();
-        redoStack = new Stack<>();
-
-        appModel.addListener(Listener.USER_CREATION, this::createToolbar);
+        appModel.addListener(Listener.USER_CREATION, this::createSilently);
+        appModel.addListener(Listener.USER_RECREATION, this::createSilently);
+        appModel.addListener(Listener.USER_REMOVAL, this::removeSilently);
 
         appModel.addListener(Listener.SELECTION, this::selectSilently);
         appModel.addListener(Listener.SERVER_CREATION, this::createSilently);
+        appModel.addListener(Listener.SERVER_RECREATION, this::createSilently);
         appModel.addListener(Listener.SERVER_MODIFICATION, this::modifySilently);
         appModel.addListener(Listener.SERVER_REMOVAL, this::removeSilently);
-
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).
-            put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "removeShape");
-        getActionMap().put("removeShape", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (selectedShape != null) {
-                    // DELETE 동작 스택에 저장
-                    storeUndoStack(UserAction.Type.DELETE, selectedShape, null);
-                    remove(selectedShape);   // 맵에서 도형 삭제 -> 다시 그림 -> 뷰모델에 도형 삭제 전달
-                    selectedShape = null;
-                    select(null);    // 선택된 도형 x -> 다시 그림 -> 뷰모델에 현재 선택된 도형 없음 전달
-                    repaint();
-                }
-            }
-        });
-
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).
-            put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), "unDo");
-        getActionMap().put("unDo", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                unDo();
-                repaint();
-            }
-        });
-
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).
-            put(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK), "reDo");
-        getActionMap().put("reDo", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reDo();
-                repaint();
-            }
-        });
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -127,10 +84,9 @@ public class Canvas extends ComponentJPanel {
                         // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
                         modify(selectedShape);
 
-                        // 도형 변경 동작 스택에 저장
-                        //changeShape(selectedShape, previousShape);
-                        // CHANGE 동작 스택에 저장
-                        storeUndoStack(UserAction.Type.CHANGE, selectedShape, previousShape);
+                        // CHANGE 동작 앱모델의 스택에 저장
+                        appModel.storeUndoStack(UserAction.Type.MODIFY, selectedShape, previousShape);
+                        appModel.redoStackEmptying();
                     }
                 }
             }
@@ -170,103 +126,6 @@ public class Canvas extends ComponentJPanel {
         }
     }
 
-    // 도형 추가 및 CREATE 동작 저장 (원래 툴바에서 썻던 메소드)
-    public void addShape(Long id, Shape shape) {
-        storeUndoStack(UserAction.Type.CREATE, shape, null);           // CREATE 동작 스택에 저장
-        shapes.put(id, shape);
-    }
-
-    // 도형 제거 및 DELETE 동작 저장 (원래 캔버스에서 delete 키로 도형 삭제 시 썻던 메소드)
-    public void removeShape(Long id) {
-        storeUndoStack(UserAction.Type.DELETE, shapes.get(id), null);  // DELETE 동작 스택에 저장
-        shapes.remove(id);
-    }
-
-    // CHANGE 동작 저장 (원래 드래그 종료 후 변경 된 도형 저장 시 썻던 메소드)
-    public void changeShape(Shape targetShape, Shape previousShape) {
-        storeUndoStack(UserAction.Type.CHANGE, targetShape, previousShape);
-    }
-
-
-    // CREATE, DELETE, CHANGE 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
-        if (previousShape != null) {        // CHANGE
-            undoStack.push(new UserAction(action, targetShape.copy(), previousShape,
-                null,null));
-        } else {                            // CREATE, DELETE
-            undoStack.push(new UserAction(action, targetShape.copy(), null,
-                null,null));
-        }
-        while (!redoStack.isEmpty()) {
-            redoStack.pop();
-        }
-    }
-
-    // undo 메소드
-    public void unDo() {
-        if(!undoStack.isEmpty()) {
-            UserAction act = undoStack.pop();
-            if(act.getAction() == UserAction.Type.CREATE) {
-                remove(act.getTargetShape());
-                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
-                    selectedShape = null;
-                    select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
-                }
-
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                create(act.getTargetShape());
-                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
-                    selectedShape = act.getTargetShape();
-                    appModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
-                }
-
-            } else if (act.getAction() == UserAction.Type.CHANGE) {
-                modify(act.getPreviousShape());
-                if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
-                    selectedShape = act.getPreviousShape();
-                    appModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
-                }
-                act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
-                    null, null);
-
-            } else if (act.getAction() == UserAction.Type.STYLE_CHANGE) {
-                // 스타일 변경된 것 되돌리기
-            }
-
-            redoStack.push(act);
-        }
-    }
-
-    // redo 메소드
-    public void reDo() {
-        if(!redoStack.isEmpty()) {
-            UserAction act = redoStack.pop();
-            if (act.getAction() == UserAction.Type.CREATE) {
-                create(act.getTargetShape());
-
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                remove(act.getTargetShape());
-                if(selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
-                    selectedShape = null;
-                    select(null);           // 뷰모델에 현재 선택된 도형 없음 전달
-                }
-
-            } else if (act.getAction() == UserAction.Type.CHANGE) {
-                modify(act.getTargetShape());
-                if (selectedShape != null && act.getTargetShape().getId() == selectedShape.getId()) {
-                    selectedShape = act.getPreviousShape();
-                    appModel.select(selectedShape.getId());  // 뷰모델에 선택된 도형 변경 전달
-                }
-                act = new UserAction(UserAction.Type.CHANGE, act.getPreviousShape(), act.getTargetShape(),
-                    null, null);
-
-            } else if (act.getAction() == UserAction.Type.STYLE_CHANGE) {
-                // 스타일 변경된 것 redo
-            }
-
-            undoStack.push(act);
-        }
-    }
 
     // 도형 스타일 수정
     public void changeShapeStyle(Long id, Style style) {
@@ -277,66 +136,37 @@ public class Canvas extends ComponentJPanel {
     }
 
 
-    public void select(Shape shape) {
-        if (shape == null) {
-            appModel.select(-1);
-        } else {
+    public void select(Shape shape) {           // 캔버스에서 도형 선택 시
+        if (shape == null) {                    // 도형이 아닐 시 앱모델에 0 전달
+            appModel.select(0);
+        } else {                                // 선택된 도형 id 앱모델에 전달
             appModel.select(shape.getId());
         }
-//        selectSilently(shape);
     }
 
-
-    public void create(Shape shape) {                     // 유저가 도형 생성할 때
-        appModel.createByUser(shape);              // 맵에서 도형 생성 후 다른 컴포넌트에 전파
-        createSilently(shape);                            // 캔버스에 반영
+    public void modify(Shape modifiedShape) {                           // 유저가 도형 변경할 때
+        appModel.modifyByUser(modifiedShape.getId(), modifiedShape);    // 맵 도형변경 후 다른 컴포넌트에 전파
+        modifySilently(modifiedShape);                                  // 캔버스에 반영
     }
 
-    public void remove(Shape shape) {                     // 유저가 도형 지울 때
-        appModel.removeByUser(shape.getId());      // 맵에서 도형 지우고 다른 컴포넌트에 전파
-        removeSilently(shape);                            // 캔버스에 반영
-    }
-
-    public void modify(Shape modifiedShape) {                               // 유저가 도형 변경할 때
-        appModel.modifyByUser(modifiedShape.getId(), modifiedShape); // 맵 도형변경 후 다른 컴포넌트에 전파
-        modifySilently(modifiedShape);                                      // 캔버스에 반영
-    }
-
-
-    public Void createToolbar(Shape newShape) {                              // 유저가 툴바에서 도형 생성 시
-        storeUndoStack(UserAction.Type.CREATE, newShape, null);  // CREATE 동작 스택에 저장
-        repaint();
-        return null;
-    }
 
     private Void selectSilently(Shape selected) {
-        // 2. 뷰모델의 맵에 선택된 도형이 바뀌어 있음 -> 캔버스에서 선택된 도형 변경 -> 리페인트
-
         selectedShape = appModel.getSelectedShape();
         repaint();
         return null;
     }
 
     private Void createSilently(Shape newShape) {
-        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 추가되있음, 다른 클라이언트의 뷰모델에도 추가됨
-        // -> 캔버스에 추가된 도형 그림(리페인트)
-
         repaint();
         return null;
     }
 
     private Void removeSilently(Shape removedShape) {
-        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 삭제되있음, 다른 클라이언트의 뷰모델에도 삭제됨
-        // -> 캔버스에 삭제된 도형 지움(리페인트)
-
         repaint();
         return null;
     }
 
     private Void modifySilently(Shape modifiedShape) {
-        // 2. 이미 뷰모델의 맵에 서버로 갔다가 돌아온 도형이 수정되있음, 다른 클라이언트의 뷰모델에도 수정됨
-        // -> 캔버스에 수정된 도형 반영(리페인트)
-
         repaint();
         return null;
     }
