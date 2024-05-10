@@ -34,7 +34,7 @@ public class Text extends Shape implements Serializable {
     northWestHandle = new TextHandle(other.northWestHandle);
     southEastHandle = new TextHandle(other.southEastHandle);
     northEastHandle = new TextHandle(other.northEastHandle);
-    southWestHandle = new TextHandle(other.northWestHandle);
+    southWestHandle = new TextHandle(other.southWestHandle);
     northHandle = new TextHandle(other.northHandle);
     southHandle = new TextHandle(other.southHandle);
     eastHandle = new TextHandle(other.eastHandle);
@@ -187,6 +187,8 @@ public class Text extends Shape implements Serializable {
 
 
   public class TextHandle extends Handle {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public TextHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;

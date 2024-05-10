@@ -31,32 +31,12 @@ public abstract class Shape implements Serializable {
         this.y2 = other.y2;
     }
 
-    public int getX1() {
-        return x1;
-    }
-
-    public int getY1() {
-        return y1;
-    }
-
-    public int getX2() {
-        return x2;
-    }
-
-    public int getY2() {
-        return y2;
-    }
-
     public Style getStyle() {               // 도형의 스타일 리턴
         return style;
     }
 
     public void setStyle(Style style) {     // 도형의 스타일 설정
         this.style = style;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
     }
 
     public String getId() {                   // 도형의 id 리턴
