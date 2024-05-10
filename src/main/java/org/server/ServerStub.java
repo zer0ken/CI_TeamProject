@@ -3,13 +3,16 @@ package org.server;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 
+import java.util.Map;
+
 public class ServerStub extends CMServerStub {
     public static final String DEFAULT_SESSION = "session1";
     public static final String DEFAULT_GROUP = "g1";
-    private long lastId = 0;
+    ShapeMap shapes;
 
     ServerStub() {
         super();
+        shapes = new ShapeMap();
     }
 
     public void castDummy(String message) {
@@ -22,11 +25,21 @@ public class ServerStub extends CMServerStub {
         System.out.println("@ server casted\n\t" + message);
     }
 
-    public long getLastId() {
-        return lastId;
+    public void setShapes(Map<Long, String> newShapes) {
+        shapes.setShapes(newShapes);
     }
 
-    public void setLastId(long lastId) {
-        this.lastId = lastId;
+    public Map<Long, String> getShapes() {
+        return shapes.getShapes();
+    }
+
+    public void putShape(long id, String shape) {
+        shapes.putShape(id, shape);
+    }
+
+    public String getShape(long id) { return shapes.getShape(id); }
+
+    public void removeShape(long id) {
+        shapes.removeShape(id);
     }
 }
