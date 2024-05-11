@@ -2,6 +2,8 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
+import org.protocol.Action;
+import org.protocol.Protocol;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,6 +27,22 @@ public class ServerStub extends CMServerStub {
 
         cast(fromServer, DEFAULT_SESSION, DEFAULT_GROUP);
         System.out.println("@ server casted\n\t" + message);
+        printDebugInfo();
+    }
+
+    public void sendAll(String targetName) {
+        CMDummyEvent e = new CMDummyEvent();
+        shapes.forEach((k, v) -> {
+            e.setDummyInfo(Protocol.build(Action.ADD, k, v));
+            send(e, targetName);
+        });
+        System.out.println("@ server sent all shapes.");
+        printDebugInfo();
+    }
+
+    public void printDebugInfo() {
+        System.out.println("# 현재 shapes:");
+        shapes.forEach((k, v) -> System.out.println("\t" + k + "\t: " + v));
     }
 
     public Map<String, String> getShapes() {

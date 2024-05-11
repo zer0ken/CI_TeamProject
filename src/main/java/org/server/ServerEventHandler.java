@@ -13,11 +13,13 @@ public class ServerEventHandler extends EventHandler {
     }
 
     @Override
-    protected void processJoinEvent(CMSessionEvent se) {
+    synchronized protected void processJoinEvent(CMSessionEvent se) {
         System.out.println("@ user joining");
         System.out.println("\tsession: " + se.getSessionName());
         System.out.println("\tgroup: " + se.getCurrentGroupName());
         System.out.println("\tuser: " + se.getUserName());
+
+        ((ServerStub) stub).sendAll(se.getUserName());
     }
 
     @Override
