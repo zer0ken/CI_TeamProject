@@ -100,6 +100,7 @@ public class Line extends Shape implements Serializable {
 
 
   public class LineHandle extends Handle implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private boolean isStartHandle;
 

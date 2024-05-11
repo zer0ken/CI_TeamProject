@@ -20,7 +20,6 @@ public class EditWindowController extends StylePanelController {
     public EditWindowController() {
         super();
         appModel.addListener(AppModel.Listener.SELECTION, this::setStyleBy);
-        appModel.addListener(AppModel.Listener.USER_MODIFICATION, this::setModifiedStyleBy);
     }
 
     public Void setStyleBy(Shape shape) {
@@ -34,14 +33,6 @@ public class EditWindowController extends StylePanelController {
         textSizeModel.setNumber(style.textSize());
         textColorModel.setColor(style.textColor());
         textContentField.setText(style.textContent());
-        return null;
-    }
-
-    public Void setModifiedStyleBy(Shape shape) {
-        if (appModel.getSelectedShape().getId() != shape.getId()) {
-            return null;
-        }
-        setStyleBy(shape);
         return null;
     }
 

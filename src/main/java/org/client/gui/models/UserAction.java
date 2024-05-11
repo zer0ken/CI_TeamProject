@@ -1,7 +1,6 @@
 package org.client.gui.models;
 
 import org.client.gui.shapes.Shape;
-import org.client.gui.shapes.Style;
 
 public class UserAction {
   public enum Type {

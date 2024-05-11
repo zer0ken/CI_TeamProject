@@ -123,6 +123,7 @@ public class Oval extends Shape implements Serializable {
 
 
   public class OvalHandle extends Handle implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     public OvalHandle(int x, int y, String direction) {
       this.x = x;

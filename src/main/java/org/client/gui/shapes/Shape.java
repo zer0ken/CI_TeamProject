@@ -85,7 +85,7 @@ public abstract class Shape implements Serializable, Comparable<Shape> {
             case "Rectangle" -> RECT;
             case "Text" -> "\"" + getStyle().textContent() + "\"";
             default -> null;
-        } + "</b> <i>" + Utils.formatTime(timestamp)+ ", " + author + " 작성</i></html>";
+        } + "</b> ── <i>" + Utils.formatTime(timestamp)+ ", " + author + " 작성</i></html>";
     }
 
     @Override
