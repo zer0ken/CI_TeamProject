@@ -5,8 +5,10 @@ import org.client.gui.shapes.Shape;
 import javax.swing.*;
 
 public class ShapeListModel extends DefaultListModel<Shape> {
+    private AppModel appModel;
+
     public ShapeListModel() {
-        AppModel appModel = AppModel.getInstance();
+        appModel = AppModel.getInstance();
         appModel.addListener(AppModel.Listener.CREATION, this::add);
         appModel.addListener(AppModel.Listener.MODIFICATION, this::edit);
         appModel.addListener(AppModel.Listener.REMOVAL, this::remove);
@@ -19,7 +21,12 @@ public class ShapeListModel extends DefaultListModel<Shape> {
     }
 
     public Void add(Shape shape) {
-        add(0, shape);
+        if (isEmpty() || get(0).compareTo(shape) < 0) {
+            add(0, shape);
+            return null;
+        }
+        clear();
+        appModel.getShapes().forEach((k, v) -> add(0, v));
         return null;
     }
 

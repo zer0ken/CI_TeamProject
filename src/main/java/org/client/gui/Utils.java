@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class Utils {
     public static ImageIcon scaleIcon(URL iconURL, Dimension size) {
@@ -50,6 +48,6 @@ public class Utils {
             result.put(entry.getKey(), entry.getValue());
         }
 
-        return result;
+        return Collections.synchronizedMap(result);
     }
 }

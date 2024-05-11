@@ -1,6 +1,5 @@
 package org.client.gui.components;
 
-import org.client.gui.Utils;
 import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
 import org.client.gui.models.UserAction;
@@ -119,7 +118,7 @@ public class Canvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.WHITE);
-        for(String key : Utils.sortedByValue(shapes).keySet()) {
+        for(String key : shapes.keySet()) {
             shapes.get(key).draw(g);
         }
         if (selectedShape != null) {

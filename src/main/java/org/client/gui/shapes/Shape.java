@@ -39,8 +39,8 @@ public abstract class Shape implements Serializable, Comparable<Shape> {
         this.style = style;
     }
 
-    public String getId() {                   // 도형의 id 리턴
-        return author + "-" + timestamp;
+    public String getId() {
+        return  timestamp + "-" + author;
     }
 
     public void setTimestamp(long timestamp) {
@@ -79,13 +79,13 @@ public abstract class Shape implements Serializable, Comparable<Shape> {
 
     @Override
     public String toString() {
-        return switch (getClass().getSimpleName()) {
+        return "<html><b>" + switch (getClass().getSimpleName()) {
             case "Line" -> LINE;
             case "Oval" -> OVAL;
             case "Rectangle" -> RECT;
             case "Text" -> "\"" + getStyle().textContent() + "\"";
             default -> null;
-        } + "(" + Utils.formatTime(timestamp)+ ", " + author + " 작성)";
+        } + "</b> <i>" + Utils.formatTime(timestamp)+ ", " + author + " 작성</i></html>";
     }
 
     @Override
