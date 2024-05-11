@@ -93,8 +93,6 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public void allHandleStopDrag() {
-
-    /*
     northWestHandle.stopDragging();
     southEastHandle.stopDragging();
     northEastHandle.stopDragging();
@@ -103,14 +101,10 @@ public class Text extends Shape implements Serializable {
     southHandle.stopDragging();
     eastHandle.stopDragging();
     westHandle.stopDragging();
-     */
-
   }
 
   @Override
   public void fineAndStartDrag(Point p){
-
-    /*
     if (northWestHandle.containsHandle(p)) {
       northWestHandle.startDragging(p);
     } else if (southEastHandle.containsHandle(p)) {
@@ -128,8 +122,6 @@ public class Text extends Shape implements Serializable {
     } else if (westHandle.containsHandle(p)) {
       westHandle.startDragging(p);
     }
-     */
-
   }
 
   @Override
