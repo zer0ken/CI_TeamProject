@@ -20,8 +20,8 @@ public class AppModel {
     private final Map<String, Shape> shapes;
     private Shape selectedShape = null;
 
-    private final Stack<UserAction> undoStack;
-    private final Stack<UserAction> redoStack;
+    private final Stack<Undoable> actionHistory;
+    private final Stack<Undoable> undoneActions;
 
     private int lineWidth = DEFAULT_LINE_WIDTH;
     private Color lineColor = DEFAULT_LINE_COLOR;
@@ -95,8 +95,10 @@ public class AppModel {
         clearListeners = new ArrayList<>();
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
-        undoStack = new Stack<>();
-        redoStack = new Stack<>();
+
+        // TODO: 테스트 후에 사이즈 증가
+        actionHistory = new SizedStack<>(5);
+        undoneActions = new SizedStack<>(5);
 
         instance = this;
     }
@@ -148,8 +150,91 @@ public class AppModel {
     }
 
     public void createByUser(Shape shape) {
-        add(shape);
-        notify(userCreationListeners, shape);
+        perform(Undoable.of(
+                () -> {
+                    if (!getShapes().containsKey(shape.getId())) {
+                        add(shape);
+                        notify(userCreationListeners, shape);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(shape.getId())) {
+                        remove(shape.getId());
+                        notify(userRemovalListeners, shape);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void modifyByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(Undoable.of(
+                () -> {
+                    if (!getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void removeByUser(String id) {
+        Shape removed = getShapes().get(id);
+        perform(Undoable.of(
+                () -> {
+                    if (getShapes().containsKey(id)) {
+                        remove(id);
+                        notify(userRemovalListeners, removed);
+                    }
+                },
+                () -> {
+                    if (!getShapes().containsKey(id)) {
+                        add(removed);
+                        notify(userCreationListeners, removed);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    private void perform(Undoable action) {
+        action.perform();
+        actionHistory.push(action);
+        undoneActions.clear();
+    }
+
+    public void undo() {
+        Undoable action;
+        do {
+            if (actionHistory.isEmpty()) {
+                return;
+            }
+            action = actionHistory.pop();
+        } while (!action.undo());
+        undoneActions.push(action);
+        printDebugInfo();
+    }
+
+    public void redo() {
+        if (undoneActions.isEmpty()) {
+            return;
+        }
+        Undoable action = undoneActions.pop();
+        action.perform();
+        actionHistory.push(action);
+        printDebugInfo();
     }
 
     public void createByServer(Shape shape) {
@@ -160,19 +245,9 @@ public class AppModel {
         notify(serverCreationListeners, shape);
     }
 
-    public void modifyByUser(Shape shape) {
-        modify(shape);
-        notify(userModificationListeners, shape);
-    }
-
     public void modifyByServer(Shape shape) {
         modify(shape);
         notify(serverModificationListeners, shape);
-    }
-
-    public void removeByUser(String id) {
-        Shape removed = remove(id);
-        notify(userRemovalListeners, removed);
     }
 
     public void removeByServer(String id) {
@@ -199,6 +274,8 @@ public class AppModel {
         System.out.println("### 현재 뷰모델");
         System.out.println("selected: " + selectedShape);
         shapes.forEach((i, s) -> System.out.println("\t" + i + ": " + s.toString()));
+        System.out.println("actionHistory: " + actionHistory);
+        System.out.println("undoneActions: " + undoneActions);
         System.out.println("###");
     }
 
@@ -238,75 +315,6 @@ public class AppModel {
             select(null);
         }
         return removedShape;
-    }
-
-    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
-        if (previousShape != null) {        // CHANGE
-            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
-        } else {                            // CREATE, DELETE
-            undoStack.push(new UserAction(action, targetShape.copy(), null));
-        }
-        redoStackEmptying();
-    }
-
-    // undo 메소드
-    public void unDo() {
-        if (!undoStack.isEmpty()) {
-            UserAction act = undoStack.pop();
-            if(act.getAction() == UserAction.Type.CREATE) {
-                removeByUser(act.getTargetShape().getId());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                createByUser(act.getTargetShape());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(act.getTargetShape());
-                }
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-            }
-            redoStack.push(act);
-        }
-    }
-
-    // redo 메소드
-    public void reDo() {
-        if (!redoStack.isEmpty()) {
-            UserAction act = redoStack.pop();
-            if (act.getAction() == UserAction.Type.CREATE) {
-                createByUser(act.getTargetShape());
-
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                removeByUser(act.getTargetShape().getId());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
-
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                    || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-
-            }
-
-            undoStack.push(act);
-        }
-    }
-
-    public void redoStackEmptying() {
-        while (!redoStack.isEmpty()) {
-            redoStack.pop();
-        }
     }
 
     public Map<String, Shape> getShapes() {
