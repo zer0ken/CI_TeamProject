@@ -48,7 +48,7 @@ public abstract class EventHandler implements CMAppEventHandler {
                 Command cmd = Protocol.parse(de.getDummyInfo());
 
                 if(cmd == null) {
-                    System.err.println("@ invalid command: " + de.getDummyInfo());
+                    System.err.println("@ invalid message: " + de.getDummyInfo());
                     return;
                 }
 
