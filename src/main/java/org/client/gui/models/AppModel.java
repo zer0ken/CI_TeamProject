@@ -96,9 +96,8 @@ public class AppModel {
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
 
-        // TODO: 테스트 후에 사이즈 증가
-        actionHistory = new SizedStack<>(5);
-        undoneActions = new SizedStack<>(5);
+        actionHistory = new SizedStack<>(50);
+        undoneActions = new SizedStack<>(50);
 
         instance = this;
     }
