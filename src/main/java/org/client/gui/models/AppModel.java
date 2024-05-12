@@ -172,7 +172,7 @@ public class AppModel {
 
         perform(new Undoable(
                 () -> {
-                    if (!getShapes().containsKey(before.getId())) {
+                    if (getShapes().containsKey(before.getId())) {
                         modify(after);
                         notify(userModificationListeners, after);
                     }
@@ -193,7 +193,7 @@ public class AppModel {
 
         perform(new Undoable(Undoable.Bulk.MOVE,
                 () -> {
-                    if (!getShapes().containsKey(before.getId())) {
+                    if (getShapes().containsKey(before.getId())) {
                         modify(after);
                         notify(userModificationListeners, after);
                     }
@@ -214,7 +214,7 @@ public class AppModel {
 
         perform(new Undoable(Undoable.Bulk.RESIZE,
                 () -> {
-                    if (!getShapes().containsKey(before.getId())) {
+                    if (getShapes().containsKey(before.getId())) {
                         modify(after);
                         notify(userModificationListeners, after);
                     }
