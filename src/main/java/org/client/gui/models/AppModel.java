@@ -149,7 +149,7 @@ public class AppModel {
     }
 
     public void createByUser(Shape shape) {
-        perform(Undoable.of(
+        perform(new Undoable(
                 () -> {
                     if (!getShapes().containsKey(shape.getId())) {
                         add(shape);
@@ -170,7 +170,49 @@ public class AppModel {
     public void modifyByUser(Shape after) {
         Shape before = getShapes().get(after.getId());
 
-        perform(Undoable.of(
+        perform(new Undoable(
+                () -> {
+                    if (!getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void moveByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(new Undoable(Undoable.Bulk.MOVE,
+                () -> {
+                    if (!getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void resizeByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(new Undoable(Undoable.Bulk.RESIZE,
                 () -> {
                     if (!getShapes().containsKey(before.getId())) {
                         modify(after);
@@ -190,7 +232,7 @@ public class AppModel {
 
     public void removeByUser(String id) {
         Shape removed = getShapes().get(id);
-        perform(Undoable.of(
+        perform(new Undoable(
                 () -> {
                     if (getShapes().containsKey(id)) {
                         remove(id);
@@ -210,7 +252,13 @@ public class AppModel {
 
     private void perform(Undoable action) {
         action.perform();
-        actionHistory.push(action);
+        if (!actionHistory.isEmpty()) {
+            if (actionHistory.peek().getBulk() == Undoable.Bulk.NONE || actionHistory.peek().getBulk() != action.getBulk()) {
+                actionHistory.push(action);
+            } else {
+                actionHistory.peek().extend(action);
+            }
+        }
         undoneActions.clear();
     }
 

@@ -2,21 +2,39 @@ package org.client.gui.models;
 
 import java.util.function.Supplier;
 
-public interface Undoable {
-    void perform();
-    boolean undo();
+class Undoable {
 
-    static Undoable of(Runnable perform, Supplier<Boolean> undo) {
-        return new Undoable() {
-            @Override
-            public void perform() {
-                perform.run();
-            }
+    public enum Bulk {
+        NONE, RESIZE, MOVE
+    }
 
-            @Override
-            public boolean undo() {
-                return undo.get();
-            }
-        };
+    private Bulk bulk;
+    private Runnable perform;
+    private final Supplier<Boolean> undo;
+
+    Undoable(Runnable perform, Supplier<Boolean> undo) {
+        this.perform = perform;
+        this.undo = undo;
+    }
+
+    Undoable(Bulk bulk, Runnable perform, Supplier<Boolean> undo) {
+        this(perform, undo);
+        this.bulk = bulk;
+    }
+
+    public Bulk getBulk() {
+        return bulk;
+    }
+
+    public void extend(Undoable next) {
+        perform = next.perform;
+    }
+
+    void perform() {
+        perform.run();
+    }
+
+    boolean undo() {
+        return undo.get();
     }
 }
