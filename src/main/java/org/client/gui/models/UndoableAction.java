@@ -2,7 +2,7 @@ package org.client.gui.models;
 
 import java.util.function.Supplier;
 
-class Undoable {
+class UndoableAction {
 
     public enum Bulk {
         NONE, RESIZE, MOVE
@@ -12,12 +12,12 @@ class Undoable {
     private Runnable perform;
     private final Supplier<Boolean> undo;
 
-    Undoable(Runnable perform, Supplier<Boolean> undo) {
+    UndoableAction(Runnable perform, Supplier<Boolean> undo) {
         this.perform = perform;
         this.undo = undo;
     }
 
-    Undoable(Bulk bulk, Runnable perform, Supplier<Boolean> undo) {
+    UndoableAction(Bulk bulk, Runnable perform, Supplier<Boolean> undo) {
         this(perform, undo);
         this.bulk = bulk;
     }
@@ -26,7 +26,7 @@ class Undoable {
         return bulk;
     }
 
-    public void extend(Undoable next) {
+    public void extend(UndoableAction next) {
         perform = next.perform;
     }
 

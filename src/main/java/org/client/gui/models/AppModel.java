@@ -20,8 +20,8 @@ public class AppModel {
     private final Map<String, Shape> shapes;
     private Shape selectedShape = null;
 
-    private final Stack<Undoable> actionHistory;
-    private final Stack<Undoable> undoneActions;
+    private final Stack<UndoableAction> actionHistory;
+    private final Stack<UndoableAction> undoneActions;
 
     private int lineWidth = DEFAULT_LINE_WIDTH;
     private Color lineColor = DEFAULT_LINE_COLOR;
@@ -149,7 +149,7 @@ public class AppModel {
     }
 
     public void createByUser(Shape shape) {
-        perform(new Undoable(
+        perform(new UndoableAction(
                 () -> {
                     if (!getShapes().containsKey(shape.getId())) {
                         add(shape);
@@ -170,7 +170,7 @@ public class AppModel {
     public void modifyByUser(Shape after) {
         Shape before = getShapes().get(after.getId());
 
-        perform(new Undoable(
+        perform(new UndoableAction(
                 () -> {
                     if (getShapes().containsKey(before.getId())) {
                         modify(after);
@@ -191,7 +191,7 @@ public class AppModel {
     public void moveByUser(Shape after) {
         Shape before = getShapes().get(after.getId());
 
-        perform(new Undoable(Undoable.Bulk.MOVE,
+        perform(new UndoableAction(UndoableAction.Bulk.MOVE,
                 () -> {
                     if (getShapes().containsKey(before.getId())) {
                         modify(after);
@@ -212,7 +212,7 @@ public class AppModel {
     public void resizeByUser(Shape after) {
         Shape before = getShapes().get(after.getId());
 
-        perform(new Undoable(Undoable.Bulk.RESIZE,
+        perform(new UndoableAction(UndoableAction.Bulk.RESIZE,
                 () -> {
                     if (getShapes().containsKey(before.getId())) {
                         modify(after);
@@ -232,7 +232,7 @@ public class AppModel {
 
     public void removeByUser(String id) {
         Shape removed = getShapes().get(id);
-        perform(new Undoable(
+        perform(new UndoableAction(
                 () -> {
                     if (getShapes().containsKey(id)) {
                         remove(id);
@@ -250,10 +250,10 @@ public class AppModel {
         ));
     }
 
-    private void perform(Undoable action) {
+    private void perform(UndoableAction action) {
         action.perform();
         if (!actionHistory.isEmpty() &&
-                actionHistory.peek().getBulk() != Undoable.Bulk.NONE &&
+                actionHistory.peek().getBulk() != UndoableAction.Bulk.NONE &&
                 actionHistory.peek().getBulk() != action.getBulk()
         ) {
             actionHistory.peek().extend(action);
@@ -264,7 +264,7 @@ public class AppModel {
     }
 
     public void undo() {
-        Undoable action;
+        UndoableAction action;
         do {
             if (actionHistory.isEmpty()) {
                 return;
@@ -279,7 +279,7 @@ public class AppModel {
         if (undoneActions.isEmpty()) {
             return;
         }
-        Undoable action = undoneActions.pop();
+        UndoableAction action = undoneActions.pop();
         action.perform();
         actionHistory.push(action);
         printDebugInfo();
