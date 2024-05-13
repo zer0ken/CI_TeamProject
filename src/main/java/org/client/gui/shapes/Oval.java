@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Oval extends Shape implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
+
   public OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Oval() {
@@ -45,10 +46,10 @@ public class Oval extends Shape implements Serializable {
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setPaint(style.getFillColor());
+    g2d.setPaint(style.fillColor());
     g2d.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
+    g2d.setStroke(new BasicStroke(style.lineWidth()));
+    g2d.setColor(style.lineColor());
     g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
   }
 
@@ -63,7 +64,8 @@ public class Oval extends Shape implements Serializable {
 
   @Override
   public boolean contains(Point p) {        // 포인트가 사각형 내에 있는 지 확인
-    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
+    return p.x >= (Math.min(x1, x2) - 3) && p.x <= (Math.max(x1, x2) + 3)
+        && p.y >= (Math.min(y1, y2) - 3) && p.y <= (Math.max(y1, y2) + 3);
   }
 
   @Override
@@ -119,7 +121,9 @@ public class Oval extends Shape implements Serializable {
     setLocation(this.x1, this.y1 + (this.x2 - x), x, this.y2);
   }
 
+
   public class OvalHandle extends Handle implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     public OvalHandle(int x, int y, String direction) {
       this.x = x;
