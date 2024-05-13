@@ -1,4 +1,4 @@
-package org.common;
+package org.protocol;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
@@ -7,8 +7,6 @@ import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
-import org.protocol.Command;
-import org.protocol.Protocol;
 
 public abstract class EventHandler implements CMAppEventHandler {
     protected CMStub stub;

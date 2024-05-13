@@ -2,7 +2,7 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.common.EventHandler;
+import org.protocol.EventHandler;
 import org.protocol.Action;
 import org.protocol.Command;
 import org.protocol.Protocol;
