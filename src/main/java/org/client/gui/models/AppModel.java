@@ -34,6 +34,10 @@ public class AppModel {
         JOIN(null),
         LEAVE(null),
         SET_NAME(null),
+        UNDO_AVAILABLE(null),
+        UNDO_UNAVAILABLE(null),
+        REDO_AVAILABLE(null),
+        REDO_UNAVAILABLE(null),
         SELECTION(null),
         UPDATE(null),
             CREATION(UPDATE),
@@ -66,6 +70,11 @@ public class AppModel {
     private final ArrayList<Function<String, Void>> leaveListeners;
     private final ArrayList<Function<String, Void>> setNameListeners;
 
+    private final ArrayList<Function<Boolean, Void>> undoAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> undoUnAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> redoAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> redoUnAvailableListeners;
+
     private final ArrayList<Function<Shape, Void>> selectionListeners;
 
     // 사용자가 도형을 생성, 수정, 제거하면 클라이언트 앱 내의 모든 컴포넌트 및 **서버**에 전파되어야 함
@@ -82,6 +91,11 @@ public class AppModel {
         joinListeners = new ArrayList<>();
         leaveListeners = new ArrayList<>();
         setNameListeners = new ArrayList<>();
+
+        undoAvailableListeners = new ArrayList<>();
+        undoUnAvailableListeners = new ArrayList<>();
+        redoAvailableListeners = new ArrayList<>();
+        redoUnAvailableListeners = new ArrayList<>();
 
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
@@ -114,6 +128,17 @@ public class AppModel {
             setNameListeners.add(callback);
     }
 
+    public void addStackListener(Listener type, Function<Boolean, Void> callback) {
+        if (type.includes(UNDO_AVAILABLE))
+            undoAvailableListeners.add(callback);
+        if (type.includes(UNDO_UNAVAILABLE))
+            undoUnAvailableListeners.add(callback);
+        if (type.includes(REDO_AVAILABLE))
+            redoAvailableListeners.add(callback);
+        if (type.includes(REDO_UNAVAILABLE))
+            redoUnAvailableListeners.add(callback);
+    }
+
     public void addListener(Listener type, Function<Shape, Void> callback) {
         if (type.includes(SELECTION))
             selectionListeners.add(callback);
@@ -137,6 +162,22 @@ public class AppModel {
 
     public void leave(String name) {
         notify(leaveListeners, name);
+    }
+
+    public void undoAvailable(Boolean bool) {
+        notify(undoAvailableListeners, bool);
+    }
+
+    public void undoUnAvailable(Boolean bool) {
+        notify(undoUnAvailableListeners, bool);
+    }
+
+    public void redoAvailable(Boolean bool) {
+        notify(redoAvailableListeners, bool);
+    }
+
+    public void redoUnAvailable(Boolean bool) {
+        notify(redoUnAvailableListeners, bool);
     }
 
     public void createByUser(Shape shape) {
@@ -182,6 +223,11 @@ public class AppModel {
         printDebugInfo();
     }
 
+    private void notify(ArrayList<Function<Boolean, Void>> listeners, Boolean bool) {
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(bool)));
+        printDebugInfo();
+    }
+
     private void printDebugInfo() {
         System.out.println("### 현재 뷰모델");
         System.out.println("selected: " + selectedShape);
@@ -215,7 +261,10 @@ public class AppModel {
             return null;
         }
         Shape removedShape = shapes.remove(id);
-        if (selectedShape.equals(removedShape)) {
+//        if (selectedShape.equals(removedShape)) {
+//            select(null);
+//        }
+        if (removedShape.equals(selectedShape)) {
             select(null);
         }
         return removedShape;
@@ -229,18 +278,21 @@ public class AppModel {
             undoStack.push(new UserAction(action, targetShape.copy(), null));
         }
         redoStackEmptying();
+        redoUnAvailable(false);
     }
 
     // undo 메소드
     public void unDo() {
         if (!undoStack.isEmpty()) {
             UserAction act = undoStack.pop();
+            if(undoStack.isEmpty()) {
+                undoUnAvailable(false);
+            }
+
             if(act.getAction() == UserAction.Type.CREATE) {
                 removeByUser(act.getTargetShape().getId());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
             } else if (act.getAction() == UserAction.Type.DELETE) {
+                System.out.println("삭제 undo");
                 createByUser(act.getTargetShape());
                 if(act.getTargetShape().equals(selectedShape)) {
                     select(act.getTargetShape());
@@ -254,6 +306,7 @@ public class AppModel {
                 act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
             }
             redoStack.push(act);
+            redoAvailable(true);
         }
     }
 
@@ -261,15 +314,17 @@ public class AppModel {
     public void reDo() {
         if (!redoStack.isEmpty()) {
             UserAction act = redoStack.pop();
+            if(redoStack.isEmpty()) {
+                redoUnAvailable(false);
+            }
+
             if (act.getAction() == UserAction.Type.CREATE) {
                 createByUser(act.getTargetShape());
-
+                if(act.getTargetShape().equals(selectedShape)) {
+                    select(act.getTargetShape());
+                }
             } else if (act.getAction() == UserAction.Type.DELETE) {
                 removeByUser(act.getTargetShape().getId());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
-
             } else if (act.getAction() == UserAction.Type.MODIFY
                     || act.getAction() == UserAction.Type.STYLE_MODIFY) {
                 modifyByUser(act.getPreviousShape());
@@ -281,6 +336,7 @@ public class AppModel {
             }
 
             undoStack.push(act);
+            undoAvailable(true);
         }
     }
 
