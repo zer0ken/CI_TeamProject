@@ -143,10 +143,10 @@ public class AppModel {
             redoUnAvailableListeners.add(callback);
     }
 
-  public void addVoidListener(Listener type, Function<Void, Void> callback) {
-    if (type.includes(CLEAR))
-      clearListeners.add(callback);
-  }
+    public void addVoidListener(Listener type, Function<Void, Void> callback) {
+      if (type.includes(CLEAR))
+        clearListeners.add(callback);
+    }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
         if (type.includes(SELECTION))
@@ -411,81 +411,81 @@ public class AppModel {
         return removedShape;
     }
 
-    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
-        if (previousShape != null) {        // CHANGE
-            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
-        } else {                            // CREATE, DELETE
-            undoStack.push(new UserAction(action, targetShape.copy(), null));
-        }
-        redoStackEmptying();
-        redoUnAvailable(false);
-    }
-
-    // undo 메소드
-    public void unDo() {
-        if (!undoStack.isEmpty()) {
-            UserAction act = undoStack.pop();
-            if(undoStack.isEmpty()) {
-                undoUnAvailable(false);
-            }
-
-            if(act.getAction() == UserAction.Type.CREATE) {
-                removeByUser(act.getTargetShape().getId());
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                System.out.println("삭제 undo");
-                createByUser(act.getTargetShape());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(act.getTargetShape());
-                }
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-            }
-            redoStack.push(act);
-            redoAvailable(true);
-        }
-    }
-
-    // redo 메소드
-    public void reDo() {
-        if (!redoStack.isEmpty()) {
-            UserAction act = redoStack.pop();
-            if(redoStack.isEmpty()) {
-                redoUnAvailable(false);
-            }
-
-            if (act.getAction() == UserAction.Type.CREATE) {
-                createByUser(act.getTargetShape());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(act.getTargetShape());
-                }
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                removeByUser(act.getTargetShape().getId());
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                    || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-
-            }
-
-            undoStack.push(act);
-            undoAvailable(true);
-        }
-    }
-
-    public void redoStackEmptying() {
-        while (!redoStack.isEmpty()) {
-            redoStack.pop();
-        }
-    }
+//    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
+//    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
+//        if (previousShape != null) {        // CHANGE
+//            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
+//        } else {                            // CREATE, DELETE
+//            undoStack.push(new UserAction(action, targetShape.copy(), null));
+//        }
+//        redoStackEmptying();
+//        redoUnAvailable(false);
+//    }
+//
+//    // undo 메소드
+//    public void unDo() {
+//        if (!undoStack.isEmpty()) {
+//            UserAction act = undoStack.pop();
+//            if(undoStack.isEmpty()) {
+//                undoUnAvailable(false);
+//            }
+//
+//            if(act.getAction() == UserAction.Type.CREATE) {
+//                removeByUser(act.getTargetShape().getId());
+//            } else if (act.getAction() == UserAction.Type.DELETE) {
+//                System.out.println("삭제 undo");
+//                createByUser(act.getTargetShape());
+//                if(act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getTargetShape());
+//                }
+//            } else if (act.getAction() == UserAction.Type.MODIFY
+//                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+//                modifyByUser(act.getPreviousShape());
+//                if (act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getPreviousShape());     // 변경전 도형 선택
+//                }
+//                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+//            }
+//            redoStack.push(act);
+//            redoAvailable(true);
+//        }
+//    }
+//
+//    // redo 메소드
+//    public void reDo() {
+//        if (!redoStack.isEmpty()) {
+//            UserAction act = redoStack.pop();
+//            if(redoStack.isEmpty()) {
+//                redoUnAvailable(false);
+//            }
+//
+//            if (act.getAction() == UserAction.Type.CREATE) {
+//                createByUser(act.getTargetShape());
+//                if(act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getTargetShape());
+//                }
+//            } else if (act.getAction() == UserAction.Type.DELETE) {
+//                removeByUser(act.getTargetShape().getId());
+//            } else if (act.getAction() == UserAction.Type.MODIFY
+//                    || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+//                modifyByUser(act.getPreviousShape());
+//                if (act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getPreviousShape());     // 변경전 도형 선택
+//                }
+//                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+//
+//            }
+//
+//            undoStack.push(act);
+//            undoAvailable(true);
+//        }
+//    }
+//
+//    public void redoStackEmptying() {
+//        while (!redoStack.isEmpty()) {
+//            redoStack.pop();
+//        }
+//    }
 
     public Map<String, Shape> getShapes() {
         return Collections.unmodifiableMap(shapes);
