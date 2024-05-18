@@ -35,7 +35,7 @@ public class ToolbarMouseAdapter extends MouseAdapter {
         }
 
         if (source.getName().equals(TOOLBAR_UNDO)) {
-            appModel.unDo();
+            appModel.undo();
         } else if (source.getName().equals(TOOLBAR_REDO)) {
             appModel.redo();
         }
