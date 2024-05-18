@@ -1,96 +1,106 @@
 package org.client.gui.shapes;
 
+import org.client.gui.Utils;
+
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 import static org.client.gui.Constants.*;
 
-public abstract class Shape implements Serializable {
-  private static final long serialVersionUID = 1L;
-  protected int x1, y1, x2, y2;
-  protected Style style;
+public abstract class Shape implements Serializable, Comparable<Shape> {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-  protected long id;
+    protected int x1, y1, x2, y2;
+    protected Style style;
 
+    protected String author;
+    protected long timestamp;
 
-  public int getX1() {
-    return x1;
-  }
+    public Shape() {
+    }
 
-  public int getY1() {
-    return y1;
-  }
+    public Shape(Shape other) {
+        this.author = other.author;
+        this.timestamp = other.timestamp;
+        this.style = other.style;
+        this.x1 = other.x1;
+        this.y1 = other.y1;
+        this.x2 = other.x2;
+        this.y2 = other.y2;
+    }
 
-  public int getX2() {
-    return x2;
-  }
+    public Style getStyle() {               // 도형의 스타일 리턴
+        return style;
+    }
 
-  public int getY2() {
-    return y2;
-  }
+    public void setStyle(Style style) {     // 도형의 스타일 설정
+        this.style = style;
+    }
 
-  public Style getStyle() {               // 도형의 스타일 리턴
-    return style;
-  }
+    public String getId() {
+        return  timestamp + "-" + author;
+    }
 
-  public void setStyle(Style style) {     // 도형의 스타일 설정
-    this.style = style;
-  }
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
-  public long getId() {                   // 도형의 id 리턴
-    return id;
-  }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-  public void setId(long id) {
-    this.id = id;
-  }
+    public void move(int dx, int dy) {      // 도형 전체 이동
+        setLocation(x1 + dx, y1 + dy, x2 + dx, y2 + dy);
+    }
 
-  public void move(int dx, int dy) {      // 도형 전체 이동
-    setLocation(x1 + dx, y1 + dy, x2 + dx, y2 + dy);
-  }
+    public abstract Shape copy();
 
-  public abstract Shape copy();
+    public Shape copy(Style newStyle) {                      // 스타일 복사
+        Shape copied = copy();
+        copied.setStyle(newStyle);
+        return copied;
+    }
 
-  public Shape copy(int x1, int y1, int x2, int y2) {   // 위치 복사
-    Shape copied = this.copy();
-    copied.setLocation(x1, y1, x2, y2);
-    return copied;
-  }
+    public abstract void setLocation(int x1, int y1, int x2, int y2);
 
-  public Shape copy(Style style) {                      // 스타일 복사
-    Shape copied = this.copy();
-    copied.setStyle(style);
-    return copied;
-  }
+    public abstract void draw(Graphics g);
 
-  public Shape copy(Long id) {                          // id 복사
-    Shape copied = this.copy();
-    copied.setId(id);
-    return copied;
-  }
+    public abstract void drawSelected(Graphics g);
 
-  public abstract void setLocation(int x1, int y1, int x2, int y2);
+    public abstract boolean contains(Point p);
 
-  public abstract void draw(Graphics g);
+    public abstract void allHandleStopDrag();
 
-  public abstract void drawSelected(Graphics g);
+    public abstract void fineAndStartDrag(Point p);
 
-  public abstract boolean contains(Point p);
+    public abstract void DragOrMove(Point p, int dx, int dy);
 
-  public abstract void allHandleStopDrag();
+    @Override
+    public String toString() {
+        return "<html><b>" + switch (getClass().getSimpleName()) {
+            case "Line" -> LINE;
+            case "Oval" -> OVAL;
+            case "Rectangle" -> RECT;
+            case "Text" -> "\"" + getStyle().textContent() + "\"";
+            default -> null;
+        } + "</b> ── <i>" + Utils.formatTime(timestamp)+ ", " + author + " 작성</i></html>";
+    }
 
-  public abstract void fineAndStartDrag(Point p);
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Shape)
+            return ((Shape)obj).getId().equals(getId());
+        return false;
+    }
 
-  public abstract void DragOrMove(Point p, int dx, int dy);
-
-
-  public String getRepresentation() {
-    return switch (getClass().getSimpleName()) {
-      case "Line" -> TOOLBAR_LINE;
-      case "Oval" -> TOOLBAR_OVAL;
-      case "Rectangle" -> TOOLBAR_RECT;
-      case "Text" -> TOOLBAR_TEXT + "\"" + getStyle().getTextContent() + "\"" ;
-      default -> null;
-    };
-  }
+    @Override
+    public int compareTo(Shape o) {
+        int diff = (int) (timestamp - o.timestamp);
+        if (diff != 0) {
+            return diff;
+        }
+        return author.compareTo(o.author);
+    }
 }

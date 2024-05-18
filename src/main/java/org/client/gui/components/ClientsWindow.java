@@ -1,38 +1,29 @@
 package org.client.gui.components;
 
-import org.client.gui.Constants;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.Utils;
+import org.client.gui.models.ClientListModel;
+import org.client.gui.models.ClientListSelectionModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
-public class ClientsWindow extends ComponentJPanel {
-    DefaultListModel<String> clientListModel;
+import static org.client.gui.Constants.*;
+
+public class ClientsWindow extends JPanel {
     JList<String> clientList;
 
-    public ClientsWindow(ShapesViewModel shapesViewModel) {
-        super(Constants.CLIENTS_WINDOW_SIZE, shapesViewModel);
-        setBorder(BorderFactory.createTitledBorder(Constants.CLIENTS_WINDOW_TITLE));
+    public ClientsWindow() {
         setLayout(new BorderLayout());
+        setPreferredSize(CLIENTS_WINDOW_SIZE);
 
-        clientListModel = new DefaultListModel<>();
+        clientList = new JList<>();
+        ClientListModel clientListModel;
+        clientList.setModel(clientListModel = new ClientListModel());
+        clientList.setSelectionModel(new ClientListSelectionModel(clientListModel));
 
-        clientList = new JList<>(clientListModel);
+        JScrollPane scrollPane = Utils.wrapWithScrollPane(clientList);
 
-        JScrollPane scrollPane = new JScrollPane(
-                clientList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
-
-        scrollPane.setPreferredSize(new Dimension(200, 300));
-
-        add(BorderLayout.CENTER, scrollPane);
-    }
-
-    public void setClients(List<String> clients) {
-        clientListModel.removeAllElements();
-        clientListModel.addAll(clients);
+        add(new TitlePanel(CLIENTS_WINDOW_TITLE, CLIENTS_WINDOW_TOOLTIP), BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

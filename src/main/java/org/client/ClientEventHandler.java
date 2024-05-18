@@ -3,22 +3,17 @@ package org.client;
 import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
-import org.common.Base64;
-import org.common.EventHandler;
-import org.client.gui.App;
-import org.client.gui.ShapesViewModel;
+import org.client.gui.models.AppModel;
 import org.client.gui.shapes.Shape;
+import org.protocol.Base64;
+import org.protocol.EventHandler;
 import org.protocol.Command;
-import org.protocol.ServersideProtocol;
 
 public class ClientEventHandler extends EventHandler {
-    private final App app;
-    private final ShapesViewModel shapesViewModel;
+    private final AppModel appModel = AppModel.getInstance();
 
-    public ClientEventHandler(ClientStub clientStub, App app, ShapesViewModel shapesViewModel) {
-        super(ServersideProtocol::parse, clientStub);
-        this.app = app;
-        this.shapesViewModel = shapesViewModel;
+    public ClientEventHandler(ClientStub clientStub) {
+        super(clientStub);
     }
 
     @Override
@@ -31,30 +26,26 @@ public class ClientEventHandler extends EventHandler {
 
     @Override
     protected void processInhabitantEvent(CMDataEvent de) {
-        if (stub.getMyself().getName().equals(de.getUserName())) {
-            return;
-        }
-
-        System.out.println("@ 선임을 정확하게 알아야지요");
+        System.out.println("@ 접속 중인 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-
-        ((ClientStub) stub).addClient(de.getUserName());
+        appModel.join(de.getUserName());
     }
 
     @Override
     protected void processNewUserEvent(CMDataEvent de) {
-        System.out.println("@ 신병받아라");
+        if (stub.getMyself().getName().equals(de.getUserName())) {
+            appModel.setMyself(de.getUserName());
+            return;
+        }
+        System.out.println("@ 새로 참여한 클라이언트");
         System.out.println("\tuser: " + de.getUserName());
-        
-        ((ClientStub) stub).addClient(de.getUserName());
-        app.updateClientsWindow();
+        appModel.join(de.getUserName());
     }
 
     @Override
     protected void processRemoveUserEvent(CMDataEvent de) {
         System.out.println("@ 잘가라...");
-        ((ClientStub) stub).removeClient(de.getUserName());
-        app.updateClientsWindow();
+        appModel.leave(de.getUserName());
     }
 
     @Override
@@ -64,7 +55,7 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        shapesViewModel.createByServer(cmd.getId(), decoded);
+        appModel.createByServer(decoded);
     }
 
     @Override
@@ -74,11 +65,16 @@ public class ClientEventHandler extends EventHandler {
             System.out.println("@ Decode Failed!!!");
             return;
         }
-        shapesViewModel.modifyByServer(cmd.getId(), decoded);
+        appModel.modifyByServer(decoded);
     }
 
     @Override
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
-        shapesViewModel.removeByServer(cmd.getId());
+        appModel.removeByServer(cmd.getId());
+    }
+
+    @Override
+    protected void processClearShapeEvent(CMDummyEvent de, Command cmd) {
+        appModel.clear();
     }
 }

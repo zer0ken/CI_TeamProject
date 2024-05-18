@@ -1,64 +1,49 @@
 package org.client.gui;
 
-import org.client.ClientStub;
-import org.client.gui.components.*;
 import org.client.gui.components.Canvas;
+import org.client.gui.components.EastPanel;
+import org.client.gui.components.Toolbar;
+import org.client.gui.components.WestPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.function.Function;
 
 import static org.client.gui.Constants.*;
 
 public class App extends JFrame {
-    private ClientStub clientStub;
-
-    private ClientsWindow clientsWindow;
-
-    public App(ShapesViewModel shapesViewModel, ClientStub clientStub) {
+    public App(Function<Void, Void> onWindowClosed) {
         super(APP_TITLE);
-        this.clientStub = clientStub;
 
         // init itself
         setLayout(new BorderLayout());
         setSize(APP_WIDTH, APP_HEIGHT);
+        setMinimumSize(APP_MIN_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                clientStub.requestLeave();
+                onWindowClosed.apply(null);
             }
         });
 
         // init inner components
-        Canvas canvas = new Canvas(shapesViewModel);
-        StyleWindow styleWindow = new StyleWindow(shapesViewModel);
+        add(new Toolbar(), BorderLayout.NORTH);
+        add(new Canvas(), BorderLayout.CENTER);
 
-        JPanel leftPanel = new VerticalJPanel();
-        leftPanel.add(styleWindow);
-        leftPanel.add(new EditWindow(shapesViewModel));
-
-        JPanel centerPanel = new VerticalJPanel();
-        centerPanel.add(new Toolbar(shapesViewModel, styleWindow));
-        centerPanel.add(canvas);
-
-        JPanel rightPanel = new VerticalJPanel();
-        rightPanel.add(clientsWindow = new ClientsWindow(shapesViewModel));
-        rightPanel.add(new ShapesWindow(shapesViewModel));
-
-        add(leftPanel, BorderLayout.WEST);
-        add(centerPanel, BorderLayout.CENTER);
-        add(rightPanel, BorderLayout.EAST);
+        add(new WestPanel(), BorderLayout.WEST);
+        add(new EastPanel(), BorderLayout.EAST);
 
         // show it
         setVisible(true);
     }
 
-    public void updateClientsWindow() {
-        clientsWindow.setClients(clientStub.getClients());
+    public static void start(Function<Void, Void> onWindowClosed) {
+        Theme.setup();
+        SwingUtilities.invokeLater(() -> new App(onWindowClosed));
     }
 }
 

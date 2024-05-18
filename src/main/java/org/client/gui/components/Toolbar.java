@@ -1,73 +1,78 @@
 package org.client.gui.components;
 
-import org.client.gui.ShapesViewModel;
-import org.client.gui.shapes.Line;
-import org.client.gui.shapes.Oval;
-import org.client.gui.shapes.Rectangle;
-import org.client.gui.shapes.Text;
+import org.client.gui.Theme;
+import org.client.gui.Utils;
+import org.client.gui.models.AppModel;
+import org.client.gui.models.AppModel.Listener;
+import org.client.gui.models.ToolbarMouseAdapter;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.client.gui.Constants.*;
 
-public class Toolbar extends ComponentJPanel {
-    private final JLabel titleLabel;
-    //private Canvas canvas;
-    private final StyleWindow styleWindow;
-    private long count = 0;                 // 도형 id용(임시)
+public class Toolbar extends JPanel {
+    private final AppModel appModel = AppModel.getInstance();
+    private Map<String, JButton> buttonMap;
+    public Toolbar() {
+        buttonMap = new HashMap<>();
+        appModel.addStackListener(Listener.UNDO_AVAILABLE, this::setUndoButtonEnabled);
+        appModel.addStackListener(Listener.UNDO_UNAVAILABLE, this::setUndoButtonEnabled);
+        appModel.addStackListener(Listener.REDO_AVAILABLE, this::setRedoButtonEnabled);
+        appModel.addStackListener(Listener.REDO_UNAVAILABLE, this::setRedoButtonEnabled);
 
-    public Toolbar(ShapesViewModel shapesViewModel, StyleWindow styleWindow) {
-        super(TOOLBAR_SIZE, shapesViewModel);
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new BorderLayout());
+        setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
 
-        this.styleWindow = styleWindow;
+        ToolbarMouseAdapter toolbarMouseAdapter = new ToolbarMouseAdapter();
 
-        // Toolbar title
-        titleLabel = new JLabel(TOOLBAR_TITLE);
-        add(titleLabel); // Add the title label before adding buttons
+        JToolBar toolbar = new JToolBar(TOOLBAR_TITLE);
 
-        // Toolbar button setting
-        for (int i = 0; i < TOOLBAR_BUTTONS.length; i++){
-            JButton button = new JButton(TOOLBAR_BUTTONS[i]);
-            button.setFocusPainted(false);
-            button.addMouseListener(new DoubleClickListener());
-            add(button);
-        }
+        addButtons(toolbar, TOOLBAR_ACTION_TOOLS, TOOLBAR_ACTION_TOOLTIPS, TOOLBAR_ACTION_ICONS, toolbarMouseAdapter);
+        toolbar.addSeparator();
+        addButtons(toolbar, TOOLBAR_SHAPE_TOOLS, TOOLBAR_SHAPE_TOOLTIPS, TOOLBAR_SHAPE_ICONS, toolbarMouseAdapter);
 
+        Box wrapped = Box.createHorizontalBox();
+        wrapped.add(Box.createGlue());
+        wrapped.add(toolbar);
+        wrapped.add(Box.createGlue());
+
+        add(wrapped, BorderLayout.CENTER);
     }
 
-    private class DoubleClickListener extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                JButton source = (JButton) e.getSource();
-                org.client.gui.shapes.Shape clickedShape;
-                switch (source.getText()) {
-                    case TOOLBAR_LINE :
-                        clickedShape = new Line();
-                        break;
-                    case TOOLBAR_RECT:
-                        clickedShape = new Rectangle();
-                        break;
-                    case TOOLBAR_OVAL:
-                        clickedShape = new Oval();
-                        break;
-                    case TOOLBAR_TEXT:
-                        clickedShape = new Text();
-                        break;
-                    default:
-                        return;
-                }
-                clickedShape.setLocation(300, 300, 400, 400);
-                clickedShape.setStyle(styleWindow.getStyle());
-                count++;
-                clickedShape.setId(count);
-                shapesViewModel.createByUser(clickedShape);
-//                canvas.addShape(count, selectedShape);
-//                canvas.repaint();
+    private void addButtons(JToolBar toolbar, String[] buttonNames, String[] tooltips, String[] icons,
+                              ToolbarMouseAdapter adapter) {
+        for (int i = 0; i < buttonNames.length; i++) {
+            String buttonName = buttonNames[i];
+            JButton button = new JButton(Utils.scaleIcon(getClass().getResource(icons[i]), TOOLBAR_ICON_SIZE));
+            button.setName(buttonName);
+            button.addMouseListener(adapter);
+            button.setToolTipText(tooltips[i]);
+            if (Arrays.equals(buttonNames, TOOLBAR_ACTION_TOOLS)) {
+                button.setEnabled(false);
+                buttonMap.put(buttonName, button);
             }
+            toolbar.add(button);
         }
+    }
+
+    public Void setUndoButtonEnabled(boolean enabled) {
+        JButton button = buttonMap.get(TOOLBAR_UNDO);
+        if (button != null) {
+            button.setEnabled(enabled);
+        }
+        return null;
+    }
+
+    public Void setRedoButtonEnabled(boolean enabled) {
+        JButton button = buttonMap.get(TOOLBAR_REDO);
+        if (button != null) {
+            button.setEnabled(enabled);
+        }
+        return null;
     }
 }

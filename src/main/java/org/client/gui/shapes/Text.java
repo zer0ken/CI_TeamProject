@@ -1,10 +1,13 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Text extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public TextHandle northHandle, southHandle, eastHandle, westHandle;
   public TextHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
   private int textWidth, textHeight;
@@ -22,10 +25,16 @@ public class Text extends Shape implements Serializable {
   }
 
   public Text(Text other) {
+    super(other);
+    this.textWidth = other.textWidth;
+    this.textHeight = other.textHeight;
+    this.centerX = other.centerX;
+    this.centerY = other.centerY;
+
     northWestHandle = new TextHandle(other.northWestHandle);
     southEastHandle = new TextHandle(other.southEastHandle);
     northEastHandle = new TextHandle(other.northEastHandle);
-    southWestHandle = new TextHandle(other.northWestHandle);
+    southWestHandle = new TextHandle(other.southWestHandle);
     northHandle = new TextHandle(other.northHandle);
     southHandle = new TextHandle(other.southHandle);
     eastHandle = new TextHandle(other.eastHandle);
@@ -34,11 +43,7 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public Text copy() {
-    Text copied = new Text(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Text(this);
   }
 
   @Override
@@ -59,18 +64,18 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public void draw(Graphics g) {
-    Font font = new Font(null, Font.PLAIN, style.getTextSize());
-    g.setColor(style.getTextColor());
+    Font font = new Font(null, Font.PLAIN, style.textSize());
+    g.setColor(style.textColor());
     g.setFont(font);
 
     FontMetrics metrics = g.getFontMetrics(font);
-    textWidth = metrics.stringWidth(style.getTextContent());
+    textWidth = metrics.stringWidth(style.textContent());
     textHeight = metrics.getHeight();
 
     centerX = Math.min(x1, x2) + (Math.max(x1, x2) - Math.min(x1, x2)) / 2;
     centerY = Math.min(y1, y2) + (Math.max(y1, y2) - Math.min(y1, y2)) / 2;
 
-    g.drawString(style.getTextContent(), centerX - textWidth / 2, centerY + textHeight / 2);
+    g.drawString(style.textContent(), centerX - textWidth / 2, centerY + textHeight / 2);
   }
 
   @Override
@@ -88,11 +93,14 @@ public class Text extends Shape implements Serializable {
 
   @Override
   public boolean contains(Point p) {                  // 포인트가 사각형 내에 있는 지 확인
-    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
+    return p.x >= (Math.min(x1, x2) - 3) && p.x <= (Math.max(x1, x2) + 3)
+        && p.y >= (Math.min(y1, y2) - 3) && p.y <= (Math.max(y1, y2) + 3);
   }
 
   @Override
   public void allHandleStopDrag() {
+    
+    /*
     northWestHandle.stopDragging();
     southEastHandle.stopDragging();
     northEastHandle.stopDragging();
@@ -101,10 +109,14 @@ public class Text extends Shape implements Serializable {
     southHandle.stopDragging();
     eastHandle.stopDragging();
     westHandle.stopDragging();
+    */
+    
   }
 
   @Override
   public void fineAndStartDrag(Point p){
+    
+    /*
     if (northWestHandle.containsHandle(p)) {
       northWestHandle.startDragging(p);
     } else if (southEastHandle.containsHandle(p)) {
@@ -122,6 +134,8 @@ public class Text extends Shape implements Serializable {
     } else if (westHandle.containsHandle(p)) {
       westHandle.startDragging(p);
     }
+    */
+    
   }
 
   @Override
@@ -181,6 +195,8 @@ public class Text extends Shape implements Serializable {
 
 
   public class TextHandle extends Handle {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public TextHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;
@@ -192,7 +208,7 @@ public class Text extends Shape implements Serializable {
     public TextHandle(TextHandle other) {
       this.x = other.getX();
       this.y = other.getY();
-      this.isDiagonalHandle = other.getIsDiagonalHandle();
+      this.isDiagonalHandle = other.isDiagonalHandle();
       this.direction = other.getDirection();
     }
 

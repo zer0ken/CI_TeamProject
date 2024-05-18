@@ -2,17 +2,21 @@ package org.server;
 
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
+import org.protocol.Action;
+import org.protocol.Protocol;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ServerStub extends CMServerStub {
     public static final String DEFAULT_SESSION = "session1";
     public static final String DEFAULT_GROUP = "g1";
-    ShapeMap shapes;
+    Map<String, String> shapes;
 
     ServerStub() {
         super();
-        shapes = new ShapeMap();
+        shapes = Collections.synchronizedMap(new TreeMap<>());
     }
 
     public void castDummy(String message) {
@@ -23,23 +27,25 @@ public class ServerStub extends CMServerStub {
 
         cast(fromServer, DEFAULT_SESSION, DEFAULT_GROUP);
         System.out.println("@ server casted\n\t" + message);
+        printDebugInfo();
     }
 
-    public void setShapes(Map<Long, String> newShapes) {
-        shapes.setShapes(newShapes);
+    public void sendAll(String targetName) {
+        CMDummyEvent e = new CMDummyEvent();
+        shapes.forEach((k, v) -> {
+            e.setDummyInfo(Protocol.build(Action.ADD, k, v));
+            send(e, targetName);
+        });
+        System.out.println("@ server sent all shapes.");
+        printDebugInfo();
     }
 
-    public Map<Long, String> getShapes() {
-        return shapes.getShapes();
+    public void printDebugInfo() {
+        System.out.println("# 현재 shapes:");
+        shapes.forEach((k, v) -> System.out.println("\t" + k + "\t: " + v));
     }
 
-    public void putShape(long id, String shape) {
-        shapes.putShape(id, shape);
-    }
-
-    public String getShape(long id) { return shapes.getShape(id); }
-
-    public void removeShape(long id) {
-        shapes.removeShape(id);
+    public Map<String, String> getShapes() {
+        return shapes;
     }
 }

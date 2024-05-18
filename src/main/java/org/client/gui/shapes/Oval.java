@@ -1,33 +1,41 @@
 package org.client.gui.shapes;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Oval extends Shape implements Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
+  public OvalHandle northHandle, southHandle, eastHandle, westHandle;
   public OvalHandle northEastHandle, northWestHandle, southEastHandle, southWestHandle;
 
   public Oval() {
-    northWestHandle = new OvalHandle(x1, y1, "northWest");
-    southEastHandle = new OvalHandle(x2, y2, "southEast");
-    northEastHandle = new OvalHandle(x1, y2, "northEast");
-    southWestHandle = new OvalHandle(x2, y1, "southWest");
+    northWestHandle = new OvalHandle(x1, y1, true, "northWest");
+    southEastHandle = new OvalHandle(x2, y2, true, "southEast");
+    northEastHandle = new OvalHandle(x1, y2, true, "northEast");
+    southWestHandle = new OvalHandle(x2, y1, true, "southWest");
+    northHandle = new OvalHandle(x1, (y1 + y2) / 2, false, "north");
+    southHandle = new OvalHandle(x2, (y1 + y2) / 2, false, "south");
+    eastHandle = new OvalHandle((x1 + x2) / 2, y2, false, "east");
+    westHandle = new OvalHandle((x1 + x2) / 2, y1, false, "west");
   }
 
   public Oval(Oval other) {
+    super(other);
     northWestHandle = new OvalHandle(other.northWestHandle);
     southEastHandle = new OvalHandle(other.southEastHandle);
     northEastHandle = new OvalHandle(other.northEastHandle);
     southWestHandle = new OvalHandle(other.southWestHandle);
+    northHandle = new OvalHandle(other.northHandle);
+    southHandle = new OvalHandle(other.southHandle);
+    eastHandle = new OvalHandle(other.eastHandle);
+    westHandle = new OvalHandle(other.westHandle);
   }
 
   @Override
   public Oval copy() {
-    Oval copied = new Oval(this);
-    copied.setLocation(this.getX1(), this.getY1(), this.getX2(), this.getY2());
-    copied.setStyle(this.getStyle());
-    copied.setId(this.getId());
-    return copied;
+    return new Oval(this);
   }
 
 
@@ -41,15 +49,19 @@ public class Oval extends Shape implements Serializable {
     southEastHandle.setHandleLocation(x2, y2);
     northEastHandle.setHandleLocation(x1, y2);
     southWestHandle.setHandleLocation(x2, y1);
+    northHandle.setHandleLocation(x1, (y1 + y2) / 2);
+    southHandle.setHandleLocation(x2, (y1 + y2) / 2);
+    eastHandle.setHandleLocation((x1 + x2) / 2, y2);
+    westHandle.setHandleLocation((x1 + x2) / 2, y1);
   }
 
   @Override
   public void draw(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setPaint(style.getFillColor());
+    g2d.setPaint(style.fillColor());
     g2d.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    g2d.setStroke(new BasicStroke(style.getLineWidth()));
-    g2d.setColor(style.getLineColor());
+    g2d.setStroke(new BasicStroke(style.lineWidth()));
+    g2d.setColor(style.lineColor());
     g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
   }
 
@@ -60,11 +72,16 @@ public class Oval extends Shape implements Serializable {
     southEastHandle.drawHandle(g);
     northEastHandle.drawHandle(g);
     southWestHandle.drawHandle(g);
+    northHandle.drawHandle(g);
+    southHandle.drawHandle(g);
+    eastHandle.drawHandle(g);
+    westHandle.drawHandle(g);
   }
 
   @Override
   public boolean contains(Point p) {        // 포인트가 사각형 내에 있는 지 확인
-    return p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2;
+    return p.x >= (Math.min(x1, x2) - 3) && p.x <= (Math.max(x1, x2) + 3)
+            && p.y >= (Math.min(y1, y2) - 3) && p.y <= (Math.max(y1, y2) + 3);
   }
 
   @Override
@@ -73,6 +90,10 @@ public class Oval extends Shape implements Serializable {
     southEastHandle.stopDragging();
     northEastHandle.stopDragging();
     southWestHandle.stopDragging();
+    northHandle.stopDragging();
+    southHandle.stopDragging();
+    eastHandle.stopDragging();
+    westHandle.stopDragging();
   }
 
   @Override
@@ -85,6 +106,14 @@ public class Oval extends Shape implements Serializable {
       northEastHandle.startDragging(p);
     } else if (southWestHandle.containsHandle(p)) {
       southWestHandle.startDragging(p);
+    } else if (northHandle.containsHandle(p)) {
+      northHandle.startDragging(p);
+    } else if (southHandle.containsHandle(p)) {
+      southHandle.startDragging(p);
+    } else if (eastHandle.containsHandle(p)) {
+      eastHandle.startDragging(p);
+    } else if (westHandle.containsHandle(p)) {
+      westHandle.startDragging(p);
     }
   }
 
@@ -98,11 +127,34 @@ public class Oval extends Shape implements Serializable {
       northEastHandle.drag(p);
     } else if (southWestHandle.isDragging()) {
       southWestHandle.drag(p);
+    } else if (northHandle.isDragging()) {
+      northHandle.drag(p);
+    } else if (southHandle.isDragging()) {
+      southHandle.drag(p);
+    } else if (eastHandle.isDragging()) {
+      eastHandle.drag(p);
+    } else if (westHandle.isDragging()) {
+      westHandle.drag(p);
     } else {
       move(dx, dy);
     }
   }
 
+  public void setOvalX1(int x) {
+    setLocation(x, this.y1, this.x2, this.y2);
+  }
+
+  public void setOvalY1(int y) {
+    setLocation(this.x1, y, this.x2, this.y2);
+  }
+
+  public void setOvalX2(int x) {
+    setLocation(this.x1, this.y1, x, this.y2);
+  }
+
+  public void setOvalY2(int y) {
+    setLocation(this.x1, this.y1, this.x2, y);
+  }
 
   public void setOvalX1Y1(int x) {
     setLocation(x, this.y1 - (this.x1 - x), this.x2, this.y2);
@@ -122,16 +174,20 @@ public class Oval extends Shape implements Serializable {
 
 
   public class OvalHandle extends Handle implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
-    public OvalHandle(int x, int y, String direction) {
+
+    public OvalHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;
       this.y = y;
+      this.isDiagonalHandle = isDiagonalHandle;
       this.direction = direction;
     }
 
     public OvalHandle(OvalHandle other) {
       this.x = other.getX();
       this.y = other.getY();
+      this.isDiagonalHandle = other.isDiagonalHandle();
       this.direction = other.getDirection();
     }
 
@@ -139,11 +195,20 @@ public class Oval extends Shape implements Serializable {
     public void drag(Point mousePoint) {
       x = mousePoint.x - offsetX;
       y = mousePoint.y - offsetY;
-      switch (direction) {
-        case "northWest" -> setOvalX1Y1(x);
-        case "southEast" -> setOvalX2Y2(x);
-        case "northEast" -> setOvalX1Y2(x);
-        case "southWest" -> setOvalX2Y1(x);
+      if (!isDiagonalHandle) {
+        switch (direction) {
+          case "north" -> setOvalX1(x);
+          case "west" -> setOvalY1(y);
+          case "south" -> setOvalX2(x);
+          case "east" -> setOvalY2(y);
+        }
+      } else {
+        switch (direction) {
+          case "northWest" -> setOvalX1Y1(x);
+          case "southEast" -> setOvalX2Y2(x);
+          case "northEast" -> setOvalX1Y2(x);
+          case "southWest" -> setOvalX2Y1(x);
+        }
       }
     }
   }
