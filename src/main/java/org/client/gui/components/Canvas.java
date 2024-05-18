@@ -2,7 +2,6 @@ package org.client.gui.components;
 
 import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
-import org.client.gui.models.UserAction;
 import org.client.gui.shapes.Rectangle;
 import org.client.gui.shapes.Shape;
 import org.client.gui.shapes.*;
@@ -22,7 +21,6 @@ public class Canvas extends JPanel {
     private final int DRAG_THRESHOLD = 3;
     private Point mousePoint;
     private Shape selectedShape;
-    private Shape previousShape;
     //private int count = 0;
 
 
@@ -33,13 +31,19 @@ public class Canvas extends JPanel {
         requestFocusInWindow();
 
         shapes = appModel.getShapes();
-        appModel.addListener(Listener.USER_CREATION, this::createSilently);
-        appModel.addListener(Listener.USER_REMOVAL, this::removeSilently);
-
-        appModel.addListener(Listener.SELECTION, this::selectSilently);
-        appModel.addListener(Listener.SERVER_CREATION, this::createSilently);
-        appModel.addListener(Listener.SERVER_MODIFICATION, this::modifySilently);
-        appModel.addListener(Listener.SERVER_REMOVAL, this::removeSilently);
+        appModel.addListener(Listener.UPDATE, unused -> {
+            repaint();
+            return null;
+        });
+        appModel.addListener(Listener.SELECTION, selected -> {
+            selectedShape = selected;
+            repaint();
+            return null;
+        });
+        appModel.addVoidListener(Listener.CLEAR, unused -> {
+            repaint();
+            return null;
+        });
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -55,7 +59,6 @@ public class Canvas extends JPanel {
                             || selectedShape instanceof Oval || selectedShape instanceof Text) {
                             selectedShape.allHandleStopDrag();
                             selectedShape.fineAndStartDrag(e.getPoint());
-                            previousShape = selectedShape.copy();
                         }
                         return;
                     }
@@ -78,10 +81,6 @@ public class Canvas extends JPanel {
                     if (distance > DRAG_THRESHOLD) {
                         // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
                         appModel.modifyByUser(selectedShape);
-
-                        // CHANGE 동작 앱모델의 스택에 저장
-                        appModel.storeUndoStack(UserAction.Type.MODIFY, selectedShape, previousShape);
-                        appModel.redoStackEmptying();
                     }
                 }
             }
@@ -118,26 +117,5 @@ public class Canvas extends JPanel {
         if (selectedShape != null) {
             selectedShape.drawSelected(g);
         }
-    }
-
-    private Void selectSilently(Shape selected) {
-        selectedShape = appModel.getSelectedShape();
-        repaint();
-        return null;
-    }
-
-    private Void createSilently(Shape newShape) {
-        repaint();
-        return null;
-    }
-
-    private Void removeSilently(Shape removedShape) {
-        repaint();
-        return null;
-    }
-
-    private Void modifySilently(Shape modifiedShape) {
-        repaint();
-        return null;
     }
 }

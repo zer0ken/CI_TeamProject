@@ -21,7 +21,6 @@ public class EditWindowController extends StylePanelController {
     public EditWindowController() {
         super();
         appModel.addListener(AppModel.Listener.SELECTION, this::setStyleBy);
-        appModel.addListener(AppModel.Listener.USER_MODIFICATION, this::setModifiedStyleBy);
     }
 
     @Override
@@ -98,8 +97,6 @@ public class EditWindowController extends StylePanelController {
                     return;
                 }
                 appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
-                appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
-                    selectedShape.copy(getModifiedStyle()), selectedShape);
             }
         };
         textContentField.addFocusListener(focusListener);
@@ -126,8 +123,6 @@ public class EditWindowController extends StylePanelController {
                         return null;
                     }
                     appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
-                    appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
-                        selectedShape.copy(getModifiedStyle()), selectedShape);
                     return null;
                 },
                 defaultColor,
@@ -154,8 +149,6 @@ public class EditWindowController extends StylePanelController {
             return null;
         }
         appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
-        appModel.storeUndoStack(UserAction.Type.STYLE_MODIFY,
-                selectedShape.copy(getModifiedStyle()), selectedShape);
         return null;
     }
 }

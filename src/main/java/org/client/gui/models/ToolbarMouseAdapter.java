@@ -28,6 +28,8 @@ public class ToolbarMouseAdapter extends MouseAdapter {
             newShape.setStyle(appModel.getStyle());
             newShape.setTimestamp(System.currentTimeMillis());
             newShape.setAuthor(appModel.getMyself());
+            //appModel.storeUndoStack(UserAction.Type.CREATE, newShape, null);
+            appModel.undoAvailable(true);
             appModel.createByUser(newShape);
             return;
         }
@@ -35,7 +37,7 @@ public class ToolbarMouseAdapter extends MouseAdapter {
         if (source.getName().equals(TOOLBAR_UNDO)) {
             appModel.unDo();
         } else if (source.getName().equals(TOOLBAR_REDO)) {
-            appModel.reDo();
+            appModel.redo();
         }
 
     }

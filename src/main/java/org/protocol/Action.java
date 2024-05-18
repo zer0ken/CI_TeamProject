@@ -3,7 +3,8 @@ package org.protocol;
 public enum Action {
     ADD("add"),
     EDIT("edit"),
-    REMOVE("remove");
+    REMOVE("remove"),
+    CLEAR("clear");
 
     final String value;
 

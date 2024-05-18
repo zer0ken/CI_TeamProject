@@ -20,8 +20,8 @@ public class AppModel {
     private final Map<String, Shape> shapes;
     private Shape selectedShape = null;
 
-    private final Stack<UserAction> undoStack;
-    private final Stack<UserAction> redoStack;
+    private final Stack<UndoableAction> actionHistory;
+    private final Stack<UndoableAction> undoneActions;
 
     private int lineWidth = DEFAULT_LINE_WIDTH;
     private Color lineColor = DEFAULT_LINE_COLOR;
@@ -34,6 +34,10 @@ public class AppModel {
         JOIN(null),
         LEAVE(null),
         SET_NAME(null),
+        UNDO_AVAILABLE(null),
+        UNDO_UNAVAILABLE(null),
+        REDO_AVAILABLE(null),
+        REDO_UNAVAILABLE(null),
         SELECTION(null),
         UPDATE(null),
             CREATION(UPDATE),
@@ -44,7 +48,9 @@ public class AppModel {
                 SERVER_MODIFICATION(MODIFICATION),
             REMOVAL(UPDATE),
                 USER_REMOVAL(REMOVAL),
-                SERVER_REMOVAL(REMOVAL);
+                SERVER_REMOVAL(REMOVAL),
+        CLEAR(null);
+
 
         private final Listener parent;
 
@@ -59,12 +65,14 @@ public class AppModel {
         }
     }
 
-    public static class StringListener {
-    }
-
     private final ArrayList<Function<String, Void>> joinListeners;
     private final ArrayList<Function<String, Void>> leaveListeners;
     private final ArrayList<Function<String, Void>> setNameListeners;
+
+    private final ArrayList<Function<Boolean, Void>> undoAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> undoUnAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> redoAvailableListeners;
+    private final ArrayList<Function<Boolean, Void>> redoUnAvailableListeners;
 
     private final ArrayList<Function<Shape, Void>> selectionListeners;
 
@@ -78,10 +86,17 @@ public class AppModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
 
+    private final ArrayList<Function<Void, Void>> clearListeners;
+
     private AppModel() {
         joinListeners = new ArrayList<>();
         leaveListeners = new ArrayList<>();
         setNameListeners = new ArrayList<>();
+
+        undoAvailableListeners = new ArrayList<>();
+        undoUnAvailableListeners = new ArrayList<>();
+        redoAvailableListeners = new ArrayList<>();
+        redoUnAvailableListeners = new ArrayList<>();
 
         selectionListeners = new ArrayList<>();
         userCreationListeners = new ArrayList<>();
@@ -91,9 +106,12 @@ public class AppModel {
         serverModificationListeners = new ArrayList<>();
         serverRemovalListeners = new ArrayList<>();
 
+        clearListeners = new ArrayList<>();
+
         shapes = Collections.synchronizedMap(new TreeMap<>());
-        undoStack = new Stack<>();
-        redoStack = new Stack<>();
+
+        actionHistory = new SizedStack<>(50);
+        undoneActions = new SizedStack<>(50);
 
         instance = this;
     }
@@ -112,6 +130,22 @@ public class AppModel {
             leaveListeners.add(callback);
         if (type.includes(SET_NAME))
             setNameListeners.add(callback);
+    }
+
+    public void addStackListener(Listener type, Function<Boolean, Void> callback) {
+        if (type.includes(UNDO_AVAILABLE))
+            undoAvailableListeners.add(callback);
+        if (type.includes(UNDO_UNAVAILABLE))
+            undoUnAvailableListeners.add(callback);
+        if (type.includes(REDO_AVAILABLE))
+            redoAvailableListeners.add(callback);
+        if (type.includes(REDO_UNAVAILABLE))
+            redoUnAvailableListeners.add(callback);
+    }
+
+    public void addVoidListener(Listener type, Function<Void, Void> callback) {
+      if (type.includes(CLEAR))
+        clearListeners.add(callback);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
@@ -139,9 +173,157 @@ public class AppModel {
         notify(leaveListeners, name);
     }
 
+    public void undoAvailable(Boolean bool) {
+        notify(undoAvailableListeners, bool);
+    }
+
+    public void undoUnAvailable(Boolean bool) {
+        notify(undoUnAvailableListeners, bool);
+    }
+
+    public void redoAvailable(Boolean bool) {
+        notify(redoAvailableListeners, bool);
+    }
+
+    public void redoUnAvailable(Boolean bool) {
+        notify(redoUnAvailableListeners, bool);
+    }
+
     public void createByUser(Shape shape) {
-        add(shape);
-        notify(userCreationListeners, shape);
+        perform(new UndoableAction(
+                () -> {
+                    if (!getShapes().containsKey(shape.getId())) {
+                        add(shape);
+                        notify(userCreationListeners, shape);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(shape.getId())) {
+                        remove(shape.getId());
+                        notify(userRemovalListeners, shape);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void modifyByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(new UndoableAction(
+                () -> {
+                    if (getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void moveByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(new UndoableAction(UndoableAction.Bulk.MOVE,
+                () -> {
+                    if (getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void resizeByUser(Shape after) {
+        Shape before = getShapes().get(after.getId());
+
+        perform(new UndoableAction(UndoableAction.Bulk.RESIZE,
+                () -> {
+                    if (getShapes().containsKey(before.getId())) {
+                        modify(after);
+                        notify(userModificationListeners, after);
+                    }
+                },
+                () -> {
+                    if (getShapes().containsKey(after.getId())) {
+                        modify(before);
+                        notify(userModificationListeners, before);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    public void removeByUser(String id) {
+        Shape removed = getShapes().get(id);
+        perform(new UndoableAction(
+                () -> {
+                    if (getShapes().containsKey(id)) {
+                        remove(id);
+                        notify(userRemovalListeners, removed);
+                    }
+                },
+                () -> {
+                    if (!getShapes().containsKey(id)) {
+                        add(removed);
+                        notify(userCreationListeners, removed);
+                        return true;
+                    }
+                    return false;
+                }
+        ));
+    }
+
+    private void perform(UndoableAction action) {
+        action.perform();
+        if (!actionHistory.isEmpty() &&
+                actionHistory.peek().getBulk() != UndoableAction.Bulk.NONE &&
+                actionHistory.peek().getBulk() != action.getBulk()
+        ) {
+            actionHistory.peek().extend(action);
+        } else {
+            actionHistory.push(action);
+        }
+        undoneActions.clear();
+    }
+
+    public void undo() {
+        UndoableAction action;
+        do {
+            if (actionHistory.isEmpty()) {
+                return;
+            }
+            action = actionHistory.pop();
+        } while (!action.undo());
+        undoneActions.push(action);
+        printDebugInfo();
+    }
+
+    public void redo() {
+        if (undoneActions.isEmpty()) {
+            return;
+        }
+        UndoableAction action = undoneActions.pop();
+        action.perform();
+        actionHistory.push(action);
+        printDebugInfo();
     }
 
     public void createByServer(Shape shape) {
@@ -152,19 +334,9 @@ public class AppModel {
         notify(serverCreationListeners, shape);
     }
 
-    public void modifyByUser(Shape shape) {
-        modify(shape);
-        notify(userModificationListeners, shape);
-    }
-
     public void modifyByServer(Shape shape) {
         modify(shape);
         notify(serverModificationListeners, shape);
-    }
-
-    public void removeByUser(String id) {
-        Shape removed = remove(id);
-        notify(userRemovalListeners, removed);
     }
 
     public void removeByServer(String id) {
@@ -177,8 +349,18 @@ public class AppModel {
         printDebugInfo();
     }
 
-    private void notify(ArrayList<Function<String, Void>> listeners, String string, StringListener... ignored) {
+    private void notify(ArrayList<Function<Void, Void>> listeners) {
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(null)));
+        printDebugInfo();
+    }
+
+    private void notify(ArrayList<Function<String, Void>> listeners, String string) {
         listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(string)));
+        printDebugInfo();
+    }
+
+    private void notify(ArrayList<Function<Boolean, Void>> listeners, Boolean bool) {
+        listeners.forEach(f -> SwingUtilities.invokeLater(() -> f.apply(bool)));
         printDebugInfo();
     }
 
@@ -186,6 +368,8 @@ public class AppModel {
         System.out.println("### 현재 뷰모델");
         System.out.println("selected: " + selectedShape);
         shapes.forEach((i, s) -> System.out.println("\t" + i + ": " + s.toString()));
+        System.out.println("actionHistory: " + actionHistory);
+        System.out.println("undoneActions: " + undoneActions);
         System.out.println("###");
     }
 
@@ -197,6 +381,12 @@ public class AppModel {
     public void select(Shape shape) {
         selectedShape = shape;
         notify(selectionListeners, selectedShape);
+    }
+
+    public void clear() {
+        shapes.clear();
+        select(null);
+        notify(clearListeners);
     }
 
     private void add(Shape shape) {
@@ -215,80 +405,87 @@ public class AppModel {
             return null;
         }
         Shape removedShape = shapes.remove(id);
-        if (selectedShape.equals(removedShape)) {
+        if (removedShape.equals(selectedShape)) {
             select(null);
         }
         return removedShape;
     }
 
-    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
-    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
-        if (previousShape != null) {        // CHANGE
-            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
-        } else {                            // CREATE, DELETE
-            undoStack.push(new UserAction(action, targetShape.copy(), null));
-        }
-        redoStackEmptying();
-    }
-
-    // undo 메소드
-    public void unDo() {
-        if (!undoStack.isEmpty()) {
-            UserAction act = undoStack.pop();
-            if(act.getAction() == UserAction.Type.CREATE) {
-                removeByUser(act.getTargetShape().getId());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                createByUser(act.getTargetShape());
-                if(act.getTargetShape().equals(selectedShape)) {
-                    select(act.getTargetShape());
-                }
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-            }
-            redoStack.push(act);
-        }
-    }
-
-    // redo 메소드
-    public void reDo() {
-        if (!redoStack.isEmpty()) {
-            UserAction act = redoStack.pop();
-            if (act.getAction() == UserAction.Type.CREATE) {
-                createByUser(act.getTargetShape());
-
-            } else if (act.getAction() == UserAction.Type.DELETE) {
-                removeByUser(act.getTargetShape().getId());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(null);
-                }
-
-            } else if (act.getAction() == UserAction.Type.MODIFY
-                    || act.getAction() == UserAction.Type.STYLE_MODIFY) {
-                modifyByUser(act.getPreviousShape());
-                if (act.getTargetShape().equals(selectedShape)) {
-                    select(act.getPreviousShape());     // 변경전 도형 선택
-                }
-                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
-
-            }
-
-            undoStack.push(act);
-        }
-    }
-
-    public void redoStackEmptying() {
-        while (!redoStack.isEmpty()) {
-            redoStack.pop();
-        }
-    }
+//    // CREATE, DELETE, MODIFY, STYLE_MODIFY 동작을 스택에 저장
+//    public void storeUndoStack(UserAction.Type action, Shape targetShape, Shape previousShape) {
+//        if (previousShape != null) {        // CHANGE
+//            undoStack.push(new UserAction(action, targetShape.copy(), previousShape));
+//        } else {                            // CREATE, DELETE
+//            undoStack.push(new UserAction(action, targetShape.copy(), null));
+//        }
+//        redoStackEmptying();
+//        redoUnAvailable(false);
+//    }
+//
+//    // undo 메소드
+//    public void unDo() {
+//        if (!undoStack.isEmpty()) {
+//            UserAction act = undoStack.pop();
+//            if(undoStack.isEmpty()) {
+//                undoUnAvailable(false);
+//            }
+//
+//            if(act.getAction() == UserAction.Type.CREATE) {
+//                removeByUser(act.getTargetShape().getId());
+//            } else if (act.getAction() == UserAction.Type.DELETE) {
+//                System.out.println("삭제 undo");
+//                createByUser(act.getTargetShape());
+//                if(act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getTargetShape());
+//                }
+//            } else if (act.getAction() == UserAction.Type.MODIFY
+//                || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+//                modifyByUser(act.getPreviousShape());
+//                if (act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getPreviousShape());     // 변경전 도형 선택
+//                }
+//                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+//            }
+//            redoStack.push(act);
+//            redoAvailable(true);
+//        }
+//    }
+//
+//    // redo 메소드
+//    public void reDo() {
+//        if (!redoStack.isEmpty()) {
+//            UserAction act = redoStack.pop();
+//            if(redoStack.isEmpty()) {
+//                redoUnAvailable(false);
+//            }
+//
+//            if (act.getAction() == UserAction.Type.CREATE) {
+//                createByUser(act.getTargetShape());
+//                if(act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getTargetShape());
+//                }
+//            } else if (act.getAction() == UserAction.Type.DELETE) {
+//                removeByUser(act.getTargetShape().getId());
+//            } else if (act.getAction() == UserAction.Type.MODIFY
+//                    || act.getAction() == UserAction.Type.STYLE_MODIFY) {
+//                modifyByUser(act.getPreviousShape());
+//                if (act.getTargetShape().equals(selectedShape)) {
+//                    select(act.getPreviousShape());     // 변경전 도형 선택
+//                }
+//                act = new UserAction(UserAction.Type.MODIFY, act.getPreviousShape(), act.getTargetShape());
+//
+//            }
+//
+//            undoStack.push(act);
+//            undoAvailable(true);
+//        }
+//    }
+//
+//    public void redoStackEmptying() {
+//        while (!redoStack.isEmpty()) {
+//            redoStack.pop();
+//        }
+//    }
 
     public Map<String, Shape> getShapes() {
         return Collections.unmodifiableMap(shapes);

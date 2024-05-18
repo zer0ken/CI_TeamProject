@@ -177,6 +177,7 @@ public class Rectangle extends Shape implements Serializable {
 
 
   public class RectHandle extends Handle implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     public RectHandle(int x, int y, boolean isDiagonalHandle, String direction) {
       this.x = x;

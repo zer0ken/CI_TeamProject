@@ -5,8 +5,8 @@ import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.client.gui.models.AppModel;
 import org.client.gui.shapes.Shape;
-import org.common.Base64;
-import org.common.EventHandler;
+import org.protocol.Base64;
+import org.protocol.EventHandler;
 import org.protocol.Command;
 
 public class ClientEventHandler extends EventHandler {
@@ -71,5 +71,10 @@ public class ClientEventHandler extends EventHandler {
     @Override
     protected void processRemoveShapeEvent(CMDummyEvent de, Command cmd) {
         appModel.removeByServer(cmd.getId());
+    }
+
+    @Override
+    protected void processClearShapeEvent(CMDummyEvent de, Command cmd) {
+        appModel.clear();
     }
 }

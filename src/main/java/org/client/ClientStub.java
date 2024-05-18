@@ -5,7 +5,7 @@ import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 import org.client.gui.components.Login;
 import org.client.gui.models.AppModel;
 import org.client.gui.models.AppModel.Listener;
-import org.common.Base64;
+import org.protocol.Base64;
 import org.protocol.Action;
 import org.protocol.Protocol;
 
