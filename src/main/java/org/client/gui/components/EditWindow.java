@@ -16,13 +16,6 @@ public class EditWindow extends JPanel {
         StylePanel stylePanel = new StylePanel();
         stylePanel.composite(EDIT_TOOLTIPS);
 
-        JLabel applyLabel = new JLabel(APPLY_TEXT_TOOLTIP);
-        applyLabel.setVisible(false);
-        JPanel applyPanel = new JPanel();
-        applyPanel.setLayout(new BoxLayout(applyPanel, BoxLayout.X_AXIS));
-        applyPanel.add(Box.createHorizontalGlue());
-        applyPanel.add(applyLabel);
-
         JButton removeButton = new JButton(REMOVE_BUTTON_CONTENT);
         removeButton.setToolTipText(REMOVE_BUTTON_TOOLTIP);
 
@@ -30,10 +23,6 @@ public class EditWindow extends JPanel {
         constraints.gridx = 0;
 
         constraints.gridy = 7;
-        constraints.gridwidth = 2;
-        stylePanel.add(applyPanel, constraints);
-
-        constraints.gridy = 8;
         constraints.gridwidth = 2;
         stylePanel.add(removeButton, constraints);
 
@@ -44,7 +33,6 @@ public class EditWindow extends JPanel {
                 stylePanel.getTextSize(),
                 stylePanel.getTextColor(),
                 stylePanel.getTextContent(),
-                applyLabel,
                 removeButton
         );
 
