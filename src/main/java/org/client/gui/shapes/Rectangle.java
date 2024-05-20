@@ -158,21 +158,20 @@ public class Rectangle extends Shape implements Serializable {
     setLocation(this.x1, this.y1, this.x2, y);
   }
 
-
   public void setRectX1Y1(int x, int y) {
-    setLocation(x, y, this.x2, this.y2);
+    setLocation(x, this.y1 - (this.x1 - x), this.x2, this.y2);
   }
 
   public void setRectX2Y2(int x, int y) {
-    setLocation(this.x1, this.y1, x, y);
+    setLocation(this.x1, this.y1, x, this.y2 + (x - this.x2));
   }
 
   public void setRectX1Y2(int x, int y) {
-    setLocation(x, this.y1, this.x2, y);
+    setLocation(x, this.y1, this.x2, this.y2 - (x - this.x1));
   }
 
   public void setRectX2Y1(int x, int y) {
-    setLocation(this.x1, y, x, this.y2);
+    setLocation(this.x1, this.y1 + (this.x2 - x), x, this.y2);
   }
 
 
