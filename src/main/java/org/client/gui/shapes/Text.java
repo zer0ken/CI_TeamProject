@@ -16,12 +16,12 @@ public class Text extends Shape implements Serializable {
   public Text() {
     northWestHandle = new TextHandle(x1, y1, true, "northWest");
     southEastHandle = new TextHandle(x2, y2, true, "southEast");
-    northEastHandle = new TextHandle(x1, y2, true, "northEast");
-    southWestHandle = new TextHandle(x2, y1, true, "southWest");
-    northHandle = new TextHandle(x1, (y1 + y2) / 2, false, "north");
-    southHandle = new TextHandle(x2, (y1 + y2) / 2, false, "south");
-    eastHandle = new TextHandle((x1 + x2) / 2, y2, false, "east");
-    westHandle = new TextHandle((x1 + x2) / 2, y1, false, "west");
+    northEastHandle = new TextHandle(x2, y1, true, "northEast");
+    southWestHandle = new TextHandle(x1, y2, true, "southWest");
+    northHandle = new TextHandle((x1 + x2) / 2, y1, false, "north");
+    southHandle = new TextHandle((x1 + x2) / 2, y2, false, "south");
+    eastHandle = new TextHandle(x2, (y1 + y2) / 2, false, "east");
+    westHandle = new TextHandle(x1, (y1 + y2) / 2, false, "west");
   }
 
   public Text(Text other) {
@@ -54,12 +54,12 @@ public class Text extends Shape implements Serializable {
     this.y2 = y2;
     northWestHandle.setHandleLocation(x1, y1);
     southEastHandle.setHandleLocation(x2, y2);
-    northEastHandle.setHandleLocation(x1, y2);
-    southWestHandle.setHandleLocation(x2, y1);
-    northHandle.setHandleLocation(x1, (y1 + y2) / 2);
-    southHandle.setHandleLocation(x2, (y1 + y2) / 2);
-    eastHandle.setHandleLocation((x1 + x2) / 2, y2);
-    westHandle.setHandleLocation((x1 + x2) / 2, y1);
+    northEastHandle.setHandleLocation(x2, y1);
+    southWestHandle.setHandleLocation(x1, y2);
+    northHandle.setHandleLocation((x1 + x2) / 2, y1);
+    southHandle.setHandleLocation((x1 + x2) / 2, y2);
+    eastHandle.setHandleLocation(x2, (y1 + y2) / 2);
+    westHandle.setHandleLocation(x1, (y1 + y2) / 2);
   }
 
   @Override
@@ -218,17 +218,17 @@ public class Text extends Shape implements Serializable {
       y = mousePoint.y - offsetY;
       if (!isDiagonalHandle) {
         switch (direction) {
-          case "north" -> setRectX1(x);
-          case "west" -> setRectY1(y);
-          case "south" -> setRectX2(x);
-          case "east" -> setRectY2(y);
+          case "north" -> setRectY1(y);
+          case "south" -> setRectY2(y);
+          case "west" -> setRectX1(x);
+          case "east" -> setRectX2(x);
         }
       } else {
         switch (direction) {
           case "northWest" -> setRectX1Y1(x, y);
           case "southEast" -> setRectX2Y2(x, y);
-          case "northEast" -> setRectX1Y2(x, y);
-          case "southWest" -> setRectX2Y1(x, y);
+          case "northEast" -> setRectX2Y1(x, y);
+          case "southWest" -> setRectX1Y2(x, y);
         }
       }
     }

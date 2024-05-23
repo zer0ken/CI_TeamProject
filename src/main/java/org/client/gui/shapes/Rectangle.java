@@ -14,12 +14,12 @@ public class Rectangle extends Shape implements Serializable {
   public Rectangle() {
     northWestHandle = new RectHandle(x1, y1, true, "northWest");
     southEastHandle = new RectHandle(x2, y2, true, "southEast");
-    northEastHandle = new RectHandle(x1, y2, true, "northEast");
-    southWestHandle = new RectHandle(x2, y1, true, "southWest");
-    northHandle = new RectHandle(x1, (y1 + y2) / 2, false, "north");
-    southHandle = new RectHandle(x2, (y1 + y2) / 2, false, "south");
-    eastHandle = new RectHandle((x1 + x2) / 2, y2, false, "east");
-    westHandle = new RectHandle((x1 + x2) / 2, y1, false, "west");
+    northEastHandle = new RectHandle(x2, y1, true, "northEast");
+    southWestHandle = new RectHandle(x1, y2, true, "southWest");
+    northHandle = new RectHandle((x1 + x2) / 2, y1, false, "north");
+    southHandle = new RectHandle((x1 + x2) / 2, y2, false, "south");
+    eastHandle = new RectHandle(x2, (y1 + y2) / 2, false, "east");
+    westHandle = new RectHandle(x1, (y1 + y2) / 2, false, "west");
   }
 
   public Rectangle(Rectangle other) {
@@ -48,12 +48,12 @@ public class Rectangle extends Shape implements Serializable {
     this.y2 = y2;
     northWestHandle.setHandleLocation(x1, y1);
     southEastHandle.setHandleLocation(x2, y2);
-    northEastHandle.setHandleLocation(x1, y2);
-    southWestHandle.setHandleLocation(x2, y1);
-    northHandle.setHandleLocation(x1, (y1 + y2) / 2);
-    southHandle.setHandleLocation(x2, (y1 + y2) / 2);
-    eastHandle.setHandleLocation((x1 + x2) / 2, y2);
-    westHandle.setHandleLocation((x1 + x2) / 2, y1);
+    northEastHandle.setHandleLocation(x2, y1);
+    southWestHandle.setHandleLocation(x1, y2);
+    northHandle.setHandleLocation((x1 + x2) / 2, y1);
+    southHandle.setHandleLocation((x1 + x2) / 2, y2);
+    eastHandle.setHandleLocation(x2, (y1 + y2) / 2);
+    westHandle.setHandleLocation(x1, (y1 + y2) / 2);
   }
 
   @Override
@@ -159,19 +159,19 @@ public class Rectangle extends Shape implements Serializable {
   }
 
   public void setRectX1Y1(int x, int y) {
-    setLocation(x, this.y1 - (this.x1 - x), this.x2, this.y2);
+    setLocation(x, y, this.x2, this.y2);
   }
 
   public void setRectX2Y2(int x, int y) {
-    setLocation(this.x1, this.y1, x, this.y2 + (x - this.x2));
-  }
-
-  public void setRectX1Y2(int x, int y) {
-    setLocation(x, this.y1, this.x2, this.y2 - (x - this.x1));
+    setLocation(this.x1, this.y1, x, y);
   }
 
   public void setRectX2Y1(int x, int y) {
-    setLocation(this.x1, this.y1 + (this.x2 - x), x, this.y2);
+    setLocation(this.x1, y, x, this.y2);
+  }
+
+  public void setRectX1Y2(int x, int y) {
+    setLocation(x, this.y1, this.x2, y);
   }
 
 
@@ -198,17 +198,17 @@ public class Rectangle extends Shape implements Serializable {
       y = mousePoint.y - offsetY;
       if (!isDiagonalHandle) {
         switch (direction) {
-          case "north" -> setRectX1(x);
-          case "west" -> setRectY1(y);
-          case "south" -> setRectX2(x);
-          case "east" -> setRectY2(y);
+          case "north" -> setRectY1(y);
+          case "south" -> setRectY2(y);
+          case "west" -> setRectX1(x);
+          case "east" -> setRectX2(x);
         }
       } else {
         switch (direction) {
           case "northWest" -> setRectX1Y1(x, y);
           case "southEast" -> setRectX2Y2(x, y);
-          case "northEast" -> setRectX1Y2(x, y);
-          case "southWest" -> setRectX2Y1(x, y);
+          case "northEast" -> setRectX2Y1(x, y);
+          case "southWest" -> setRectX1Y2(x, y);
         }
       }
     }

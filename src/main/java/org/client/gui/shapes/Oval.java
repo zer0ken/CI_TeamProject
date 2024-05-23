@@ -13,12 +13,12 @@ public class Oval extends Shape implements Serializable {
   public Oval() {
     northWestHandle = new OvalHandle(x1, y1, true, "northWest");
     southEastHandle = new OvalHandle(x2, y2, true, "southEast");
-    northEastHandle = new OvalHandle(x1, y2, true, "northEast");
-    southWestHandle = new OvalHandle(x2, y1, true, "southWest");
-    northHandle = new OvalHandle(x1, (y1 + y2) / 2, false, "north");
-    southHandle = new OvalHandle(x2, (y1 + y2) / 2, false, "south");
-    eastHandle = new OvalHandle((x1 + x2) / 2, y2, false, "east");
-    westHandle = new OvalHandle((x1 + x2) / 2, y1, false, "west");
+    northEastHandle = new OvalHandle(x2, y1, true, "northEast");
+    southWestHandle = new OvalHandle(x1, y2, true, "southWest");
+    northHandle = new OvalHandle((x1 + x2) / 2, y1, false, "north");
+    southHandle = new OvalHandle((x1 + x2) / 2, y2, false, "south");
+    eastHandle = new OvalHandle(x2, (y1 + y2) / 2, false, "east");
+    westHandle = new OvalHandle(x1, (y1 + y2) / 2, false, "west");
   }
 
   public Oval(Oval other) {
@@ -47,12 +47,12 @@ public class Oval extends Shape implements Serializable {
     this.y2 = y2;
     northWestHandle.setHandleLocation(x1, y1);
     southEastHandle.setHandleLocation(x2, y2);
-    northEastHandle.setHandleLocation(x1, y2);
-    southWestHandle.setHandleLocation(x2, y1);
-    northHandle.setHandleLocation(x1, (y1 + y2) / 2);
-    southHandle.setHandleLocation(x2, (y1 + y2) / 2);
-    eastHandle.setHandleLocation((x1 + x2) / 2, y2);
-    westHandle.setHandleLocation((x1 + x2) / 2, y1);
+    northEastHandle.setHandleLocation(x2, y1);
+    southWestHandle.setHandleLocation(x1, y2);
+    northHandle.setHandleLocation((x1 + x2) / 2, y1);
+    southHandle.setHandleLocation((x1 + x2) / 2, y2);
+    eastHandle.setHandleLocation(x2, (y1 + y2) / 2);
+    westHandle.setHandleLocation(x1, (y1 + y2) / 2);
   }
 
   @Override
@@ -164,12 +164,12 @@ public class Oval extends Shape implements Serializable {
     setLocation(this.x1, this.y1, x, this.y2 + (x - this.x2));
   }
 
-  public void setOvalX1Y2(int x) {
-    setLocation(x, this.y1, this.x2, this.y2 - (x - this.x1));
+  public void setOvalX2Y1(int x) {
+    setLocation(this.x1, this.y1 - (x - this.x2), x, this.y2);
   }
 
-  public void setOvalX2Y1(int x) {
-    setLocation(this.x1, this.y1 + (this.x2 - x), x, this.y2);
+  public void setOvalX1Y2(int x) {
+    setLocation(x, this.y1, this.x2, this.y2 + (this.x1 - x));
   }
 
 
@@ -197,17 +197,17 @@ public class Oval extends Shape implements Serializable {
       y = mousePoint.y - offsetY;
       if (!isDiagonalHandle) {
         switch (direction) {
-          case "north" -> setOvalX1(x);
-          case "west" -> setOvalY1(y);
-          case "south" -> setOvalX2(x);
-          case "east" -> setOvalY2(y);
+          case "north" -> setOvalY1(y);
+          case "south" -> setOvalY2(y);
+          case "west" -> setOvalX1(x);
+          case "east" -> setOvalX2(x);
         }
       } else {
         switch (direction) {
           case "northWest" -> setOvalX1Y1(x);
           case "southEast" -> setOvalX2Y2(x);
-          case "northEast" -> setOvalX1Y2(x);
-          case "southWest" -> setOvalX2Y1(x);
+          case "northEast" -> setOvalX2Y1(x);
+          case "southWest" -> setOvalX1Y2(x);
         }
       }
     }
