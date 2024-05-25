@@ -28,8 +28,6 @@ public class ToolbarMouseAdapter extends MouseAdapter {
             newShape.setStyle(appModel.getStyle());
             newShape.setTimestamp(System.currentTimeMillis());
             newShape.setAuthor(appModel.getMyself());
-            //appModel.storeUndoStack(UserAction.Type.CREATE, newShape, null);
-            appModel.undoAvailable(true);
             appModel.createByUser(newShape);
             return;
         }

@@ -173,19 +173,19 @@ public class AppModel {
         notify(leaveListeners, name);
     }
 
-    public void undoAvailable(Boolean bool) {
+    public void setUndoButtonOn(Boolean bool) {
         notify(undoAvailableListeners, bool);
     }
 
-    public void undoUnAvailable(Boolean bool) {
+    public void setUndoButtonOff(Boolean bool) {
         notify(undoUnAvailableListeners, bool);
     }
 
-    public void redoAvailable(Boolean bool) {
+    public void setRedoButtonOn(Boolean bool) {
         notify(redoAvailableListeners, bool);
     }
 
-    public void redoUnAvailable(Boolean bool) {
+    public void setRedoButtonOff(Boolean bool) {
         notify(redoUnAvailableListeners, bool);
     }
 
@@ -299,9 +299,13 @@ public class AppModel {
         ) {
             actionHistory.peek().extend(action);
         } else {
+            if (actionHistory.isEmpty()) {
+                setUndoButtonOn(true);
+            }
             actionHistory.push(action);
         }
         undoneActions.clear();
+        setRedoButtonOff(false);
     }
 
     public void undo() {
@@ -312,6 +316,12 @@ public class AppModel {
             }
             action = actionHistory.pop();
         } while (!action.undo());
+        if (actionHistory.isEmpty()) {
+            setUndoButtonOff(false);
+        }
+        if (undoneActions.isEmpty()) {
+            setRedoButtonOn(true);
+        }
         undoneActions.push(action);
         printDebugInfo();
     }
@@ -321,7 +331,13 @@ public class AppModel {
             return;
         }
         UndoableAction action = undoneActions.pop();
+        if (undoneActions.isEmpty()) {
+            setRedoButtonOff(false);
+        }
         action.perform();
+        if (actionHistory.isEmpty()) {
+            setUndoButtonOn(true);
+        }
         actionHistory.push(action);
         printDebugInfo();
     }
