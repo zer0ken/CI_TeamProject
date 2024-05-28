@@ -2,9 +2,8 @@ package org.client.gui.components;
 
 import org.client.gui.Theme;
 import org.client.gui.Utils;
-import org.client.gui.models.AppModel;
-import org.client.gui.models.AppModel.Listener;
 import org.client.gui.models.ToolbarMouseAdapter;
+import org.client.gui.models.ToolbarButtonController;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,14 +15,10 @@ import java.util.Map;
 import static org.client.gui.Constants.*;
 
 public class Toolbar extends JPanel {
-    private final AppModel appModel = AppModel.getInstance();
     private Map<String, JButton> buttonMap;
     public Toolbar() {
         buttonMap = new HashMap<>();
-        appModel.addStackListener(Listener.UNDO_AVAILABLE, this::setUndoButtonEnabled);
-        appModel.addStackListener(Listener.UNDO_UNAVAILABLE, this::setUndoButtonEnabled);
-        appModel.addStackListener(Listener.REDO_AVAILABLE, this::setRedoButtonEnabled);
-        appModel.addStackListener(Listener.REDO_UNAVAILABLE, this::setRedoButtonEnabled);
+        ToolbarButtonController buttonController = new ToolbarButtonController(buttonMap);
 
         setLayout(new BorderLayout());
         setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
@@ -58,21 +53,5 @@ public class Toolbar extends JPanel {
             }
             toolbar.add(button);
         }
-    }
-
-    public Void setUndoButtonEnabled(boolean enabled) {
-        JButton button = buttonMap.get(TOOLBAR_UNDO);
-        if (button != null) {
-            button.setEnabled(enabled);
-        }
-        return null;
-    }
-
-    public Void setRedoButtonEnabled(boolean enabled) {
-        JButton button = buttonMap.get(TOOLBAR_REDO);
-        if (button != null) {
-            button.setEnabled(enabled);
-        }
-        return null;
     }
 }
