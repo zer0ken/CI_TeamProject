@@ -1,9 +1,8 @@
 package org.client.gui;
 
 import org.client.gui.components.Canvas;
-import org.client.gui.components.EastPanel;
-import org.client.gui.components.Toolbar;
-import org.client.gui.components.WestPanel;
+import org.client.gui.components.*;
+import org.client.gui.models.AppModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +35,17 @@ public class App extends JFrame {
 
         add(new WestPanel(), BorderLayout.WEST);
         add(new EastPanel(), BorderLayout.EAST);
+
+        JPanel disablePane = new DisablePanel();
+        setGlassPane(disablePane);
+        disablePane.setVisible(true);
+        getContentPane().setVisible(false);
+
+        AppModel.getInstance().addStringListener(AppModel.Listener.SET_NAME, unused -> {
+            disablePane.setVisible(false);
+            getContentPane().setVisible(true);
+            return null;
+        });
 
         // show it
         setVisible(true);
