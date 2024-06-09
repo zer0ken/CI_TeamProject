@@ -19,6 +19,8 @@ public class AppModel {
 
     private final Map<String, Shape> shapes;
     private Shape selectedShape = null;
+    private boolean modifying = false;
+    private Shape serversideChanges = null;
 
     private final Stack<UndoableAction> actionHistory;
     private final Stack<UndoableAction> undoneActions;
@@ -351,8 +353,12 @@ public class AppModel {
     }
 
     public void modifyByServer(Shape shape) {
-        modify(shape);
-        notify(serverModificationListeners, shape);
+        if (selectedShape != null && selectedShape.equals(shape) && isModifying()) {
+            serversideChanges = shape;
+        } else {
+            modify(shape);
+            notify(serverModificationListeners, shape);
+        }
     }
 
     public void removeByServer(String id) {
@@ -465,5 +471,16 @@ public class AppModel {
 
     public String getMyself() {
         return myself;
+    }
+
+    public void setModifying(boolean modifying) {
+        this.modifying = modifying;
+        if (!modifying && serversideChanges != null) {
+            modifyByServer(serversideChanges);
+        }
+    }
+
+    public boolean isModifying() {
+        return modifying;
     }
 }

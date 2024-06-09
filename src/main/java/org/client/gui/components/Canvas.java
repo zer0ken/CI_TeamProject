@@ -54,7 +54,7 @@ public class Canvas extends JPanel {
                         mousePoint = e.getPoint();
 
                         selectedShape = shapes.get(key);
-                        appModel.select(selectedShape);  // 뷰모델에 선택된 도형 변경 전달
+                        appModel.select(selectedShape);  // 뷰모델에 선택된 도형 변경 전달1
                         if (selectedShape instanceof Line || selectedShape instanceof Rectangle
                             || selectedShape instanceof Oval || selectedShape instanceof Text) {
                             selectedShape.allHandleStopDrag();
@@ -78,10 +78,9 @@ public class Canvas extends JPanel {
                     int dy = e.getY() - clickStartPoint.y;
                     double distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance > DRAG_THRESHOLD) {
-                        // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
-                        appModel.modifyByUser(selectedShape);
-                    }
+                    // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
+                    appModel.modifyByUser(selectedShape);
+                    appModel.setModifying(false);
                 }
             }
         });
@@ -103,6 +102,9 @@ public class Canvas extends JPanel {
                         repaint();
                     }
 
+                    appModel.setModifying(true);
+                    // 맵에서 도형 변경 -> 다시 그림 -> 뷰모델에 도형 변경 전달
+                    appModel.modifyByUser(selectedShape);
                 }
             }
         });
