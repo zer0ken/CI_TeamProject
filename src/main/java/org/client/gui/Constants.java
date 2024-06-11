@@ -121,7 +121,7 @@ public class Constants {
             SHAPES_WINDOW_TITLE + "창 열기"
     };
     public static final String[] EAST_TOOLBAR_TOOLTIPS = {
-            EDIT_WINDOW_TITLE,
+            CLIENTS_WINDOW_TITLE,
             SHAPES_WINDOW_TITLE
     };
     public static final String[] EAST_TOOLBAR_ICONS = {

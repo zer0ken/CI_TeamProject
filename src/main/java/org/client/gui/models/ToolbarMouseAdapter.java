@@ -71,19 +71,16 @@ public class ToolbarMouseAdapter extends MouseAdapter {
     }
 
     private void handleToggleButtonEvent(JToggleButton source) {
-        if (source.getName().equals(TOOLBAR_UNDO)) {
-            appModel.undo();
-        } else if (source.getName().equals(TOOLBAR_REDO)) {
-            appModel.redo();
-        } else {
-            appModel.setType(switch (source.getName()) {
-                case TOOLBAR_LINE -> Shape.Type.LINE;
-                case TOOLBAR_RECT -> Shape.Type.RECTANGLE;
-                case TOOLBAR_OVAL -> Shape.Type.OVAL;
-                case TOOLBAR_TEXT -> Shape.Type.TEXT;
-                default -> throw new IllegalStateException("Unexpected value: " + source.getName());
-            });
+        if(!source.isSelected()){
+            return;
         }
+        appModel.setType(switch (source.getName()) {
+            case TOOLBAR_LINE -> Shape.Type.LINE;
+            case TOOLBAR_RECT -> Shape.Type.RECTANGLE;
+            case TOOLBAR_OVAL -> Shape.Type.OVAL;
+            case TOOLBAR_TEXT -> Shape.Type.TEXT;
+            default -> throw new IllegalStateException("Unexpected value: " + source.getName());
+        });
     }
 }
 
