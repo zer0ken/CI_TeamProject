@@ -32,6 +32,8 @@ public class Canvas extends JPanel {
             return null;
         });
         appModel.addVoidListener(AppModel.Listener.CLEAR, unused -> {
+            handler.setTarget(null);
+            handler.finishDrag();
             repaint();
             return null;
         });

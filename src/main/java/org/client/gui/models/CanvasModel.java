@@ -31,11 +31,6 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
             }
             return null;
         });
-        appModel.addListener(AppModel.Listener.CLEAR, unused -> {
-            handler.setTarget(null);
-            handler.finishDrag();
-            return null;
-        });
     }
 
     public static CanvasModel getInstance() {
