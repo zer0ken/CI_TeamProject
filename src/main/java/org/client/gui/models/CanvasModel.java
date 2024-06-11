@@ -37,8 +37,33 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (appModel.getSelectedShape() != null && handler.contains(e.getPoint())) {
+        Shape clicked = null;
+        for (Shape shape : appModel.getShapes().values()) {
+            if (shape.contains(e.getPoint())) {
+                clicked = shape;
+            }
+        }
+        if (clicked == null) {
+            if (appModel.getSelectedShape() != null) {
+                appModel.select(null);
+            } else {
+                Shape shape = new Shape(
+                        appModel.getType(),
+                        appModel.getStyle(),
+                        e.getX(),
+                        e.getY(),
+                        appModel.getMyself(),
+                        System.currentTimeMillis()
+                );
+                appModel.createByUser(shape);
+                appModel.select(shape);
+                handler.setTarget(shape);
+                handler.startCreation(e.getPoint());
+            }
+        } else if (handler.getTarget() != null && handler.getTarget().equals(clicked)) {
             handler.startDrag(e.getPoint());
+        } else {
+            appModel.select(clicked);
         }
     }
 
@@ -61,14 +86,6 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         if (handler.isDragging()) {
             handler.finishDrag();
-        } else {
-            for (Shape shape : appModel.getShapes().values()) {
-                if (shape.contains(e.getPoint())) {
-                    appModel.select(shape);
-                    return;
-                }
-            }
-            appModel.select(null);
         }
     }
 }

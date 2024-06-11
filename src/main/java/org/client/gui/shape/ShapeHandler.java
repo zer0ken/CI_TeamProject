@@ -27,19 +27,24 @@ public class ShapeHandler implements Drawable, Interactable {
     }
 
     public void startDrag(Point p) {
-        for (Handle handle : handles.values()) {
-            if (handle.contains(p)) {
-                selectedHandle = handle;
+        if (target.getType() != Shape.Type.TEXT) {
+            for (Handle handle : handles.values()) {
+                if (handle.contains(p)) {
+                    selectedHandle = handle;
+                }
             }
         }
         lastP = p;
         dragging = true;
         aspect = (float) this.target.getHeight() / target.getWidth();
+        System.out.println("@@@ start dragging on " + selectedHandle);
     }
 
-    public void startDrag(Shape target){
-        setTarget(target);
-        selectedHandle = handles.get(Handle.Location.SE);
+    public void startCreation(Point p) {
+        if (target.getType() != Shape.Type.TEXT) {
+            selectedHandle = handles.get(Handle.Location.SE);
+        }
+        lastP = p;
         dragging = true;
         aspect = 1.0f;
     }
@@ -138,8 +143,10 @@ public class ShapeHandler implements Drawable, Interactable {
             g.setColor(Color.BLUE);
             g.drawRect(target.getX1() - 1, target.getY1() - 1, target.getWidth() + 2, target.getHeight() + 2);
 
-            for (Handle handle : handles.values()) {
-                handle.draw(g);
+            if (target.getType() != Shape.Type.TEXT) {
+                for (Handle handle : handles.values()) {
+                    handle.draw(g);
+                }
             }
         }
     }
@@ -150,9 +157,11 @@ public class ShapeHandler implements Drawable, Interactable {
             if (target.contains(point)) {
                 return true;
             }
-            for (Handle handle : handles.values()) {
-                if (handle.contains(point)) {
-                    return true;
+            if (target.getType() != Shape.Type.TEXT) {
+                for (Handle handle : handles.values()) {
+                    if (handle.contains(point)) {
+                        return true;
+                    }
                 }
             }
         }

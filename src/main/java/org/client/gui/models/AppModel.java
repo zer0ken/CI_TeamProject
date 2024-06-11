@@ -17,6 +17,8 @@ public class AppModel {
 
     private String myself;
 
+    private Shape.Type type = Shape.Type.LINE;
+
     private final Map<String, Shape> shapes;
     private Shape selectedShape = null;
     private boolean modifying = false;
@@ -431,6 +433,14 @@ public class AppModel {
             select(null);
         }
         return removedShape;
+    }
+
+    public void setType(Shape.Type type) {
+        this.type = type;
+    }
+
+    public Shape.Type getType() {
+        return type;
     }
 
     public Map<String, Shape> getShapes() {

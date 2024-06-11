@@ -34,8 +34,8 @@ public class Shape implements Serializable, Comparable<Shape>, Drawable, Interac
     public Shape(Type type, Style style, int x1, int y1, String author, long timestamp) {
         this(
                 type, style, x1, y1,
-                type == Type.TEXT ? x1 + 100 : x1,
-                type == Type.TEXT ? y1 + 100 : y1,
+                type == Type.TEXT ? x1 + 100 : x1 + 1,
+                type == Type.TEXT ? y1 + 100 : y1 + 1,
                 author, timestamp);
     }
 
@@ -75,6 +75,8 @@ public class Shape implements Serializable, Comparable<Shape>, Drawable, Interac
                 g2d.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
             }
             case LINE -> {
+                g2d.setStroke(new BasicStroke(style.lineWidth()));
+                g2d.setColor(style.lineColor());
                 g2d.drawLine(x1, y1, x2, y2);
             }
             case TEXT -> {

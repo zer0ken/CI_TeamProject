@@ -12,27 +12,20 @@ public class ToolbarMouseAdapter extends MouseAdapter {
     private final AppModel appModel = AppModel.getInstance();
 
     public void mouseClicked(MouseEvent e) {
-        JButton source = (JButton) e.getSource();
+        JToggleButton source = (JToggleButton) e.getSource();
 
         if (source.getName().equals(TOOLBAR_UNDO)) {
             appModel.undo();
         } else if (source.getName().equals(TOOLBAR_REDO)) {
             appModel.redo();
-        } else if (e.getClickCount() == 2) {
-            Shape.Type type = switch (source.getName()) {
+        } else {
+            appModel.setType(switch (source.getName()) {
                 case TOOLBAR_LINE -> Shape.Type.LINE;
                 case TOOLBAR_RECT -> Shape.Type.RECTANGLE;
                 case TOOLBAR_OVAL -> Shape.Type.OVAL;
                 case TOOLBAR_TEXT -> Shape.Type.TEXT;
                 default -> throw new IllegalStateException("Unexpected value: " + source.getName());
-            };
-
-            Shape newShape = new Shape(
-                    type, appModel.getStyle(),
-                    300, 300, 400, 400,
-                    appModel.getMyself(), System.currentTimeMillis()
-            );
-            appModel.createByUser(newShape);
+            });
         }
     }
 }
