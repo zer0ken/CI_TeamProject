@@ -12,7 +12,6 @@ public class ShapeListModel extends DefaultListModel<Shape> {
         appModel.addListener(AppModel.Listener.CREATION, this::add);
         appModel.addListener(AppModel.Listener.MODIFICATION, this::edit);
         appModel.addListener(AppModel.Listener.REMOVAL, this::remove);
-        appModel.addVoidListener(AppModel.Listener.CLEAR, this::clear);
     }
 
     private Void clear(Void unused) {

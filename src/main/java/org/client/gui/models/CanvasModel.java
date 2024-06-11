@@ -18,16 +18,22 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
             handler.setTarget(shape);
             return null;
         });
-        appModel.addListener(AppModel.Listener.MODIFICATION, shape -> {
+        appModel.addListener(AppModel.Listener.SERVER_MODIFICATION, shape -> {
             if (shape.equals(handler.getTarget())){
                 handler.setTarget(shape);
             }
             return null;
         });
-        appModel.addListener(AppModel.Listener.REMOVAL, shape -> {
-            if (shape.equals(handler.getTarget())){
+        appModel.addListener(AppModel.Listener.SERVER_REMOVAL, shape -> {
+            if (shape != null && shape.equals(handler.getTarget())){
                 handler.setTarget(null);
+                handler.finishDrag();
             }
+            return null;
+        });
+        appModel.addListener(AppModel.Listener.CLEAR, unused -> {
+            handler.setTarget(null);
+            handler.finishDrag();
             return null;
         });
     }

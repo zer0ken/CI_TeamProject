@@ -75,22 +75,22 @@ public class Constants {
     public static final String TOOLBAR_LOAD = "불러오기";
 
     public static final String[] TOOLBAR_ACTION_TOOLS = {
+            TOOLBAR_SAVE,
+            TOOLBAR_LOAD,
             TOOLBAR_UNDO,
             TOOLBAR_REDO,
-            TOOLBAR_SAVE,
-            TOOLBAR_LOAD
     };
     public static final String[] TOOLBAR_ACTION_TOOLTIPS = {
-            "이전 행동을 되돌립니다.",
-            "이전에 되돌린 행동을 다시 수행합니다.",
             "도형 정보를 로컬 파일로 저장합니다.",
             "도형 정보가 저장된 로컬 파일을 불러옵니다.",
+            "이전 행동을 되돌립니다.",
+            "이전에 되돌린 행동을 다시 수행합니다.",
     };
     public static final String[] TOOLBAR_ACTION_ICONS = {
-            "icon/undo_icon.png",
-            "icon/redo_icon.png",
             "icon/save_icon.png",
             "icon/load_icon.png",
+            "icon/undo_icon.png",
+            "icon/redo_icon.png",
     };
 
     public static final String[] TOOLBAR_SHAPE_TOOLS = {

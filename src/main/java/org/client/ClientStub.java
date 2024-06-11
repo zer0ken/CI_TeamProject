@@ -18,7 +18,7 @@ public class ClientStub extends CMClientStub {
         appModel.addListener(Listener.USER_CREATION, shape -> requestAdd(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_MODIFICATION, shape -> requestEdit(shape.getId(), Base64.encode(shape)));
         appModel.addListener(Listener.USER_REMOVAL, shape -> requestRemove(shape.getId()));
-
+        appModel.addVoidListener(Listener.CLEAR_REQUEST, unused -> requestClear());
     }
 
     public void sendDummy(String message) {
@@ -55,6 +55,12 @@ public class ClientStub extends CMClientStub {
 
     public Void requestLeave() {
         terminateCM();
+        return null;
+    }
+
+    public Void requestClear() {
+        String message = Protocol.build(Action.CLEAR);
+        sendDummy(message);
         return null;
     }
 }

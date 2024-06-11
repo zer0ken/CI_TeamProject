@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.*;
 import java.util.function.Function;
 
@@ -59,7 +58,8 @@ public class AppModel {
         REMOVAL(UPDATE),
         USER_REMOVAL(REMOVAL),
         SERVER_REMOVAL(REMOVAL),
-        CLEAR(null);
+        CLEAR(null),
+        CLEAR_REQUEST(null);
 
 
         private final Listener parent;
@@ -98,6 +98,7 @@ public class AppModel {
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
     private final ArrayList<Function<Void, Void>> clearListeners;
+    private final ArrayList<Function<Void, Void>> clearRequestListeners;
 
     private AppModel() {
         joinListeners = new ArrayList<>();
@@ -118,6 +119,7 @@ public class AppModel {
         serverRemovalListeners = new ArrayList<>();
 
         clearListeners = new ArrayList<>();
+        clearRequestListeners = new ArrayList<>();
 
         shapes = Collections.synchronizedMap(new TreeMap<>());
 
@@ -157,6 +159,8 @@ public class AppModel {
     public void addVoidListener(Listener type, Function<Void, Void> callback) {
         if (type.includes(CLEAR))
             clearListeners.add(callback);
+        if (type.includes(CLEAR_REQUEST))
+            clearRequestListeners.add(callback);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {
@@ -191,14 +195,14 @@ public class AppModel {
     }
 
     public void load(File file) {
+        select(null);
+        actionHistory.clear();
         System.out.println("다음 파일로부터 입력: " + file.getAbsolutePath());
         ArrayList<Shape> shapeList;
         try {
             shapeList = (ArrayList<Shape>) Base64.decode(Files.readString(file.toPath()));
-            List<String> ids = shapes.values().stream().map(Shape::getId).toList();
-            for (String id: ids) {
-                removeByUser(id);
-            }
+            clear();
+            requestClear();
             for (Shape shape : shapeList) {
                 createByUser(shape);
             }
@@ -314,7 +318,7 @@ public class AppModel {
     }
 
     public void removeByUser(String id) {
-        Shape removed = getShapes().get(id);
+        Shape removed = new Shape(getShapes().get(id));
         perform(new UndoableAction(
                 () -> {
                     if (getShapes().containsKey(id)) {
@@ -449,6 +453,12 @@ public class AppModel {
         shapes.clear();
         select(null);
         notify(clearListeners);
+    }
+
+    public void requestClear() {
+        shapes.clear();
+        select(null);
+        notify(clearRequestListeners);
     }
 
     private void add(Shape shape) {
