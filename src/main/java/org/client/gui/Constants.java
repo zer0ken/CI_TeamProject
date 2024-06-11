@@ -54,7 +54,14 @@ public class Constants {
             "수정할 텍스트의 내용을 입력합니다.\n입력 후 [Tab] 키를 눌러 수정된 텍스트를 적용할 수 있습니다.",
     };
 
-    public static final String APPLY_TEXT_TOOLTIP = "[Tab]키로 텍스트 적용";
+    public static final String SAVE_SHAPES = "도형 정보 저장";
+    public static final String LOAD_SHAPES = "도형 정보 불러오기";
+    public static final String SAVE_FAILED = "파일 출력 오류";
+    public static final String SAVE_FAILED_MESSAGE = "도형 정보를 저장하지 못했습니다.";
+    public static final String LOAD_FAILED = "파일 입력 오류";
+    public static final String LOAD_FAILED_MESSAGE = "도형 정보를 불러오지 못했습니다.";
+    public static final String LOAD_FAILED_CONFIRM = "파일 불러오기";
+    public static final String LOAD_FAILED_CONFIRM_MESSAGE = "도형 정보를 불러오면 현재의 정보가 삭제됩니다.";
 
     public static final String TOOLBAR_TITLE = "도구 모음";
 
@@ -64,19 +71,26 @@ public class Constants {
     public static final String TOOLBAR_TEXT = "텍스트 도구";
     public static final String TOOLBAR_UNDO = "undo";
     public static final String TOOLBAR_REDO = "redo";
-
+    public static final String TOOLBAR_SAVE = "저장";
+    public static final String TOOLBAR_LOAD = "불러오기";
 
     public static final String[] TOOLBAR_ACTION_TOOLS = {
             TOOLBAR_UNDO,
             TOOLBAR_REDO,
+            TOOLBAR_SAVE,
+            TOOLBAR_LOAD
     };
     public static final String[] TOOLBAR_ACTION_TOOLTIPS = {
             "이전 행동을 되돌립니다.",
             "이전에 되돌린 행동을 다시 수행합니다.",
+            "도형 정보를 로컬 파일로 저장합니다.",
+            "도형 정보가 저장된 로컬 파일을 불러옵니다.",
     };
     public static final String[] TOOLBAR_ACTION_ICONS = {
             "icon/undo_icon.png",
             "icon/redo_icon.png",
+            "icon/save_icon.png",
+            "icon/load_icon.png",
     };
 
     public static final String[] TOOLBAR_SHAPE_TOOLS = {

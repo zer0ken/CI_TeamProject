@@ -32,7 +32,9 @@ public class Toolbar extends JPanel {
             button.setName(buttonName);
             button.addMouseListener(toolbarMouseAdapter);
             button.setToolTipText(TOOLBAR_ACTION_TOOLTIPS[i]);
-            button.setEnabled(false);
+            if (i <= 1) {
+                button.setEnabled(false);
+            }
             buttonMap.put(buttonName, button);
             toolbar.add(button);
         }

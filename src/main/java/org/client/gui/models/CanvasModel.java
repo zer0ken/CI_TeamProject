@@ -14,11 +14,19 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
     private final ShapeHandler handler = new ShapeHandler();
 
     private CanvasModel() {
-        appModel.addListener(AppModel.Listener.SELECTION, selected -> {
-            if (selected == null
-                    || !handler.isDragging()
-                    || !selected.equals(handler.getTarget())) {
-                handler.setTarget(selected);
+        appModel.addListener(AppModel.Listener.SELECTION, shape -> {
+            handler.setTarget(shape);
+            return null;
+        });
+        appModel.addListener(AppModel.Listener.MODIFICATION, shape -> {
+            if (shape.equals(handler.getTarget())){
+                handler.setTarget(shape);
+            }
+            return null;
+        });
+        appModel.addListener(AppModel.Listener.REMOVAL, shape -> {
+            if (shape.equals(handler.getTarget())){
+                handler.setTarget(null);
             }
             return null;
         });
@@ -89,7 +97,7 @@ public class CanvasModel extends MouseAdapter implements MouseMotionListener {
         if (handler.isDragging()) {
             boolean resized = !handler.isMoving();
             Shape rearranged = handler.finishDrag();
-            if(resized) {
+            if(resized && rearranged.getType() != Shape.Type.LINE) {
                 appModel.resizeByUser(rearranged);
             }
             appModel.setModifying(false);

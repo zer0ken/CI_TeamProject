@@ -2,9 +2,15 @@ package org.client.gui.models;
 
 import org.client.gui.shape.Shape;
 import org.client.gui.shape.Style;
+import org.protocol.Base64;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.*;
 import java.util.function.Function;
 
@@ -44,15 +50,15 @@ public class AppModel {
         REDO_UNAVAILABLE(null),
         SELECTION(null),
         UPDATE(null),
-            CREATION(UPDATE),
-                USER_CREATION(CREATION),
-                SERVER_CREATION(CREATION),
-            MODIFICATION(UPDATE),
-                USER_MODIFICATION(MODIFICATION),
-                SERVER_MODIFICATION(MODIFICATION),
-            REMOVAL(UPDATE),
-                USER_REMOVAL(REMOVAL),
-                SERVER_REMOVAL(REMOVAL),
+        CREATION(UPDATE),
+        USER_CREATION(CREATION),
+        SERVER_CREATION(CREATION),
+        MODIFICATION(UPDATE),
+        USER_MODIFICATION(MODIFICATION),
+        SERVER_MODIFICATION(MODIFICATION),
+        REMOVAL(UPDATE),
+        USER_REMOVAL(REMOVAL),
+        SERVER_REMOVAL(REMOVAL),
         CLEAR(null);
 
 
@@ -67,29 +73,30 @@ public class AppModel {
                 if (o == this) return true;
             return false;
         }
+
     }
 
     private final ArrayList<Function<String, Void>> joinListeners;
+
     private final ArrayList<Function<String, Void>> leaveListeners;
     private final ArrayList<Function<String, Void>> setNameListeners;
-
     private final ArrayList<Function<Boolean, Void>> undoAvailableListeners;
+
     private final ArrayList<Function<Boolean, Void>> undoUnAvailableListeners;
     private final ArrayList<Function<Boolean, Void>> redoAvailableListeners;
     private final ArrayList<Function<Boolean, Void>> redoUnAvailableListeners;
-
     private final ArrayList<Function<Shape, Void>> selectionListeners;
 
     // 사용자가 도형을 생성, 수정, 제거하면 클라이언트 앱 내의 모든 컴포넌트 및 **서버**에 전파되어야 함
+
     private final ArrayList<Function<Shape, Void>> userCreationListeners;
     private final ArrayList<Function<Shape, Void>> userModificationListeners;
     private final ArrayList<Function<Shape, Void>> userRemovalListeners;
-
     // 서버에서 도형을 생성, 수정 제거하도록 요청하면 클라이언트 앱 내의 모든 컴포넌트에 전파되어야 함.
+
     private final ArrayList<Function<Shape, Void>> serverCreationListeners;
     private final ArrayList<Function<Shape, Void>> serverModificationListeners;
     private final ArrayList<Function<Shape, Void>> serverRemovalListeners;
-
     private final ArrayList<Function<Void, Void>> clearListeners;
 
     private AppModel() {
@@ -167,6 +174,37 @@ public class AppModel {
             userRemovalListeners.add(callback);
         if (type.includes(SERVER_REMOVAL))
             serverRemovalListeners.add(callback);
+    }
+
+    public void save(File file) {
+        System.out.println("다음 파일로 출력: " + file.getAbsolutePath());
+        ArrayList<Shape> shapeList = new ArrayList<>(shapes.values());
+        try {
+            Files.deleteIfExists(file.toPath());
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            writer.write(Base64.encode(shapeList));
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void load(File file) {
+        System.out.println("다음 파일로부터 입력: " + file.getAbsolutePath());
+        ArrayList<Shape> shapeList;
+        try {
+            shapeList = (ArrayList<Shape>) Base64.decode(Files.readString(file.toPath()));
+            List<String> ids = shapes.values().stream().map(Shape::getId).toList();
+            for (String id: ids) {
+                removeByUser(id);
+            }
+            for (Shape shape : shapeList) {
+                createByUser(shape);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void join(String name) {
