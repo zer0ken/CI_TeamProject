@@ -10,7 +10,7 @@ import org.protocol.Protocol;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ServerEventHandler extends EventHandler {
-    private ReentrantLock lock = new ReentrantLock();
+    private static ReentrantLock lock = new ReentrantLock();
 
     public ServerEventHandler(ServerStub serverStub) {
         super(serverStub);
