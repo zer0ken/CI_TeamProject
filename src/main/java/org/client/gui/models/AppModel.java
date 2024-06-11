@@ -1,7 +1,7 @@
 package org.client.gui.models;
 
-import org.client.gui.shapes.Shape;
-import org.client.gui.shapes.Style;
+import org.client.gui.shape.Shape;
+import org.client.gui.shape.Style;
 
 import javax.swing.*;
 import java.awt.*;
@@ -146,8 +146,8 @@ public class AppModel {
     }
 
     public void addVoidListener(Listener type, Function<Void, Void> callback) {
-      if (type.includes(CLEAR))
-        clearListeners.add(callback);
+        if (type.includes(CLEAR))
+            clearListeners.add(callback);
     }
 
     public void addListener(Listener type, Function<Shape, Void> callback) {

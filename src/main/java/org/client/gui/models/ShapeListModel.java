@@ -1,11 +1,11 @@
 package org.client.gui.models;
 
-import org.client.gui.shapes.Shape;
+import org.client.gui.shape.Shape;
 
 import javax.swing.*;
 
 public class ShapeListModel extends DefaultListModel<Shape> {
-    private AppModel appModel;
+    private final AppModel appModel;
 
     public ShapeListModel() {
         appModel = AppModel.getInstance();

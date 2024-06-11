@@ -4,7 +4,7 @@ package org.client.gui.components;
 import org.client.gui.Utils;
 import org.client.gui.models.ShapeListModel;
 import org.client.gui.models.ShapeListSelectionModel;
-import org.client.gui.shapes.Shape;
+import org.client.gui.shape.Shape;
 
 import javax.swing.*;
 import java.awt.*;

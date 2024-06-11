@@ -4,10 +4,10 @@ import kr.ac.konkuk.ccslab.cm.event.CMDataEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import org.client.gui.models.AppModel;
-import org.client.gui.shapes.Shape;
+import org.client.gui.shape.Shape;
 import org.protocol.Base64;
-import org.protocol.EventHandler;
 import org.protocol.Command;
+import org.protocol.EventHandler;
 
 public class ClientEventHandler extends EventHandler {
     private final AppModel appModel = AppModel.getInstance();

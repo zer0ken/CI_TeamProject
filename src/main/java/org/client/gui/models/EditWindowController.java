@@ -1,13 +1,14 @@
 package org.client.gui.models;
 
-import org.client.gui.shapes.Shape;
-import org.client.gui.shapes.Style;
+import org.client.gui.shape.Shape;
+import org.client.gui.shape.Style;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import static org.client.gui.Constants.*;
 
@@ -158,7 +159,7 @@ public class EditWindowController extends StylePanelController {
         if (selectedShape == null) {
             return;
         }
-        appModel.modifyByUser(selectedShape.copy(getModifiedStyle()));
+        appModel.modifyByUser(new Shape(selectedShape, getModifiedStyle()));
     }
 
     private Style getModifiedStyle() {

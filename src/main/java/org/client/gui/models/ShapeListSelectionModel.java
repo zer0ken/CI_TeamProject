@@ -1,6 +1,6 @@
 package org.client.gui.models;
 
-import org.client.gui.shapes.Shape;
+import org.client.gui.shape.Shape;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
