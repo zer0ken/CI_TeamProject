@@ -7,10 +7,10 @@ import java.util.Map;
 public class ShapeHandler implements Drawable, Interactable {
     private Shape target;
     private float aspect;
-    private Map<Handle.Location, Handle> handles = new LinkedHashMap<>();
+    private final Map<Handle.Location, Handle> handles = new LinkedHashMap<>();
 
     private boolean dragging = false;
-    private Handle selectedHandle = null;
+    private Handle.Location handlingLocation = null;
     private Point lastP = null;
 
     public ShapeHandler() {
@@ -30,19 +30,19 @@ public class ShapeHandler implements Drawable, Interactable {
         if (target.getType() != Shape.Type.TEXT) {
             for (Handle handle : handles.values()) {
                 if (handle.contains(p)) {
-                    selectedHandle = handle;
+                    handlingLocation = handle.getLocation();
+                    System.out.println("drag started at " + handlingLocation.name());
                 }
             }
         }
         lastP = p;
         dragging = true;
         aspect = (float) this.target.getHeight() / target.getWidth();
-        System.out.println("@@@ start dragging on " + selectedHandle);
     }
 
     public void startCreation(Point p) {
         if (target.getType() != Shape.Type.TEXT) {
-            selectedHandle = handles.get(Handle.Location.SE);
+            handlingLocation = Handle.Location.SE;
         }
         lastP = p;
         dragging = true;
@@ -54,7 +54,7 @@ public class ShapeHandler implements Drawable, Interactable {
         int dy = p.y - lastP.y;
         lastP = p;
 
-        if (selectedHandle != null) {
+        if (handlingLocation != null) {
             setTarget(moveSelectedHandle(dx, dy));
         } else {
             setTarget(target.derive(
@@ -71,7 +71,7 @@ public class ShapeHandler implements Drawable, Interactable {
         int y2 = target.y2;
 
         if (target.getType() == Shape.Type.LINE) {
-            switch (selectedHandle.getLocation()) {
+            switch (handlingLocation) {
                 case NW -> {
                     x1 = target.x1 + dx;
                     y1 = target.y1 + dy;
@@ -80,13 +80,14 @@ public class ShapeHandler implements Drawable, Interactable {
                     x2 = target.x2 + dx;
                     y2 = target.y2 + dy;
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + selectedHandle.getLocation());
+                default -> throw new IllegalStateException("Unexpected value: " + handlingLocation);
             }
             setTarget(target.derive(x1, y1, x2, y2));
             return target;
         }
 
-        switch (selectedHandle.getLocation()) {
+
+        switch (handlingLocation) {
             case W -> x1 += dx;
             case E -> x2 += dx;
             case N -> y1 += dy;
@@ -111,16 +112,21 @@ public class ShapeHandler implements Drawable, Interactable {
 
         setTarget(target.derive(x1, y1, x2, y2));
 
-        switch (selectedHandle.getLocation()) {
+        switch (handlingLocation) {
             case N, E, S, W -> aspect = (float) target.getHeight() / target.getWidth();
         }
 
         return target;
     }
 
-    public void finishDrag() {
+    public Shape finishDrag() {
+        Shape rearranged = target.derive(
+                target.getX1(), target.getY1(),
+                target.getX2(), target.getY2()
+        );
         dragging = false;
-        selectedHandle = null;
+        handlingLocation = null;
+        return rearranged;
     }
 
     public boolean isDragging() {
@@ -128,7 +134,7 @@ public class ShapeHandler implements Drawable, Interactable {
     }
 
     public boolean isMoving() {
-        return selectedHandle == null;
+        return handlingLocation == null;
     }
 
     public Shape getTarget() {

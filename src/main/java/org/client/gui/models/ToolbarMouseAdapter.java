@@ -12,8 +12,22 @@ public class ToolbarMouseAdapter extends MouseAdapter {
     private final AppModel appModel = AppModel.getInstance();
 
     public void mouseClicked(MouseEvent e) {
-        JToggleButton source = (JToggleButton) e.getSource();
+        if (e.getSource() instanceof JToggleButton) {
+            handleToggleButtonEvent((JToggleButton) e.getSource());
+        } else {
+            handleButtonEvent((JButton) e.getSource());
+        }
+    }
 
+    private void handleButtonEvent(JButton source) {
+        if (source.getName().equals(TOOLBAR_UNDO)) {
+            appModel.undo();
+        } else if (source.getName().equals(TOOLBAR_REDO)) {
+            appModel.redo();
+        }
+    }
+
+    private void handleToggleButtonEvent(JToggleButton source) {
         if (source.getName().equals(TOOLBAR_UNDO)) {
             appModel.undo();
         } else if (source.getName().equals(TOOLBAR_REDO)) {

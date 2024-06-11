@@ -299,7 +299,7 @@ public class AppModel {
         action.perform();
         if (!actionHistory.isEmpty() &&
                 actionHistory.peek().getBulk() != UndoableAction.Bulk.NONE &&
-                actionHistory.peek().getBulk() != action.getBulk()
+                actionHistory.peek().getBulk() == action.getBulk()
         ) {
             actionHistory.peek().extend(action);
         } else {
@@ -475,19 +475,21 @@ public class AppModel {
         this.textContent = textContent;
     }
 
+    public void setModifying(boolean modifying) {
+        this.modifying = modifying;
+
+        if (!modifying && serversideChanges != null) {
+            modify(serversideChanges);
+            notify(serverModificationListeners, serversideChanges);
+        }
+    }
+
     public Style getStyle() {
         return new Style(lineWidth, lineColor, fillColor, textSize, textColor, textContent);
     }
 
     public String getMyself() {
         return myself;
-    }
-
-    public void setModifying(boolean modifying) {
-        this.modifying = modifying;
-        if (!modifying && serversideChanges != null) {
-            modifyByServer(serversideChanges);
-        }
     }
 
     public boolean isModifying() {

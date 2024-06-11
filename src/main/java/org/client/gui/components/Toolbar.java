@@ -14,11 +14,10 @@ import java.util.Map;
 import static org.client.gui.Constants.*;
 
 public class Toolbar extends JPanel {
-    private Map<String, JButton> buttonMap;
 
     public Toolbar() {
-        buttonMap = new HashMap<>();
-        ToolbarButtonController buttonController = new ToolbarButtonController(buttonMap);
+        Map<String, JButton> buttonMap = new HashMap<>();
+        new ToolbarButtonController(buttonMap);
 
         setLayout(new BorderLayout());
         setBorder(new MatteBorder(1, 0, 1, 0, Theme.getBorderColor()));
@@ -49,6 +48,9 @@ public class Toolbar extends JPanel {
             button.setToolTipText(TOOLBAR_SHAPE_TOOLTIPS[i]);
             toolbar.add(button);
             buttonGroup.add(button);
+            if (i == 0) {
+                button.setSelected(true);
+            }
         }
 
         Box wrapped = Box.createHorizontalBox();
